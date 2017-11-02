@@ -1,0 +1,10 @@
+<?php
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<div class="checkout-header__top">
+    <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>"  class="checkout-header__logo">
+        <img src="<?php echo $this->getSkinUrl('vortex/images/logo.svg') ?>" alt="<?php echo ($this->getLogoAlt()) ? $this->getLogoAlt() : Mage::getStoreConfig('general/store_information/name'); ?>" />
+    </a>
+</div>

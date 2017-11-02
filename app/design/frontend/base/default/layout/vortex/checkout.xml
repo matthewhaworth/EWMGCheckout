@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <vortex_checkout_cms_delivery>
+        <block type="cms/block" name="deliveryinfo" output="toHtml">
+            <action method="setBlockId">
+                <block_id>cart_delivery_information</block_id>
+            </action>
+        </block>
+    </vortex_checkout_cms_delivery>
+
+    <vortex_checkout_cms_crosssell>
+        <block type="checkout/cart_crosssell" name="crosssell" output="toHtml" template="vortex/checkout/crosssell.phtml"/>
+    </vortex_checkout_cms_crosssell>
+
+    <vortex_checkout_cms_terms>
+        <block type="cms/block" name="terms" output="toHtml">
+            <action method="setBlockId">
+                <block_id>checkout_terms_and_conditions</block_id>
+            </action>
+        </block>
+    </vortex_checkout_cms_terms>
+
+    <vortex_checkout_index_index>
+        <remove name="breadcrumbs" />
+        <remove name="left" />
+        <remove name="right" />
+        <remove name="messages" />
+        <remove name="head"/>
+        <remove name="global_notices"/>
+        <remove name="footer"/>
+
+        <reference name="after_body_start">
+            <action method="unsetChildren"/>
+        </reference>
+
+        <reference name="before_body_end">
+            <action method="unsetChildren"/>
+            <block type="amazonpayments/js" name="amazonpayments.js" template="creativestyle/amazonpayments/js.phtml"/>
+        </reference>
+
+        <reference name="root">
+            <action method="setTemplate"><template>vortex/checkout/design/layout.phtml</template></action>
+            <block type="page/html_head" name="checkout.head" as="head">
+                <action method="addCss"><stylesheet>vortex/css/checkout.css</stylesheet></action>
+                <action method="addJs"><script>prototype/prototype.js</script></action>
+                <action method="addJs"><script>mage/translate.js</script></action>
+                <action method="addJs"><script helper="amazonpayments/getHeadTooltipJs"/></action>
+                <action method="addJs"><script helper="amazonpayments/getHeadJs"/></action>
+                <action method="addItem"><type>skin_js</type><name>vortex/js/apa_checkout-extend.js</name></action>
+                <action method="addLinkRel"><type>stylesheet</type><href>//fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic</href></action>
+            </block>
+        </reference>
+
+        <reference name="header">
+            <action method="unsetChildren"/>
+            <action method="setTemplate"><template>vortex/checkout/design/header.phtml</template></action>
+
+            <block type="core/template" name="checkout.header.top" template="vortex/checkout/design/header/top.phtml" />
+        </reference>
+
+        <reference name="content">
+            <action method="unsetChildren"/>
+            <block name="vortex_checkout_app" template="vortex/checkout/index.phtml" type="vortex_checkout/checkout" />
+            <block name="core/template" template="vortex/checkout/abtesting.phtml" type="core/template" />
+        </reference>
+    </vortex_checkout_index_index>
+
+    <checkout_cart_index>
+        <reference name="before_body_end">
+            <block name="core/template" template="vortex/checkout/abtesting.phtml" type="core/template" />
+        </reference>
+    </checkout_cart_index>
+
+    <vortex_checkout_index_design>
+        <remove name="breadcrumbs" />
+        <remove name="left" />
+        <remove name="right" />
+        <remove name="messages" />
+        <remove name="head"/>
+        <remove name="global_notices"/>
+        <remove name="footer"/>
+
+        <reference name="after_body_start">
+            <action method="unsetChildren"/>
+        </reference>
+
+        <reference name="before_body_end">
+            <action method="unsetChildren"/>
+        </reference>
+
+        <reference name="root">
+            <action method="setTemplate"><template>vortex/checkout/design/layout.phtml</template></action>
+
+            <block type="page/html_head" name="checkout.head" as="head">
+                <action method="addCss">
+                    <stylesheet>vortex/css/checkout.css</stylesheet>
+                </action>
+            </block>
+        </reference>
+
+        <reference name="header">
+            <action method="unsetChildren"/>
+            <action method="setTemplate"><template>vortex/checkout/design/header.phtml</template></action>
+
+            <block type="core/template" name="checkout.header.top" template="vortex/checkout/design/header/top.phtml" />
+            <block type="core/template" name="checkout.header.progress" template="vortex/checkout/design/header/progress.phtml" />
+        </reference>
+
+        <reference name="content">
+            <action method="unsetChildren"/>
+            <block type="core/template" name="checkout.maincontent" template="vortex/checkout/design/maincontent.phtml">
+                <block type="core/template" name="checkout.maincontent.basket" as="basket" template="vortex/checkout/design/maincontent/basket.phtml" />
+                <block type="core/template" name="checkout.maincontent.checkout" as="checkout" template="vortex/checkout/design/maincontent/checkout.phtml" />
+                <block type="core/template" name="checkout.maincontent.success.top" as="success_top" template="vortex/checkout/design/maincontent/success-top.phtml" />
+                <block type="core/template" name="checkout.maincontent.success.bottom" as="success_bottom" template="vortex/checkout/design/maincontent/success-bottom.phtml" />
+            </block>
+        </reference>
+
+        <!--
+        <reference name="footer">
+            <action method="unsetChildren"/>
+            <action method="setTemplate"><template>vortex/checkout/design/footer.phtml</template></action>
+
+            <block type="core/text_list" name="checkout.debug" template="vortex/checkout/design/debug.phtml"/>
+        </reference>
+        //-->
+
+    </vortex_checkout_index_design>
+
+    <vortex_checkout_index_styleguide>
+        <remove name="breadcrumbs" />
+        <remove name="left" />
+        <remove name="right" />
+        <remove name="messages" />
+        <remove name="head"/>
+        <remove name="global_notices"/>
+        <remove name="footer"/>
+
+        <reference name="after_body_start">
+            <action method="unsetChildren"/>
+        </reference>
+
+        <reference name="before_body_end">
+            <action method="unsetChildren"/>
+        </reference>
+
+        <reference name="root">
+            <action method="setTemplate"><template>vortex/checkout/design/layout.phtml</template></action>
+
+            <block type="page/html_head" name="checkout.head" as="head">
+                <action method="addCss">
+                    <stylesheet>vortex/css/checkout.css</stylesheet>
+                </action>
+            </block>
+        </reference>
+
+        <reference name="header">
+            <action method="unsetChildren"/>
+            <action method="setTemplate"><template>vortex/checkout/design/header.phtml</template></action>
+
+            <block type="core/template" name="checkout.header.top" template="vortex/checkout/design/header/top.phtml" />
+            <block type="core/template" name="checkout.header.progress" template="vortex/checkout/design/header/progress.phtml" />
+        </reference>
+
+        <reference name="content">
+            <action method="unsetChildren"/>
+            <block type="core/template" name="checkout.maincontent" template="vortex/checkout/design/styleguide.phtml">
+            </block>
+        </reference>
+
+        <!--
+        <reference name="footer">
+            <action method="unsetChildren"/>
+            <action method="setTemplate"><template>vortex/checkout/design/footer.phtml</template></action>
+
+            <block type="core/text_list" name="checkout.debug" template="vortex/checkout/design/debug.phtml"/>
+        </reference>
+        //-->
+
+    </vortex_checkout_index_styleguide>
+
+</layout>

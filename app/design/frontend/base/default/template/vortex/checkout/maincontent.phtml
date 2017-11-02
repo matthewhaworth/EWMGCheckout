@@ -1,0 +1,32 @@
+<?php
+/**
+ * @var Mage_Core_Block_Template $this
+ */
+?>
+<div class="checkout-maincontent">
+    <div class="checkout-maincontent__wrapper">
+        <div class="checkout-maincontent__container">
+
+            <div class="checkout-layout checkout-layout--animate">
+
+                <div class="checkout-layout__column checkout-layout__column--basket">
+                    <?php echo $this->getChildHtml('basket'); ?>
+
+                    <?php /** Section loader */?>
+                    <div class="checkout-loader checkout-loader--large"><div class="checkout-loader__spinner"><span></span></div></div>
+                </div>
+
+
+                <div class="checkout-layout__column checkout-layout__column--checkout">
+                    <?php echo $this->getChildHtml('checkout'); ?>
+
+                    <?php /** Section loader small */?>
+                    <div class="checkout-loader"><div class="checkout-loader__spinner"><span></span></div></div>
+                </div>
+
+            </div>
+            <?php /** Global loader */?>
+            <div class="checkout-loader checkout-loader--large checkout-loader--overlay"><div class="checkout-loader__spinner"><span></span></div></div>
+        </div>
+    </div>
+</div>

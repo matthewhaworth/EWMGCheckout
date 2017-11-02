@@ -1,0 +1,21 @@
+<?php
+/**
+ * @var Mage_Core_Block_Template $this
+ */
+?>
+<div class="checkout-progress">
+    <ol class="checkout-progress__steps-list">
+        <li class="checkout-progress__step complete">
+            <span class="checkout-progress__title"><?php echo $this->__('<em>Shopping</em> Bag')?></span>
+            <span class="checkout-progress__subtitle"><?php echo $this->__('&pound200')?></span>
+        </li>
+        <li class="checkout-progress__step active">
+            <span class="checkout-progress__title"><?php echo $this->__('Delivery')?></span>
+            <span class="checkout-progress__subtitle"><?php echo $this->__('Free')?></span>
+        </li>
+        <li class="checkout-progress__step inactive">
+            <span class="checkout-progress__title"><?php echo $this->__('Payment')?></span>
+            <span class="checkout-progress__subtitle"><?php echo $this->__('&pound200')?></span>
+        </li>
+    </ol>
+</div>

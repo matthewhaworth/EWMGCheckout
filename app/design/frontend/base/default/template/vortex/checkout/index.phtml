@@ -1,0 +1,53 @@
+<?php
+    /** @var Mage_Core_Block_Abstract $this */
+
+    /** @var Vortex_Checkout_Helper_Data $_helper */
+    $_helper = Mage::helper('vortex_checkout');
+    /** @var Creativestyle_AmazonPayments_Block_Button_Js $_amazonJsBlock */
+    $_amazonJsBlock = Mage::getBlockSingleton('amazonpayments/button_js');
+    /** @var Creativestyle_AmazonPayments_Block_Pay_Button $_amazonPayButton */
+    $_amazonPayButton = Mage::getBlockSingleton('amazonpayments/pay_button');
+    /** @var SessionDigital_WorldPay_Helper_Config $_worldPayConfigHelper */
+    $_worldPayConfigHelper = Mage::helper('worldpay/config');
+    /** @var Vortex_Checkout_Helper_Config $_configHelper */
+    $_configHelper = Mage::helper('vortex_checkout/config');
+?>
+<div id="root"></div>
+<script type="text/javascript">
+    window.ewmgCheckoutConfig = {
+        postcodeAnywhere: {
+            key: '<?php echo $_configHelper->getPcaLookupKey() ?>',
+            geocodeKey: '<?php echo $_configHelper->getPcaGeocodeKey() ?>',
+            geocodeCountry: '<?php echo $_configHelper->getPcaGeocodeCountry() ?>',
+            geocodeEndpoint: '<?php echo $_configHelper->getPcaGeocodeEndpoint() ?>',
+            findEndpoint: '<?php echo $_configHelper->getPcaFindEndpoint() ?>',
+            retrieveEndpoint: '<?php echo $_configHelper->getPcaRetrieveEndpoint() ?>'
+        },
+        worldpay: {
+            publicKey: '<?php echo $_worldPayConfigHelper->getClientSideEncryptionPublicKey(null) ?>',
+        },
+        checkoutBasePath: '/fast-checkout',
+        amazon: {
+            buttonWidgetHtmlIdPrefix: '<?php echo $_amazonPayButton->getWidgetClass() ?>',
+            sellerId: '<?php echo $_amazonJsBlock->getMerchantId(); ?>',
+            urls: <?php echo $_amazonJsBlock->getUrlParams() ?>,
+            tooltip: '<?php echo $this->getSkinUrl('creativestyle/images/logo_a-glyph_1x.png'); ?>',
+            isLive: <?php echo $_amazonJsBlock->isLive() ? 'true' : 'false'; ?>,
+            isPopup: <?php echo $_amazonJsBlock->isPopup() ? 'true' : 'false'; ?>,
+            language: '<?php echo $_amazonJsBlock->getDisplayLanguage() ?>',
+            designParams: <?php echo $_amazonJsBlock->getDesignParams() ?>,
+            buttonSize: '<?php echo $_amazonPayButton->getButtonSize(); ?>',
+            buttonType: '<?php echo $_amazonPayButton->getData('button_type'); ?>',
+            buttonColor: '<?php echo $_amazonPayButton->getData('button_color'); ?>'
+        },
+        apiEndpoint: '<?php echo $this->getUrl('fast-checkout/v1/api', ['_secure' => true]) ?>',
+        magentoUrl: '<?php echo $this->getUrl('', ['_secure' => true]) ?>',
+        formKeyRequired: <?php echo Mage::getStoreConfigFlag('admin/security/validate_formkey_checkout') ? 'true' : 'false' ?>,
+        formKey: '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>'
+        <?php if($_helper->hasAllowedCountries()):?>, countryList: <?php echo $_helper->getCountriesJson();?><?php endif;?>,
+        countryRegionList: <?php echo '{}'; // this is commented out to force county, not region_id because of PCA mapping $_helper->getRegionJson() ?>
+    };
+</script>
+
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>worldpay/worldpay-cse-1.0.0.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->getCompiledJsFilename() ?>"></script>

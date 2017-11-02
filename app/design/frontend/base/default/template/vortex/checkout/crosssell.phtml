@@ -1,0 +1,33 @@
+<?php
+/**
+ * Cart cross sell items template
+ *
+ * @see Mage_Checkout_Block_Cart_Crosssell
+ */
+?>
+<?php if($this->getItemCount()): ?>
+
+    <div class="checkout-crosssell">
+        <div class="checkout-crosssell__container">
+            <div class="checkout-crosssell__title"><?php echo $this->__('Other products you might like');?></div>
+            <div class="checkout-crosssell__list">
+                <?php foreach ($this->getItems() as $_item): ?>
+                    <div class="checkout-crosssell__item">
+                        <a class="checkout-crosssell__item-image" href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" target="_blank">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(120,160); ?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" />
+                        </a>
+                        <div class="checkout-crosssell__item-desc">
+                            <div class="checkout-crosssell__item-name">
+                                <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" target="_blank"><?php echo $this->escapeHtml($_item->getName()) ?></a>
+                            </div>
+                            <div class="checkout-crosssell__item-price">
+                                <?php echo $this->getPriceHtml($_item, true) ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+<?php endif; ?>

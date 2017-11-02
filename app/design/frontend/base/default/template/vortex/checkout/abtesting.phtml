@@ -1,0 +1,18 @@
+<?php
+$configHelper = Mage::helper('vortex_checkout/config');
+/** @var $configHelper Vortex_Checkout_Helper_Config */
+
+$checkoutSession = Mage::getSingleton('checkout/session');
+/** @var $checkoutSession Mage_Checkout_Model_Session */
+
+$isNewCheckout = $checkoutSession->getData(Vortex_Checkout_Model_Observer::IS_NEW_CHECKOUT);
+$experimentId = $configHelper->getExperimentId();
+if (is_null($experimentId) || is_null($isNewCheckout)) {
+    return;
+}
+
+$variationId = $isNewCheckout ? '1' : '0';
+?>
+<script type="text/javascript">
+window.dataLayer.push({ optimise: '<?php echo $experimentId ?>.<?php echo $variationId ?>'});
+</script>

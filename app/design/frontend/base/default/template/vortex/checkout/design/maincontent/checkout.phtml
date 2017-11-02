@@ -1,0 +1,178 @@
+<?php
+/**
+ * @var Mage_Core_Block_Template $this
+ */
+?>
+
+
+<div class="checkout-section checkout-section--checkout">
+    <div class="checkout-section__container">
+
+        <div class="checkout-login">
+            <div class="checkout-login__container">
+                <form class="form form--primary">
+                    <fieldset>
+                        <div class="form__control full">
+                            <div class="form__radio">
+                                <label class="form__label">
+                                    <input type="radio" name="delivery" class="" value="" />
+                                    <span class="form__label-text"><?php echo $this->__('Delivery');?></span>
+                                </label>
+                            </div>
+                            <div class="form__radio">
+                                <label class="form__label">
+                                    <input type="radio" name="delivery" class="" value="" />
+                                    <span class="form__label-text"><?php echo $this->__('Click & Collect');?></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form__control full">
+                            <div class="form__checkbox">
+                                <label class="form__label">
+                                    <input type="checkbox" name="address" class="" value="" />
+                                    <span class="form__label-text"><?php echo $this->__('Manually enter address');?></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form__control full">
+                            <label class="form__label"><?php echo $this->__('Email address');?></label>
+                            <div class="form__input">
+                                <input type="text" class="" value="" />
+                            </div>
+                        </div>
+
+                        <div class="form__control col-2-4 form__control--disabled">
+                            <label class="form__label"><?php echo $this->__('First name');?></label>
+                            <div class="form__input">
+                                <input type="text" class="" value="" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="form__control col-2-4 form__control--disabled">
+                            <label class="form__label"><?php echo $this->__('Last name');?></label>
+                            <div class="form__input">
+                                <input type="text" class="" value="" disabled="disabled"/>
+                            </div>
+                        </div>
+                        <div class="form__control full form__control--validated">
+                            <label class="form__label"><?php echo $this->__('Email address');?></label>
+                            <div class="form__input">
+                                <input type="text" class="" value="" />
+                            </div>
+                        </div>
+                        <div class="form__control full form__control--error">
+                            <label class="form__label"><?php echo $this->__('Email address');?></label>
+                            <div class="form__input">
+                                <input type="text" class="" value="" />
+                            </div>
+                        </div>
+                        <div class="form__control full form__control--disabled">
+                            <label class="form__label"><?php echo $this->__('Email address');?></label>
+                            <div class="form__input">
+                                <input type="text" class="" value="" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="form__control form__control--autocomplete full complete">
+                            <label class="form__label"><?php echo $this->__('Delivery address');?></label>
+                            <div class="form__input">
+                                <input type="text" class="" value="" />
+                            </div>
+                            <div class="form__autocomplete">
+                                <ul class="form__autocomplete-list">
+                                    <li class="form__autocomplete-item">LS1 Headrow, 113 The Headrow, Leeds, LS1 5JW</li>
+                                    <li class="form__autocomplete-item">Palm Assets Ltd, 113 The Headrow, Leeds, LS1 5JW</li>
+                                    <li class="form__autocomplete-item">Pulse, 113 <em>The Headrow</em>, Leeds, LS1 5JW</li>
+                                    <li class="form__autocomplete-item">Retails Express, 113 The Headrow, Leeds, LS1 5JW</li>
+                                    <li class="form__autocomplete-item">Vortex Commerce, 113 The Headrow, Leeds, LS1 5JW</li>
+                                </ul>
+                            </div>
+
+                            <div class="form__autocomplete-result">
+                                <a href="" class="form__autocomplete-edit">Change</a>
+
+                                Vortex Commerce,<br/>
+                                LS1 Headrow<br/>
+                                113 The Headrow<br/>
+                                Leeds<br/>
+                                LS1 5JW
+
+                            </div>
+                        </div>
+
+                        <div class="checkout-modal">
+                            <div class="checkout-loader checkout-loader--large checkout-loader--dark checkout-loader--overlay"><div class="checkout-loader__spinner"><span></span></div></div>
+                            <div class="checkout-modal__container">
+                                <a class="checkout-modal__close button--icon-close"></a>
+
+                                <div class="checkout-modal__title">Edit delivery address</div>
+
+                                <div class="form form--modal">
+                                    <div class="form__control col-2-4">
+                                        <label class="form__label"><?php echo $this->__('Last name');?></label>
+                                        <div class="form__input">
+                                            <input type="text" class="" value=""/>
+                                        </div>
+                                    </div>
+                                    <div class="form__control col-2-4">
+                                        <label class="form__label"><?php echo $this->__('Last name');?></label>
+                                        <div class="form__input">
+                                            <input type="text" class="" value=""/>
+                                        </div>
+                                    </div>
+                                    <div class="form__control full">
+                                        <label class="form__label"><?php echo $this->__('Phone');?></label>
+                                        <div class="form__input">
+                                            <input type="phone" class="" value=""/>
+                                        </div>
+                                    </div>
+                                    <div class="form__control full">
+                                        <label class="form__label"><?php echo $this->__('Address line');?></label>
+                                        <div class="form__input">
+                                            <input type="text" class="" value=""/>
+                                        </div>
+                                        <div class="form__input">
+                                            <input type="text" class="" value=""/>
+                                        </div>
+                                    </div>
+                                    <div class="form__control full">
+                                        <label class="form__label"><?php echo $this->__('Country');?></label>
+                                        <div class="form__input">
+                                            <select>
+                                                <option>United Kingdom</option>
+                                                <option>Brazil</option>
+                                                <option>Usa</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form__control form__control--actions">
+                                        <button class="button button--small button--fifth"><span><?php echo $this->__('Delete');?></span></button>
+                                        <button class="button button--small button--fifth"><span><?php echo $this->__('Cancel');?></span></button>
+                                        <button class="button button--secondary"><span><?php echo $this->__('Save this address');?></span></button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form__control form__control--actions">
+                            <button class="button button--primary button--arrow-right"><span><?php echo $this->__('Continue');?></span></button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+        <div class="checkout-register">
+            <div class="checkout-register__container">
+                <form class="form form--primary">
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="checkout-section__fader"></div>
+
+    <div class="checkout-section__loader"><div class="checkout-section__loader-spinner"><span></span></div></div>
+
+</div>
