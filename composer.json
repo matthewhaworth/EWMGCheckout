@@ -8,5 +8,8 @@
             "name":"Author Name",
             "email":"author@example.com"
         }
-    ]
+    ],
+    "extra":{
+        "magento-root-dir": "./"
+    },
 } 
