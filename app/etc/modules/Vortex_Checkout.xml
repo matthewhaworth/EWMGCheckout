@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Vortex_Checkout>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Checkout />
+                <Mage_Sales />
+                <EWMG_BespokeCheckout />
+                <Ayasoftware_SimpleProductPricing />
+            </depends>
+        </Vortex_Checkout>
+    </modules>
+</config>
