@@ -40,7 +40,7 @@
         </reference>
 
         <reference name="root">
-            <action method="setTemplate"><template>vortex/checkout/design/layout.phtml</template></action>
+            <action method="setTemplate"><template>vortex/checkout/layout.phtml</template></action>
             <block type="page/html_head" name="checkout.head" as="head">
                 <action method="addCss"><stylesheet>vortex/css/checkout.css</stylesheet></action>
                 <action method="addJs"><script>prototype/prototype.js</script></action>
