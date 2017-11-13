@@ -1,0 +1,155 @@
+//
+// Success section
+// ---------------
+
+.@{container}-success{
+    .box-sizing();
+    width:100%;
+
+    &__banner{
+        .box-sizing();
+
+        a{
+            display:block;
+            text-decoration:none;
+        }
+
+        img{
+            display:block;
+            max-width:100%;
+            margin:0 auto;
+
+        }
+    }
+
+    &__text,
+    &__details{
+        .box-sizing();
+
+        &-title{
+            font-weight:bold;
+        }
+    }
+
+    &__box{}
+
+    @media screen {
+
+        // Up to phablet
+
+        @media (max-width: (@breakpoint-phablet - 1)){
+            &__msg{
+                .button{
+                    .button--block;
+                }
+            }
+        }
+
+
+        // Up to tablet
+        @media (max-width: (@breakpoint-tablet - 1)) {
+
+            &__msg{
+                .font-size(14);
+                margin-top:@default-margin-mobile;
+            }
+
+            &__box{
+                padding:0 @default-padding-mobile;
+            }
+
+            &__text,
+            &__details{
+                margin:@default-margin-mobile 0;
+            }
+
+            &__banner{
+                margin-bottom:@default-margin-mobile;
+            }
+
+        }
+
+        // Up to desktop
+        @media (max-width: (@breakpoint-desktop - 1)){
+
+        }
+
+        // From tablet
+        @media (min-width: @breakpoint-tablet) {
+
+
+            &__msg{
+                margin-top:@default-margin-tablet;
+            }
+
+            &__banner,
+            &__text,
+            &__details{
+                .flex(0 0 50%);
+            }
+
+            &__details{
+                &:nth-child(n+3){
+                    margin-top:@secondary-margin-tablet;
+                }
+            }
+
+            &__banner{
+                padding-right:@third-padding-desktop;
+            }
+
+            &__box{
+                .flex-display();
+                .align-items(center);
+                width:100%;
+
+                &--primary{
+                    .flex-wrap();
+                    border-top:@success-box-border;
+
+                }
+
+                &--secondary{
+                    .flex-wrap(wrap);
+                }
+            }
+
+            // States
+            // Based on body class
+
+            body.@{step-4} & {  }
+
+            // Between tablet - desktop
+            @media (max-width: (@breakpoint-desktop - 1)) {
+
+                &__box{
+                    padding:@third-padding-desktop 0;
+                    margin:0 @default-margin-tablet;
+
+                }
+
+                body.@{step-4} & { }
+
+            }
+
+        }
+
+        // From desktop
+        @media (min-width: @breakpoint-desktop) {
+
+            &__box{
+                &--primary,
+                &--secondary{
+                    padding:@third-padding-desktop 0;
+                }
+
+            }
+
+            body.@{step-4} & { }
+
+
+        }
+    }
+
+
+}

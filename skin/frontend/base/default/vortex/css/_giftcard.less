@@ -1,0 +1,48 @@
+//
+// Gift card
+// ---------
+
+.@{container}-giftcard{
+
+    &__title{
+        display:block;
+        position:relative;
+        padding-right:@giftcard-title-icon-size;
+        color:@giftcard-title-link-color;
+        cursor:pointer;
+        text-decoration:none;
+        .font-size(14);
+        font-weight:bold;
+
+        &:after{
+            position:absolute;
+            right:0;
+            top:50%;
+            content:"+";
+            font-weight:normal;
+            text-align:center;
+            line-height:@giftcard-title-icon-size;
+            .font-size(26);
+            .square(@giftcard-title-icon-size);
+            margin-top:-(@giftcard-title-icon-size / 2);
+        }
+
+    }
+
+    &__container{}
+
+
+    &:not(.expanded) .@{container}-giftcard__container{ display:none; }
+
+    &.expanded {
+
+        .@{container}-giftcard__title:after{
+            content:"-";
+        }
+
+        .@{container}-giftcard__container{ display:block; }
+
+
+    }
+
+}

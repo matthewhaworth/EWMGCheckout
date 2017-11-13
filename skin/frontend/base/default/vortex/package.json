@@ -1,0 +1,26 @@
+{
+  "name": "vortex-checkout",
+  "version": "1.0.0",
+  "main": "gruntfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-watch": "latest",
+    "lodash": "^4.16.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VortexCommerce/peacocks.co.uk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VortexCommerce/peacocks.co.uk/issues"
+  },
+  "homepage": "https://github.com/VortexCommerce/peacocks.co.uk",
+  "description": "Vortex Checkout"
+}

@@ -1,0 +1,282 @@
+//
+// Header
+// ------
+
+.@{container}-header{
+    position:relative;
+    overflow:hidden;
+
+    &__wrapper{}
+
+    &__container{}
+
+
+    &__top{
+        background: @header-background;
+    }
+
+    &__logo{
+        display:block;
+
+        img{
+            display:block;
+            margin:0 auto;
+        }
+    }
+
+    @media screen{
+
+        @media (max-width: (@breakpoint-desktop - 1)){
+            &__logo{
+                padding:(@primary-padding-mobile*2);
+
+                img{
+                    height:16px;
+                }
+
+            }
+        }
+
+        @media (min-width:@breakpoint-tablet){
+
+            // Sticky state
+            // body.checkout--header-sticky
+
+            body.@{container}--header-sticky &{
+                position:fixed;
+                left:0;
+                right:0;
+                top:0;
+                z-index:@header-sticky-zindex;
+                .box-shadow(@header-sticky-shadow);
+            }
+
+        }
+
+        @media (min-width:@breakpoint-desktop){
+            &__logo{
+                padding:@default-padding-desktop;
+
+                img{
+                    height:24px;
+                }
+
+            }
+        }
+
+    }
+
+}
+
+// Progress
+
+.@{container}-progress{
+    background:@progress-background;
+
+
+    &__title{
+        display:block;
+
+        em{
+            font-style:normal;
+        }
+
+        :not(.inactive) &{
+            color:@progress-title-color-active;
+        }
+
+        .inactive &{
+            color:@progress-title-color-inactive;
+        }
+    }
+
+    &__subtitle{
+        display:block;
+        font-weight:bold;
+        text-transform:uppercase;
+
+        :not(.inactive) &{
+            color:@progress-subtitle-color-active;
+        }
+
+        .inactive &{
+            color:@progress-subtitle-color-inactive;
+        }
+
+    }
+
+    &__step{
+        .flex(1);
+        position:relative;
+        text-align:center;
+        counter-increment: number;
+
+        &:before,
+        &:after{
+            .box-sizing();
+            .border-radius(100%);
+            position:absolute;
+            top:0;
+            left:50%;
+            line-height:2;
+        }
+
+        &:before{
+            content:"";
+            background:@progress-number-background;
+            border-width: @progress-number-border;
+            border-style: solid;
+            z-index:1;
+        }
+
+        &:after{
+            z-index:2;
+            text-align:center;
+            content:counter(number);
+        }
+
+        &.active{
+
+            &:before{
+                background:@progress-number-background;
+                border-color:@progress-number-border-color-active;
+            }
+
+            &:after{
+                color:@progress-number-color-active;
+            }
+        }
+
+        &.complete{
+            &:before{
+                background:@progress-number-background-active;
+                border-color:@progress-number-border-color-active;
+            }
+
+            &:after{
+                color:@progress-number-color-complete;
+            }
+        }
+
+        &.inactive{
+            &:before{
+                background:@progress-number-background-inactive;
+                border-color:@progress-number-border-color;
+            }
+
+            &:after{
+                color:@progress-number-color-inactive;
+            }
+        }
+
+        &:first-child{ margin-left:-25%; }
+
+        &:last-child{ margin-right:-25%; }
+    }
+
+    &__steps-list{
+
+        .flex-display();
+        .flex-direction();
+        .flex-wrap();
+        .justify-content(center);
+        position:relative;
+        list-style: none;
+        margin:0 auto;
+        padding:0;
+        max-width:560px;
+        counter-reset: number;
+
+        &:before{
+            content:"";
+            position:absolute;
+            width:100%;
+            height:@progress-line-height;
+            background:@progress-line-background;
+        }
+    }
+
+
+    @media screen{
+
+        @media (max-width: (@breakpoint-desktop - 1)){
+            padding:@secondary-padding-mobile (@default-padding-mobile * 3);
+
+            &__title{
+                .font-size(14);
+                line-height:1.2;
+                margin:(@primary-margin-mobile / 2) 0;
+
+                em{
+                    display:none;
+                }
+            }
+
+            &__subtitle{
+                .font-size(10);
+                line-height:1.2;
+            }
+
+            &__step {
+                padding-top:@progress-number-size;
+
+                &:before,
+                &:after{
+                    .square(@progress-number-size);
+                    margin-left: -(@progress-number-size / 2);
+                }
+
+                &:after {
+                    .font-size(10);
+                    line-height: @progress-number-size;
+                }
+            }
+
+            &__steps-list{
+                &:before{
+                    top:((@progress-number-size - @progress-line-height) / 2);
+                }
+            }
+        }
+
+        @media (min-width:@breakpoint-desktop){
+            padding:@default-padding-desktop 0;
+
+            &__title{
+                .font-size(16);
+                line-height:1.5;
+                margin:@primary-margin-desktop 0;
+            }
+
+            &__subtitle{
+                .font-size(12);
+                line-height:1;
+            }
+
+            &__step{
+                padding-top:@progress-number-size-large;
+
+                &:before,
+                &:after{
+                    .square(@progress-number-size-large);
+                    margin-left: -(@progress-number-size-large / 2);
+                }
+
+                &:after {
+                    .font-size(16);
+                    font-weight:bold;
+                    line-height: @progress-number-size-large;
+                }
+            }
+
+            &__steps-list{
+                &:before{
+                    top:((@progress-number-size-large - @progress-line-height) / 2);
+                }
+            }
+
+        }
+
+    }
+
+}

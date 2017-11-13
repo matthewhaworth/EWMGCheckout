@@ -1,0 +1,144 @@
+//
+// General
+// -------
+
+
+// Typography
+
+body {
+    font-family: @default-font-family;
+    font-size:@default-font-size;
+    line-height:@default-line-height;
+
+    @media screen{
+
+        // From table
+        @media (min-width: @breakpoint-tablet){
+
+            // Between tablet - desktop
+            @media (max-width: (@breakpoint-desktop - 1)){
+
+                // States
+                // Based on body class
+                // TODO: CSS3 Animation
+
+                &.@{container}--header-sticky{
+                    padding-top:140px;
+                }
+
+                &.@{step-1} {  }
+
+                &.@{step-3} {  }
+
+                &.@{step-4} {  }
+
+            }
+        }
+
+        // From desktop
+        @media (min-width: @breakpoint-desktop){
+            background:@color-gray5;
+
+            // States
+            // Based on body class
+            // TODO: CSS3 Animation
+
+            &.@{container}--header-sticky {
+                padding-top:200px;
+            }
+
+            &.@{step-1} { }
+
+            &.@{step-3} {  }
+
+            &.@{step-4} {  }
+
+        }
+
+    }
+
+}
+
+
+a {
+    color: @default-link-color;
+
+    &:hover {
+        color: @default-link-color-hover;
+    }
+}
+
+p{
+    &:first-child{
+        margin-top:0;
+    }
+
+    &:last-child{
+        margin-bottom:0;
+    }
+}
+
+
+.cms,
+.std{
+    .font-size(16);
+    text-align:left;
+
+    h2{
+        .font-size(18);
+        line-height:2;
+        padding:0;
+        font-weight: bold;
+
+        &:not(:first-child){
+            margin:(@secondary-margin-mobile*2) 0 @secondary-margin-mobile 0;
+        }
+
+        &:first-child{
+            margin:0 0 @secondary-margin-mobile 0;
+        }
+    }
+
+    h3{
+        .font-size(16);
+        padding:0;
+        font-weight: bold;
+
+
+        &:not(:first-child){
+            margin:@secondary-margin-mobile 0;
+        }
+
+        &:first-child{
+            margin:0 0 @secondary-margin-mobile 0;
+        }
+    }
+
+
+    ul{
+        padding: 0;
+        margin:@secondary-margin-mobile 0;
+        list-style: initial;
+        list-style-position: inside;
+
+
+        li{
+            margin:@primary-margin-mobile 0 @primary-margin-mobile;
+            padding:0 0 0 @secondary-margin-mobile;
+        }
+
+
+        &:first-child{
+            margin-top:0;
+        }
+
+        &:last-child{
+            margin-bottom:0;
+
+            li:last-child{
+                margin-bottom:0;
+            }
+        }
+    }
+
+}

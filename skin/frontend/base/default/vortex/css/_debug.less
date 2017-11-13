@@ -1,0 +1,25 @@
+//
+// Debug
+// ------
+
+@debug-background: fade(@color-black, 90%);
+@debug-paddding: 24px;
+@debug-color:@color-white;
+
+.@{container}-debug{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    width:100%;
+    background:@debug-background;
+    z-index:999;
+
+
+    &__container{
+        padding:@debug-paddding;
+        color:@debug-color;
+        .font-size(16);
+    }
+
+}

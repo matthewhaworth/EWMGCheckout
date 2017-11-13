@@ -1,0 +1,88 @@
+//
+// Register box on success page
+// ----------------------------
+
+
+.@{container}-register{
+
+    &__container{
+        .box-sizing();
+        position:relative;
+    }
+
+
+    // Responsive
+
+    @media screen{
+
+
+        // Up to tablet
+
+        @media (max-width: (@breakpoint-tablet - 1)){
+            padding-bottom: @default-padding-mobile;
+
+            &__container{
+                margin:0 @primary-margin-mobile;
+                padding:@third-padding-mobile;
+            }
+
+            .form--primary{
+                p{
+                    .font-size(14);
+
+                    &:not(.note){
+                        font-weight:bold;
+                    }
+
+                    &.note{
+                        color:@color-black;
+                    }
+                }
+            }
+
+        }
+
+        // Up to desktop
+
+        @media (max-width: (@breakpoint-desktop - 1)){
+            background:@register-background;
+
+            &__container{
+                background:@register-container-background;
+            }
+        }
+
+
+        // From tablet
+
+        @media (min-width: @breakpoint-tablet){
+
+
+            // Between tablet - desktop
+
+            @media (max-width: (@breakpoint-desktop - 1)){
+                padding-bottom: @default-padding-tablet;
+
+                &__container{
+                    margin:0 @default-margin-tablet;
+                    padding:@default-padding-tablet;
+                }
+
+            }
+        }
+
+        // From desktop
+
+        @media (min-width: @breakpoint-desktop){
+
+            &__container{
+                padding:0;
+                margin:@third-padding-desktop 0;
+
+            }
+
+        }
+
+    }
+
+}

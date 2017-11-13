@@ -1,0 +1,165 @@
+//
+// Cross sell section
+// ------------------
+
+
+.@{container}-crosssell{
+
+    &__container{
+        //.flex-display();
+        //.align-items(center);
+        //.justify-content(center);
+        //color:@color-white;
+        //background:@color-gray;
+        //min-height:400px; // Test only
+    }
+
+    &__title{
+        display:block;
+        .font-size(18);
+        line-height:2;
+        color:@crosssell-title-color;
+        font-weight:bold;
+    }
+
+    &__list{
+        .flex-display();
+        .flex-wrap(wrap);
+        .align-items(center);
+        .justify-content(center);
+    }
+
+    &__item{
+        .box-sizing();
+        text-align:center;
+
+        &-name{
+            text-tranform:uppercase;
+            line-height:1.2;
+        }
+
+        &-image{
+            display:block;
+
+            img{
+                display:block;
+                margin:0 auto;
+            }
+        }
+
+        &-price{
+            .label{
+                display:none;
+            }
+
+            .regular-price,
+            .old-price,
+            .special-price,
+            .final-price{
+                display:inline-block;
+                vertical-align:middle;
+            }
+
+            .regular-price{
+
+                .price{
+                    .font-size(16);
+                    color:@color-black;
+                }
+            }
+
+            .old-price{
+
+                .price{
+                    .font-size(14);
+                    line-height:16px;
+                    text-decoration:line-through;
+                }
+            }
+
+            .special-price{
+                margin-left:@primary-margin-mobile;
+
+                .price{
+                    .font-size(16);
+                    color:@color-red;
+                    font-weight:bold;
+                }
+            }
+
+            .final-price{
+                margin-left:@primary-margin-mobile;
+
+                .price-label{display:none;}
+
+                .price{
+                    .font-size(14);
+                    line-height:16px;
+                }
+            }
+        }
+    }
+
+
+    @media screen{
+
+
+        // From tablet
+
+        @media (min-width:(@breakpoint-tablet)){
+
+
+            // Up to desktop
+
+            @media (max-width: (@breakpoint-desktop - 1)){
+
+                &__item{
+                    padding:@primary-margin-tablet;
+                    .flex(0 0 33.33%);
+
+                    &-name{
+                        .font-size(16);
+                        margin:@primary-margin-tablet 0;
+                    }
+
+                    &-price{
+                        .font-size(14);
+                    }
+                }
+
+                &__list{
+                    margin:@primary-margin-tablet -(@primary-margin-tablet);
+                }
+
+            }
+
+        }
+
+        // From desktop
+
+        @media (min-width: @breakpoint-desktop){
+
+            &__item{
+                padding:@default-margin-desktop;
+                .flex(0 0 25%);
+
+                &-name{
+                    .font-size(16);
+                    margin:@primary-margin-desktop 0;
+                }
+
+                &-price{
+                    .font-size(14);
+                }
+            }
+
+            &__list{
+                margin:0 -(@default-margin-desktop);
+            }
+
+
+        }
+
+    }
+
+}

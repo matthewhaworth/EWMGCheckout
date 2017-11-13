@@ -1,0 +1,405 @@
+//
+// Fonts
+// ------
+
+@font-face {
+    font-family: 'icons';
+    src:  url('../fonts/icons.eot?k1omou');
+    src:  url('../fonts/icons.eot?k1omou#iefix') format('embedded-opentype'),
+        url('../fonts/icons.woff2?k1omou') format('woff2'),
+        url('../fonts/icons.ttf?k1omou') format('truetype'),
+        url('../fonts/icons.woff?k1omou') format('woff'),
+        url('../fonts/icons.svg?k1omou#icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon(){
+    font-family: 'checkout-icons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-logo-paypal(){
+
+    .icon();
+
+    .path1 {
+        &:before {
+
+            content: @icon-logo-paypal-path1;
+            color: rgb(37, 59, 128);
+        }
+    }
+
+    .path2 {
+        &:before {
+
+            content: @icon-logo-paypal-path2;
+            margin-left: -4.099609375em;
+            color: rgb(37, 59, 128);
+        }
+    }
+
+    .path3 {
+        &:before {
+
+            content: @icon-logo-paypal-path3;
+            margin-left: -4.099609375em;
+            color: rgb(37, 59, 128);
+        }
+    }
+
+    .path4 {
+        &:before {
+
+            content: @icon-logo-paypal-path4;
+            margin-left: -4.099609375em;
+            color: rgb(23, 155, 215);
+        }
+    }
+
+    .path5 {
+        &:before {
+
+            content: @icon-logo-paypal-path5;
+            margin-left: -4.099609375em;
+            color: rgb(23, 155, 215);
+        }
+    }
+
+    .path6 {
+        &:before {
+            content: @icon-logo-paypal-path6;
+            margin-left: -4.099609375em;
+            color: rgb(23, 155, 215);
+        }
+    }
+
+    .path7 {
+        &:before {
+
+            content: @icon-logo-paypal-path7;
+            margin-left: -4.099609375em;
+            color: rgb(37, 59, 128);
+        }
+    }
+
+    .path8 {
+        &:before {
+
+            content: @icon-logo-paypal-path8;
+            margin-left: -4.099609375em;
+            color: rgb(23, 155, 215);
+        }
+    }
+
+    .path9 {
+        &:before {
+
+            content: @icon-logo-paypal-path9;
+            margin-left: -4.099609375em;
+            color: rgb(34, 45, 101);
+        }
+    }
+
+    .path10 {
+        &:before {
+
+            content: @icon-logo-paypal-path10;
+            margin-left: -4.099609375em;
+            color: rgb(37, 59, 128);
+        }
+    }
+
+}
+
+.icon-logo-mastercard(){
+
+    .icon();
+
+    .path1 {
+        &:before {
+            content: @icon-logo-mastercard-path1;
+            color: rgb(0, 0, 0);
+        }
+    }
+
+    .path2 {
+        &:before {
+            content: @icon-logo-mastercard-path2;
+            margin-left: -1.25em;
+            color: rgb(255, 95, 0);
+        }
+    }
+
+    .path3 {
+        &:before {
+            content: @icon-logo-mastercard-path3;
+            margin-left: -1.25em;
+            color: rgb(236, 0, 27);
+        }
+    }
+
+    .path4 {
+        &:before {
+            content: @icon-logo-mastercard-path4;
+            margin-left: -1.25em;
+            color: rgb(248, 158, 27);
+        }
+    }
+
+}
+
+
+.icon-logo-amex() {
+
+    .icon();
+
+    &:before {
+        content: @icon-logo-amex;
+    }
+}
+
+.icon-logo-visa() {
+
+    .icon();
+
+    &:before {
+        content: @icon-logo-visa;
+    }
+}
+
+.icon-cross() {
+
+    &:before {
+        .icon();
+        content: @icon-cross;
+    }
+}
+
+.icon-tickbox() {
+
+
+
+    &:before {
+        .icon();
+        content: @icon-tickbox;
+    }
+}
+
+.icon-chevron-right() {
+
+    &:before {
+        .icon();
+        content: @icon-chevron-right;
+    }
+}
+
+.icon-chevron-left() {
+    
+    &:before{
+        .icon();
+        content:@icon-chevron-right;
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+}
+
+.icon-checkout-button-active() {
+
+    &:before {
+        .icon();
+        content: @icon-checkout-button-active;
+    }
+}
+
+.icon-checkout-button-default() {
+
+    &:before {
+        .icon();
+        content: @icon-checkout-button-default;
+    }
+}
+
+.icon-radion-button-active() {
+
+    &:before {
+        .icon();
+        content: @icon-radion-button-active;
+    }
+}
+
+.icon-radio-button-default() {
+
+    &:before {
+        .icon();
+        content: @icon-radio-button-default;
+    }
+}
+
+.icon-logo-amazonpay {
+
+    .icon();
+
+    .path1{
+
+        &:before {
+            content: @icon-logo-amazonpay-path1;
+            color: rgb(255, 153, 0);
+        }
+    }
+
+    .path2{
+        &:before {
+            content: @icon-logo-amazonpay-path2;
+            margin-left: -5.05859375em;
+            color: rgb(49, 61, 71);
+        }
+    }
+
+}
+
+.icon-bag {
+
+    &:before {
+        .icon();
+        content: @icon-bag;
+    }
+}
+
+.icon-pin {
+
+    &:before {
+        .icon();
+        content: @icon-pin;
+    }
+}
+
+.icon-info {
+
+    &:before {
+        .icon();
+        content: @icon-info;
+    }
+}
+
+.icon-info-mastervisa  {
+
+    .icon();
+
+    .path1{
+
+        &:before {
+            content: @icon-info-mastervisa-path1;
+            color: @color-black;
+            opacity: 0.1211;
+        }
+    }
+
+    .path2 {
+        &:before {
+            content: @icon-info-mastervisa-path2;
+            margin-left: -1.5712890625em;
+            color: rgb(0, 0, 0);
+        }
+    }
+
+    .path3 {
+        &:before {
+            content: @icon-info-mastervisa-path3;
+            margin-left: -1.5712890625em;
+            color: rgb(0, 0, 0);
+        }
+    }
+
+    .path4 {
+        &:before {
+            content: @icon-info-mastervisa-path4;
+            margin-left: -1.5712890625em;
+            color: rgb(255, 255, 255);
+        }
+    }
+
+    .path5 {
+        &:before {
+            content: @icon-info-mastervisa-path5;
+            margin-left: -1.5712890625em;
+            color: rgb(255, 51, 102);
+        }
+    }
+
+}
+
+.icon-info-americanexpress{
+
+    .icon();
+
+    .path1 {
+        &:before {
+            content: @icon-info-americanexpress-path1;
+            color: rgb(0, 114, 206);
+            opacity: 0.3;
+        }
+    }
+
+    .path2 {
+        &:before {
+            content: @icon-info-americanexpress-path2;
+            margin-left: -1.5712890625em;
+            color: @color-black;
+        }
+    }
+
+    .path3 {
+        &:before {
+            content: @icon-info-americanexpress-path3;
+            margin-left: -1.5712890625em;
+            color: @color-black;
+        }
+    }
+
+    .path4 {
+        &:before {
+            content: @icon-info-americanexpress-path4;
+            margin-left: -1.5712890625em;
+            color: rgb(255, 51, 102);
+        }
+    }
+
+    .path5 {
+        &:before {
+            content: @icon-info-americanexpress-path5;
+            margin-left: -1.5712890625em;
+            color: @color-black;
+        }
+    }
+
+}
+
+.icon-triangle {
+    .icon();
+
+    &:before {
+        content: @icon-triangle;
+    }
+}
+
+.icon-eye {
+
+    &:before {
+        .icon();
+        content: @icon-eye;
+    }
+}
+

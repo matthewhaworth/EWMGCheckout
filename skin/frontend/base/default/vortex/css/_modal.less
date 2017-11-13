@@ -1,0 +1,146 @@
+//
+// Modal window
+// ------------
+
+
+.@{container}-modal{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    .justify-content(center);
+    .align-items(center);
+    z-index:@modal-zindex;
+
+    &__container{
+        .box-sizing();
+        position:relative;
+        max-height:~"calc(100% - (@{default-margin-mobile} * 2))";
+        max-width:@modal-max-width;
+        background:@modal-background;
+        z-index:@modal-zindex;
+        overflow-x:auto;
+
+
+        .loading &{
+            display:none;
+        }
+    }
+
+    &__close{
+        position:absolute;
+    }
+
+    &__title{
+        .font-size(18);
+    }
+
+    &__trigger{
+        &--info{
+            display:block;
+            .font-size(14);
+            line-height:1.6;
+            color:@modal-trigger-color;
+            text-decoration:none;
+            margin-top:@secondary-margin-mobile;
+            .icon-info();
+
+            &:before{
+                display:inline-block;
+                vertical-align:top;
+                margin-right:@primary-margin-mobile;
+                .font-size(20);
+                line-height:1;
+
+            }
+        }
+    }
+
+    .checkout-loader{
+        display:block;
+    }
+
+    &:not(.active):not(.loading){
+        display:none;
+    }
+
+    &.active{
+        .flex-display();
+
+        .checkout-loader{
+
+            &:before{
+                cursor:default;
+            }
+
+            &__spinner{
+                display:none;
+            }
+        }
+    }
+
+    &.loading{
+        .flex-display();
+
+    }
+
+
+    // Responsive
+
+    @media screen{
+
+        // Up to tablet
+
+        @media (max-width: (@breakpoint-tablet - 1)){
+            &__container{
+                margin:@default-margin-mobile;
+                padding:@secondary-padding-mobile;
+            }
+
+            &__close{
+                top:@secondary-padding-mobile;
+                right:@secondary-padding-mobile;
+            }
+        }
+
+        // Up to desktop
+
+        @media (min-width: @breakpoint-tablet){
+
+            @media (max-width: (@breakpoint-desktop - 1)){
+
+                &__container{
+                    margin:@default-margin-tablet;
+                    padding:@default-padding-tablet;
+                }
+
+                &__close{
+                    top:@default-padding-tablet;
+                    right:@default-padding-tablet;
+                }
+
+            }
+
+        }
+
+        // From desktop
+
+        @media (min-width: @breakpoint-desktop){
+
+            &__container{
+                margin:@default-margin-desktop;
+                padding:@default-padding-desktop;
+            }
+
+            &__close{
+                top:@default-padding-desktop;
+                right:@default-padding-desktop;
+
+            }
+
+        }
+
+    }
+
+}

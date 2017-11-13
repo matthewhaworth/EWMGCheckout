@@ -1,0 +1,441 @@
+//
+// Checkout variables
+// ------------------
+
+
+@container  : ~'checkout';
+@step-1     : ~'@{container}--step-basket';
+@step-2     : ~'@{container}--step-delivery';
+@step-3     : ~'@{container}--step-payment';
+@step-4     : ~'@{container}--success';
+@step-5     : ~'@{container}--error';
+
+//
+// Offsets
+// -------
+
+@default-padding-mobile     : 24px;
+@default-padding-tablet     : 24px;
+@default-padding-desktop    : 24px;
+
+@primary-padding-mobile     : 8px;
+@primary-padding-tablet     : 16px;
+@primary-padding-desktop    : 60px;
+
+@secondary-padding-mobile   : 12px;
+@secondary-padding-tablet   : 40px;
+@secondary-padding-desktop  : 40px;
+
+@third-padding-mobile       : 16px;
+@third-padding-tablet       : 32px;
+@third-padding-desktop      : 48px;
+
+@default-margin-mobile      : 24px;
+@default-margin-tablet      : 24px;
+@default-margin-desktop     : 24px;
+
+@primary-margin-mobile      : 8px;
+@primary-margin-tablet      : 8px;
+@primary-margin-desktop     : 8px;
+
+@secondary-margin-mobile    : 16px;
+@secondary-margin-tablet    : 32px;
+@secondary-margin-desktop   : 40px;
+
+//
+// Colors
+// ------
+
+@color-white        : #fff;
+@color-black        : #000;
+@color-green        : #1DC973;
+@color-green2       : fade(@color-green, 10%);
+@color-blue         : #7399C6;
+@color-blue2        : #0088cc;
+@color-blue3        : #005580;
+@color-red          : #FF3366;
+@color-red2         : fade(@color-red, 10%);
+@color-gray         : fade(@color-black, 26%);
+@color-gray2        : fade(@color-black, 12%);
+@color-gray3        : fade(@color-black, 3%);
+@color-gray4        : #F8F8F8;
+@color-gray5        : fade(@color-black, 6%);
+@color-gray6        : fade(@color-black, 54%);
+@color-gray7        : #F7F7F7;
+@color-visa         : #181A67;
+@color-amex         : #0072CE;
+
+@color-main         : @color-black;
+@color-brand        : @color-blue;
+
+//
+// Typography
+// ----------
+@default-font-rem-fallback  : true;
+@default-font-size          : 16px;
+@default-line-height        : 24px;
+@default-font-family        : 'Lato', sans-serif;
+
+@default-link-color         : @color-blue2;
+@default-link-color-hover   : @color-blue3;
+
+//
+// Icons
+// -----
+
+@icon-font-family               : "checkout-icons";
+
+@icon-logo-paypal-path1         : "\e900";
+@icon-logo-paypal-path2         : "\e901";
+@icon-logo-paypal-path3         : "\e902";
+@icon-logo-paypal-path4         : "\e903";
+@icon-logo-paypal-path5         : "\e904";
+@icon-logo-paypal-path6         : "\e905";
+@icon-logo-paypal-path7         : "\e906";
+@icon-logo-paypal-path8         : "\e907";
+@icon-logo-paypal-path9         : "\e908";
+@icon-logo-paypal-path10        : "\e909";
+@icon-logo-mastercard-path1     : "\e90a";
+@icon-logo-mastercard-path2     : "\e90b";
+@icon-logo-mastercard-path3     : "\e90c";
+@icon-logo-mastercard-path4     : "\e90d";
+@icon-logo-amex                 : "\e90e";
+@icon-logo-visa                 : "\e90f";
+@icon-cross                     : "\e910";
+@icon-tickbox                   : "\e911";
+@icon-chevron-right             : "\e912";
+@icon-checkout-button-active    : "\e913";
+@icon-checkout-button-default   : "\e914";
+@icon-radion-button-active      : "\e915";
+@icon-radio-button-default      : "\e916";
+@icon-logo-amazonpay-path1      : "\e917";
+@icon-logo-amazonpay-path2      : "\e918";
+@icon-bag                       : "\e919";
+@icon-pin                       : "\e91a";
+@icon-info                      : "\e91b";
+@icon-info-mastervisa-path1     : "\e91c";
+@icon-info-mastervisa-path2     : "\e91d";
+@icon-info-mastervisa-path3     : "\e91e";
+@icon-info-mastervisa-path4     : "\e91f";
+@icon-info-mastervisa-path5     : "\e920";
+@icon-info-americanexpress-path1: "\e921";
+@icon-info-americanexpress-path2: "\e922";
+@icon-info-americanexpress-path3: "\e923";
+@icon-info-americanexpress-path4: "\e924";
+@icon-info-americanexpress-path5: "\e925";
+@icon-triangle                  : "\e926";
+@icon-eye                       : "\e927";
+
+
+//
+// Breakpoints
+// -----------
+
+@breakpoint-mobile      : 480px;
+@breakpoint-phablet     : 640px;
+@breakpoint-tablet      : 768px;
+@breakpoint-desktop     : 1024px;
+@breakpoint-l-desktop   : 1280px;
+@breakpoint-xl-desktop  : 1400px;
+
+
+//
+// Loader
+// ------
+
+@loader-background-white    : fade(@color-white, 70%);
+@loader-background-dark     : fade(@color-black, 70%);
+@loader-foreground          : @color-brand;
+@loader-zindex              : 111;
+@loader-size                : 32px;
+@loader-large-size          : (@loader-size * 1.5);
+@loader-border-size         : 4px;
+@loader-large-border-size   : 6px;
+
+
+//
+// Header
+// ------
+
+@header-background      : @color-black;
+@header-sticky-zindex   : 111;
+@header-sticky-shadow   : 0 1px 5px 0px @color-gray2;
+
+//
+// Progress
+// --------
+
+@progress-background                    : @color-gray4;
+@progress-title-color-active            : @color-black;
+@progress-title-color-inactive          : @color-gray2;
+@progress-subtitle-color-active         : @color-gray;
+@progress-subtitle-color-inactive       : @color-gray2;
+@progress-number-size                   : 20px;
+@progress-number-size-large             : 32px;
+@progress-number-background             : @color-white;
+@progress-number-background-active      : @color-brand;
+@progress-number-background-inactive    : @color-white;
+@progress-number-border                 : 2px;
+@progress-number-border-color           : @color-gray2;
+@progress-number-border-color-active    : @color-brand;
+@progress-number-color-complete         : @color-white;
+@progress-number-color-active           : @color-brand;
+@progress-number-color-inactive         : @color-gray2;
+@progress-line-height                   : 2px;
+@progress-line-background               : @color-gray2;
+@progress-line-background-active        : @color-brand;
+
+
+
+//
+// Buttons
+// Primary - green as most used
+// Secondary - blue
+// ----------------------------
+
+@button-primary-background      : @color-green;
+@button-primary-border          : 0;
+@button-primary-color           : @color-white;
+
+@button-secondary-background    : @color-brand;
+@button-secondary-border        : 0;
+@button-secondary-color         : @color-white;
+
+@button-third-background        : @color-red;
+@button-third-border            : 0;
+@button-third-color             : @color-white;
+
+@button-fifth-background        : @color-gray;
+@button-fifth-color             : @color-white;
+@button-fifth-border            : 0;
+
+@button-icon-background         : transparent;
+@button-icon-border             : 1px solid @color-gray2;
+@button-icon-color              : @color-gray;
+@button-icon-size               : 12px;
+@button-icon-padding            : 4px;
+
+@button-icon-border-hover       : 1px solid @color-gray6;
+@button-icon-color-hover        : @color-gray6;
+
+@button-normal-padding-v        : 12px;
+@button-normal-padding-h        : 24px;
+
+@button-small-padding-v         : 4px;
+@button-small-padding-h         : 16px;
+@button-small-height            : (@button-small-padding-v * 2) + @default-line-height;
+
+@button-large-padding-v         : 24px;
+@button-large-padding-h         : 32px;
+@button-large-height            : (@button-large-padding-v * 2) + @default-line-height;
+
+
+@button-payment-height              : 48px;
+@button-payment-line-height         : 48px;
+@button-payment-border              : 1px solid @color-gray2;
+@button-payment-background          : transparent;
+@button-payment-hover-background    : @color-white;
+@button-payment-hover-shadow        : 0 0 5px 0 @color-gray2;
+
+
+@button-loader-foreground           : @color-white;
+@button-loader-size                 : 20px;
+@button-loader-border-size          : 4px;
+
+@button-paybycard-payments-bg       : @color-white;
+@button-paybycard-payments-margin   : 2px;
+@button-paybycard-payments-padding  : (@button-normal-padding-v - @button-paybycard-payments-margin);
+
+@button-paybycard-payments-desktop-background   : @color-gray3;
+@button-paybycard-payments-desktop-border       : 1px solid @color-gray2;
+
+//
+// Basket section
+// --------------
+
+@basket-item-border         : 1px solid @color-gray2;
+@basket-item-background     : @color-white;
+@basket-item-title-color    : @color-black;
+@basket-item-attribute-color: @color-gray6;
+
+@basket-items-background    : @color-gray5;
+
+@basket-empty-background    : @color-white;
+
+@basket-remove-size         : 24px;
+@basket-remove-color        : @color-gray;
+
+@basket-section-title-background    : @color-gray5;
+@basket-section-title-link-color    : @color-black;
+@basket-section-title-icon-size     : 24px;
+
+@basket-total-label-color   : @color-gray6;
+@basket-total-price-color   : @color-gray6;
+
+@basket-totals-background-step2: @color-gray7;
+
+@basket-subtotal-label-color   : @color-black;
+@basket-subtotal-price-color   : @color-black;
+
+@basket-express-label-color : @color-black;
+@basket-express-note-color  : @color-red;
+
+@basket-extra-label-color   : @color-green;
+@basket-extra-price-color   : @color-green;
+
+
+@basket-message-background          : @color-gray5;
+@basket-message-inner-background    : @color-white;
+@basket-message-success-color       : @color-green;
+@basket-message-error-color         : @color-red;
+
+//
+// Form
+// -----
+
+@form-input-border          : 1px solid @color-gray2;
+@form-input-border-focus    : 1px solid @color-brand;
+@form-input-outline-color   : @color-brand;
+@form-input-padding         : 12px;
+@form-input-font-family     : @default-font-family;
+@form-input-color           : @color-black;
+@form-input-line-height     : @default-line-height;
+@form-input-box-shadow      : 0 2px 5px 0 @color-gray2;
+
+@form-input-icon-size       : 24px;
+
+@form-select-icon-size      : 24px;
+@form-select-icon-color     : @color-gray6;
+
+@form-label-margin          : 0 0 4px 0;
+@form-label-line-height     : @default-line-height;
+@form-label-font-family     : @default-font-family;
+@form-label-color           : @color-black;
+
+@form-validated-input-background    : @color-green2;
+@form-validated-input-border        : @color-green;
+
+@form-error-input-background        : @color-red2;
+@form-error-input-border            : @color-red;
+
+@form-disabled-input-background     : @color-gray3;
+@form-disabled-input-border         : @color-gray;
+@form-disabled-label-color          : @color-gray;
+
+@form-control-margin                : 16px;
+@form-control-wrapper-background    : @color-gray5;
+
+@form-radio-color           : @color-gray;
+@form-radio-color-active    : @color-brand;
+@form-radio-size            : 24px;
+
+@form-autocomplete-border       : 1px solid @color-gray2;
+@form-autocomplete-background   : @color-white;
+@form-autocomplete-color        : @color-gray6;
+@form-autocomplete-match-color  : @color-black;
+
+@form-note-color: @color-gray6;
+@form-note-style: normal;
+@form-note-weight: 500;
+
+@form-showpassword-color: @color-gray6;
+@form-showpassword-style: normal;
+@form-showpassword-weight: 500;
+
+@form-error-color: @color-red;
+@form-error-style: normal;
+
+
+
+//
+// Modal
+// -----
+
+@modal-background   : @color-white;
+@modal-zindex       : 112;
+@modal-max-width    : 540px;
+
+@modal-trigger-color: @color-blue;
+
+//
+// Click collect
+// -------------
+
+@cc-map-trigger-color: @color-blue;
+
+//
+// Success section
+// ---------------
+
+@success-title-color: @color-green;
+@success-box-border: 1px solid @color-gray2;
+
+//
+// CVC
+// ---
+
+@cvc-container-background   : @color-white;
+@cvc-container-padding      : @secondary-padding-mobile;
+@cvc-container-shadow       : 0 2px 5px 0 @color-gray2;
+@cvc-container-zindex       : 2;
+
+//
+// Register
+// --------
+
+@register-background            : @color-gray5;
+@register-container-background  : @color-white;
+
+
+//
+// Address list
+// ------------
+
+@addresslist-background             : @color-gray5;
+@addresslist-container-background   : @color-white;
+
+//
+// Discount
+// --------
+
+@discount-title-color: @color-gray6;
+
+//
+// Giftcard
+// --------
+
+@giftcard-title-icon-size   : 24px;
+@giftcard-title-link-color  : @color-gray6;
+@giftcard-title-label-color : @color-gray6;
+@giftcard-title-price-color : @color-gray6;
+
+
+//
+// Amazonpayment
+// -------------
+
+@amazonpayment-background   : @color-white;
+@amazonpayment-width        : 300px;
+@amazonpayment-shadow       : 0 2px 5px 0 @color-gray2;
+@camazonpayment-zindex      : 2;
+
+
+//
+// Errors
+// ------
+
+@globalerrors-background    : red;
+@globalerrors-color         : @color-white;
+@globalerrors-zindex        : 111;
+@globalerrors-shadow        : 0 1px 5px 0px @color-gray2;
+
+//
+// Crosssell
+// ---------
+
+@crosssell-title-color: @color-black;
+
+//
+// Cms
+// ----
+
