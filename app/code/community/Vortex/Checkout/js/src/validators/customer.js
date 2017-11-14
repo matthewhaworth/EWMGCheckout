@@ -8,14 +8,7 @@ export const validators = {
     ],
     password: [
         { message: 'Password is required, or continue as guest', predicate: (value) => typeof value === 'string' && !isEmpty(value) }
-    ],
-
-    // passwordregister:[
-    //     { message: 'Password is required', predicate: (value) => typeof value === 'string' && !isEmpty(value)}
-    // ],
-    // passwordconfirmation: [
-    //     { message: 'Password confirmation is required', predicate: (value) => typeof value === 'string' && !isEmpty(value)}
-    // ]
+    ]
 };
 
 export function validate(address) {

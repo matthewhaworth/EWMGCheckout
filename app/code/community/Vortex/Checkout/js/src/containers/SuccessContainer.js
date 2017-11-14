@@ -2,26 +2,31 @@ import React, {Component} from 'react';
 import ListItems from "../components/basket/ListItems";
 import Totals from "../components/basket/Totals";
 import {connect} from "react-redux";
-import * as customerValidator from "../validators/customer";
+import * as registerValidator from "../validators/register";
 import {STATE_SUCCESS} from "../store/checkoutSteps";
 import Header from "../components/header/Header";
 import BodyClass from "../components/common/BodyClass";
-import {config, url} from "../config";
+import {url} from "../config";
+import * as customerActions from "../actions/customerActions";
 import * as orderActions from "../actions/orderActions";
 import {bindActionCreators} from "redux";
 import DataLayer from "../components/common/DataLayer";
+import RegisterForm from "../components/customer/RegisterForm";
 
 class SuccessContainer extends Component {
     constructor(props, context) {
         super(props, context);
 
-        const errors = customerValidator.validate(this.props.customer);
-
         this.state = {
-            errors,
             itemsExpanded: true,
             accountExpanded: true,
-            loading: false
+            loading: false,
+            registerErrors: {},
+            registerForm: {
+                password: '',
+                password_confirmation: ''
+            },
+            showSignUpSuccess: false
         };
     }
 
@@ -29,6 +34,8 @@ class SuccessContainer extends Component {
      * Try and load the order if it is not already in state
      */
     componentWillMount() {
+        window.scrollTo(0, 0);
+
         if (this.props.order && this.props.order.order_id) {
             return;
         }
@@ -38,13 +45,13 @@ class SuccessContainer extends Component {
             window.location = this.redirectHome();
         }
 
-        this.props.orderActions.loadOrder(incrementId).catch((err) => {
+        this.props.orderActions.loadOrder(incrementId).catch(err => {
             window.location = this.redirectHome();
         });
     }
 
-    componentDidUpdate(prevProps) {
-        window.scrollTo(0, 0);
+    componentDidUpdate() {
+        //window.scrollTo(0, 0);
     }
 
     redirectHome() {
@@ -59,11 +66,20 @@ class SuccessContainer extends Component {
         this.setState({accountExpanded: !this.state.accountExpanded});
     }
 
-    onChange(event){
+    onRegisterChange(event){
         event.preventDefault();
 
-        const errors = customerValidator.validate(this.props.customer);
-        this.setState({errors});
+        const newRegisterForm = {
+            ...this.state.registerForm,
+            [event.target.name]: event.target.value
+        };
+
+        const registerErrors = registerValidator.validate(newRegisterForm);
+
+        this.setState({
+            registerErrors,
+            registerForm: newRegisterForm
+        });
     }
 
     onRegisterContinue(event) {
@@ -71,7 +87,14 @@ class SuccessContainer extends Component {
         if (this.state.loading) return;
 
         this.setState({loading: true});
-
+        this.props.customerActions.createCustomer(this.state.registerForm.password).then(() => {
+            this.setState({
+                showSignUpSuccess: true,
+                loading: false
+            });
+        }).catch(() => {
+            this.setState({loading: false});
+        });
     }
 
     render() {
@@ -108,30 +131,30 @@ class SuccessContainer extends Component {
                                 </div>
 
                                 <div className="checkout-layout__column checkout-layout__column--basket">
+                                    {this.state.showSignUpSuccess && <p>Sign up successful!</p>}
 
-                                    {/*{!customer.existingCustomer &&*/}
-                                        {/*<div className={'checkout-section checkout-section--register ' + (this.state.accountExpanded ? 'expanded' : '')}>*/}
-                                            {/*<div className="checkout-section__title">*/}
-
-                                                {/*<div className="checkout-section__title-text">*/}
-                                                    {/*<span className="checkout-section__title-count">Create Account</span>*/}
-                                                {/*</div>*/}
-                                                {/*<a className="checkout-section__title-link"*/}
-                                                   {/*onClick={(e) => this.toggleAccountExpanded(e)}>Create Account</a>*/}
-                                            {/*</div>*/}
-                                            {/*<div className="checkout-section__container">*/}
-                                                {/*<div className="checkout-register">*/}
-                                                    {/*<div className="checkout-register__container">*/}
-                                                        {/*<RegisterForm*/}
-                                                            {/*customer={customer}*/}
-                                                            {/*errors={this.state.errors}*/}
-                                                            {/*loading={this.state.loading}*/}
-                                                            {/*onChange={(e) => this.onChange(e)}*/}
-                                                            {/*onContinue={(e) => this.onRegisterContinue(e)}/>*/}
-                                                    {/*</div>*/}
-                                                {/*</div>*/}
-                                            {/*</div>*/}
-                                        {/*</div>}*/}
+                                    {!customer.existingCustomer &&
+                                        <div className={'checkout-section checkout-section--register ' + (this.state.accountExpanded ? 'expanded' : '')}>
+                                            <div className="checkout-section__title">
+                                                <div className="checkout-section__title-text">
+                                                    <span className="checkout-section__title-count">Create Account</span>
+                                                </div>
+                                                <a className="checkout-section__title-link"
+                                                   onClick={e => this.toggleAccountExpanded(e)}>Create Account</a>
+                                            </div>
+                                            <div className="checkout-section__container">
+                                                <div className="checkout-register">
+                                                    <div className="checkout-register__container">
+                                                        <RegisterForm
+                                                            register={this.state.registerForm}
+                                                            errors={this.state.registerErrors}
+                                                            loading={this.state.loading}
+                                                            onChange={(e) => this.onRegisterChange(e)}
+                                                            onContinue={(e) => this.onRegisterContinue(e)}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>}
 
                                     <div className={'checkout-section checkout-section--basket ' + (this.state.itemsExpanded ? 'expanded' : '')}>
                                         <div className="checkout-section__title">
@@ -207,6 +230,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        customerActions: bindActionCreators(customerActions, dispatch),
         orderActions: bindActionCreators(orderActions, dispatch)
     }
 };

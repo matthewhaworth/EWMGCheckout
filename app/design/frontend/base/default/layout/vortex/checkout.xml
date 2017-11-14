@@ -43,7 +43,7 @@
             <action method="setTemplate"><template>vortex/checkout/layout.phtml</template></action>
             <block type="page/html_head" name="checkout.head" as="head">
                 <action method="addCss"><stylesheet>vortex/css/checkout.css</stylesheet></action>
-                <action method="addJs"><script>prototype/prototype.js</script></action>
+                <action method="addJs"><script>vortex/checkout/prototype173/prototype.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script helper="amazonpayments/getHeadTooltipJs"/></action>
                 <action method="addJs"><script helper="amazonpayments/getHeadJs"/></action>

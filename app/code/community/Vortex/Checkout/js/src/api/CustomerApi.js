@@ -39,4 +39,15 @@ export default class CustomerApi
             body: JSON.stringify(address)
         }).then(response => handleServerResponse(response));
     }
+
+    static createCustomer(password) {
+        let url = new URI(config.apiEndpoint + '/customer');
+        url = addFormKey(url);
+
+        return fetch(url, {
+            credentials: 'include',
+            method: 'post',
+            body: JSON.stringify({password})
+        }).then(response => handleServerResponse(response));
+    }
 }

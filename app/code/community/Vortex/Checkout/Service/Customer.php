@@ -118,6 +118,46 @@ class Vortex_Checkout_Service_Customer
     }
 
     /**
+     * @param Mage_Sales_Model_Quote $quote
+     * @param $password
+     * @return Mage_Customer_Model_Customer
+     */
+    public function createCustomerFromQuote(
+        Mage_Sales_Model_Quote $quote,
+        Mage_Sales_Model_Order $order,
+        $password
+    ) {
+        $billing    = $quote->getBillingAddress();
+        $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
+
+        $customer = $quote->getCustomer();
+        /* @var $customer Mage_Customer_Model_Customer */
+        $customerBilling = $billing->exportCustomerAddress();
+        $customer->addAddress($customerBilling);
+        $billing->setCustomerAddress($customerBilling);
+        $customerBilling->setIsDefaultBilling(true);
+        if ($shipping && !$shipping->getSameAsBilling()) {
+            $customerShipping = $shipping->exportCustomerAddress();
+            $customer->addAddress($customerShipping);
+            $shipping->setCustomerAddress($customerShipping);
+            $customerShipping->setIsDefaultShipping(true);
+        } else {
+            $customerBilling->setIsDefaultShipping(true);
+        }
+
+        Mage::helper('core')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $customer->setPassword($password);
+        $quote->setCustomer($customer)
+            ->setCustomerId(true);
+
+        $customer->save();
+
+        $order->setCustomerId($customer->getId())->save();
+
+        return $customer;
+    }
+
+    /**
      * @return int
      */
     protected function getWebsiteId()

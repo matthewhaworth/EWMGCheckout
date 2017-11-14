@@ -90,3 +90,14 @@ export const saveCustomerAddress = (address) => {
         });
     };
 };
+
+export const createCustomer = (password) => {
+    return (dispatch) => {
+        return CustomerApi.createCustomer(password).then(customer => {
+            dispatch(customerFetchSuccess(customer));
+        }).catch(err => {
+            dispatch(addGlobalError(err));
+            throw err;
+        })
+    }
+};
