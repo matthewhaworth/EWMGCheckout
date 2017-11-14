@@ -14,5 +14,9 @@ if (is_null($experimentId) || is_null($isNewCheckout)) {
 $variationId = $isNewCheckout ? '1' : '0';
 ?>
 <script type="text/javascript">
-window.dataLayer.push({ optimise: '<?php echo $experimentId ?>.<?php echo $variationId ?>'});
+    window.dataLayer.push({
+        googleOptimizeExperimentId: '<?php echo $experimentId ?>',
+        googleOptimizeExperimentVariation: '<?php echo $variationId ?>',
+        event: 'optimiseExperimentLoad'
+    });
 </script>
