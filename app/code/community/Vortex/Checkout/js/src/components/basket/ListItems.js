@@ -36,7 +36,7 @@ export default class ListItems extends Component {
                         </div>
                         <div className="checkout-basket__item-info">
                             <div className="checkout-basket__item-title">
-                                <a href="">{item.name}</a>
+                                <a href={item.product_url}>{item.name}</a>
                             </div>
                             <div className="checkout-basket__item-price">
                                 <div className="checkout-basket__price-box">

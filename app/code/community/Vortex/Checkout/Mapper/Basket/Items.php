@@ -85,6 +85,7 @@ class Vortex_Checkout_Mapper_Basket_Items
             $itemData = [];
             $itemData['item_id'] = $quoteItem->getId();
             $itemData['product_id'] = $quoteItem->getProduct()->getId();
+            $itemData['product_url'] = $quoteItem->getProduct()->getProductUrl();
             $itemData['name'] = $quoteItem->getName();
             $itemData['price'] = number_format($quoteItem->getPriceInclTax(), 2);
             $itemData['price_currency'] = $this->coreHelper->formatCurrency($itemData['price'], false);
