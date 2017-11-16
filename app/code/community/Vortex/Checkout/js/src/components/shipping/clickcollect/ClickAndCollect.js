@@ -16,7 +16,9 @@ class ClickAndCollect extends Component {
         this.setState({ postcode: event.target.value });
     }
     
-    onSubmitPostcode() {
+    onSubmitPostcode(e) {
+        e.preventDefault();
+
         this.setState({loading: true});
         PostcodeApi.geocode( this.state.postcode ).then((response) => {
             const latitude = response['Items'].length > 0 ? response['Items'][0]['Latitude'] : 'notfound';
@@ -71,10 +73,11 @@ class ClickAndCollect extends Component {
                             <StoreMapComponent isMarkerShown
                                                geolocation={store.geolocation}
                                                googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-                                               loadingElement={<div style={{height: '100%'}}/>}
+                                               loadingElement={<div style={{height: '150px'}} />}
                                                containerElement={<div style={{height: '150px'}}/>}
-                                               mapElement={<div style={{height: '100%'}}/>}/>
+                                               mapElement={<div style={{height: '150px'}} />}/>
                         </div>
+
                         {(store.opening_hours && store.opening_hours.length > 0) && <div className="cc-map__timetable">
                             {openingHoursList}
                         </div>}

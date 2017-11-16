@@ -78,6 +78,13 @@
                     <frontName>fast-checkout</frontName>
                 </args>
             </vortex_checkout>
+            <checkout>
+                <args>
+                    <modules>
+                        <vortex_checkout before="Enterprise_Checkout">Vortex_Checkout_Checkout</vortex_checkout>
+                    </modules>
+                </args>
+            </checkout>
         </routers>
 
         <layout>

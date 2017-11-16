@@ -17,7 +17,7 @@ export const config = window.ewmgCheckoutConfig || {
         buttonWidgetUrl: 'https://payments-sandbox.amazon.co.uk/gp/widgets/button?sellerId=A2RTMOBL1OCWKV&size=large&color=tan',
         buttonWidgetHtmlIdPrefix: 'payButtonWidget',
         sellerId: 'A2RTMOBL1OCWKV',
-        urls: '{"checkout":"http:\/\/peacocks.co.uk.dev\/amazonpayments\/advanced_checkout\/"}',
+        urls: '{"checkout":"http://peacocks.co.uk.dev/amazonpayments/advanced_checkout/"}',
         tooltip: 'http://peacocks.co.uk.dev/skin/frontend/base/default/creativestyle/images/logo_a-glyph_1x.png',
         isLive: false,
         isPopup: true,

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PostcodeApi from "../../api/PostcodeApi";
 import {debounce} from "lodash";
-import SingleInput from "../common/SingleInput";
 import {config} from "../../config";
 
 export default class AddressLookup extends Component {
@@ -85,21 +84,22 @@ export default class AddressLookup extends Component {
         });
 
         return <div>
-            <SingleInput inputType={'text'}
-                         title={'Address Lookup'}
-                         name={'address_lookup'}
-                         onChange={(e) => this.onAddressSearch(e)}
-                         value={this.state.searchString || ''}
-                         noValidate
-                         autocomplete={false}
-                         isDisabled={this.props.disabled}
-                         additionalClassNames="form__control--autocomplete full"
-                         loading={this.state.loading} />
+            <div className={'form__control form__control--autocomplete full ' + (this.state.loading ? 'form__control--loading' : '')}>
+                <label className="form__label">Address Lookup</label>
+                <div className="form__input">
+                    <input type="text"
+                           onChange={(e) => this.onAddressSearch(e)}
+                           value={this.state.searchString || ''}
+                           autoComplete="false"
+                           disabled={this.props.disabled} />
+                    {this.state.loading && <span />}
+                </div>
 
-            <div className={'form__autocomplete ' + (this.state.suggestedAddresses.length === 0 ? '' : 'active')}>
-                <ul className="form__autocomplete-list">
-                    {suggestedAddressesList}
-                </ul>
+                <div className={'form__autocomplete ' + (this.state.suggestedAddresses.length === 0 ? '' : 'active')}>
+                    <ul className="form__autocomplete-list">
+                        {suggestedAddressesList}
+                    </ul>
+                </div>
             </div>
         </div>;
     }

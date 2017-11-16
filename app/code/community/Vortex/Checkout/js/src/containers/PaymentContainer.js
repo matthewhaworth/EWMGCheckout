@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import * as customerActions from "../actions/customerActions";
 import * as basketActions from "../actions/basketActions";
+import * as customerActions from "../actions/customerActions";
+
 import Payment from '../components/payment/Payment';
 
 class PaymentContainer extends Component {
@@ -11,10 +12,10 @@ class PaymentContainer extends Component {
                         customer={this.props.customer}
                         basket={this.props.basket}
                         saveAddress={this.props.basketActions.saveAddress}
+                        saveCustomerAddress={this.props.customerActions.saveCustomerAddress}
                         addDiscountCode={this.props.basketActions.addDiscountCode}
                         removeDiscountCode={this.props.basketActions.removeDiscountCode}
-                        placeOrder={this.props.basketActions.placeOrder}
-                        paymentErrors={this.props.errors.payment} />;
+                        placeOrder={this.props.basketActions.placeOrder} />;
     }
 }
 
