@@ -25,7 +25,8 @@ const CreditCardForm = ({creditCard, errors, canSaveCard, saveCard, toggleSaveCa
                                  value={creditCard.cardNumber || ''}
                                  additionalClassNames={'form__control--card full ' + (creditCard.type || '')}
                                  isCard={true}
-                                 cardType={creditCard.type}/>
+                                 cardType={creditCard.type}
+                                 pattern="\d*"/>
 
                     <SingleInput inputType={'text'}
                                  inputMask='99/99'
@@ -34,7 +35,8 @@ const CreditCardForm = ({creditCard, errors, canSaveCard, saveCard, toggleSaveCa
                                  name={'expiry'}
                                  onChange={onCreditCardChange}
                                  value={creditCard.expiry || ''}
-                                 additionalClassNames="col-2-4" />
+                                 additionalClassNames="col-2-4"
+                                 pattern="\d*"/>
 
                     <SingleInput inputType={'text'}
                                  inputMask={/^3[47]/.test(creditCard.cardNumber)? '9999' : '999'}
@@ -44,7 +46,8 @@ const CreditCardForm = ({creditCard, errors, canSaveCard, saveCard, toggleSaveCa
                                  onChange={onCreditCardChange}
                                  value={creditCard.cvc || ''}
                                  additionalClassNames="col-2-4 form__control--cvc"
-                                 isCvc={true}/>
+                                 isCvc={true}
+                                 pattern="\d*"/>
 
                     {canSaveCard && <Checkbox
                         label="Save Card"

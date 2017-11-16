@@ -17,7 +17,7 @@ class SingleInput extends React.Component {
     }
 
     renderInput() {
-        const {name, inputType, placeholder, value, isDisabled, autocomplete} = this.props;
+        const {name, inputType, placeholder, value, isDisabled, autocomplete, pattern} = this.props;
 
         const inputProps = {
             name,
@@ -27,7 +27,8 @@ class SingleInput extends React.Component {
             value,
             autoComplete: autocomplete ? 'on' : 'off',
             ref: this.props.obtainRef || (() => {}),
-            disabled: isDisabled
+            disabled: isDisabled,
+            pattern: pattern
         };
 
         if (this.props.inputMask) {
