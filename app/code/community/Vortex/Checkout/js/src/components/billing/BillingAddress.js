@@ -24,7 +24,8 @@ class BillingAddress extends Component {
         this.state = {
             forceShowChooseBillingAddress: null,
             loading: false,
-            displayNewAddressEntry
+            displayNewAddressEntry,
+            addressDisplayLoading: false
         }
     }
 
@@ -43,7 +44,16 @@ class BillingAddress extends Component {
     }
 
     onToggleDifferentBillingAddress() {
-        this.setState({forceShowChooseBillingAddress: !this.state.forceShowChooseBillingAddress});
+        const forceShowChooseBillingAddress = !this.state.forceShowChooseBillingAddress;
+
+        if (!forceShowChooseBillingAddress) {
+            this.setState({addressDisplayLoading: true});
+            this.handleAddressChange(this.props.basket.shipping_address, true).then(() => {
+                this.setState({addressDisplayLoading: false});
+            });
+        }
+
+        this.setState({forceShowChooseBillingAddress});
     }
 
     onPaymentAddressContinue(address) {
@@ -106,6 +116,7 @@ class BillingAddress extends Component {
                     <fieldset>
                         <AddressDisplay addressLabel="Billing address"
                                         address={basket.billing_address}
+                                        loading={this.state.addressDisplayLoading}
                                         onAddressClick={(e) => this.onToggleDifferentBillingAddress(e)}/>
                     </fieldset>
                 </form>}
