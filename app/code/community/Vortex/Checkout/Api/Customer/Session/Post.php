@@ -28,6 +28,13 @@ class Vortex_Checkout_Api_Customer_Session_Post implements Vortex_Api_EndpointIn
             $this->getBasket()->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)->save();
             $customer = $this->getCustomerService()->getCustomer($body['email']);
 
+            // Set customer's default addresses on quote if they have no already been set
+            $this->getAddressService()->setCustomerAddressIfAddressIsNotSet(
+                $this->getBasket(),
+                $customer->getDefaultBillingAddress(),
+                $customer->getDefaultShippingAddress()
+            );
+
             return $this->getCustomerMapper()->map($customer, $this->getCustomerSession()->isLoggedIn());
         } else {
             throw new Vortex_Api_Exception_BadRequest('Not authenticated.', 403);
@@ -76,5 +83,15 @@ class Vortex_Checkout_Api_Customer_Session_Post implements Vortex_Api_EndpointIn
         }
 
         return $this->customerMapper;
+    }
+
+    /**
+     * @return Vortex_Checkout_Service_Basket_Address
+     */
+    protected function getAddressService()
+    {
+        return new Vortex_Checkout_Service_Basket_Address(
+            Mage::getSingleton('checkout/type_onepage')
+        );
     }
 }

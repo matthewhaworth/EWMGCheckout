@@ -117,4 +117,32 @@ class Vortex_Checkout_Service_Basket_Address
 
         return $magentoAddress;
     }
+
+    /**
+     * @param Mage_Sales_Model_Quote $quote
+     * @param Mage_Customer_Model_Address $customerBillingAddress
+     * @param Mage_Customer_Model_Address $customerShippingAddress
+     */
+    public function setCustomerAddressIfAddressIsNotSet(
+        Mage_Sales_Model_Quote $quote,
+        Mage_Customer_Model_Address $customerBillingAddress,
+        Mage_Customer_Model_Address $customerShippingAddress
+    ) {
+        $isBillingAddressValid = $quote->getBillingAddress()->validate();
+        if ($isBillingAddressValid !== true) {
+            $this->magentoCheckoutService->saveBilling(
+                $customerBillingAddress->getData(),
+                $customerBillingAddress->getId()
+            );
+        }
+
+        $isShippingAddressValid = $quote->getShippingAddress()->validate();
+        if ($isShippingAddressValid !== true) {
+            $this->magentoCheckoutService->saveShipping(
+                $customerShippingAddress->getData(),
+                $customerShippingAddress->getId()
+            );
+        }
+
+    }
 }

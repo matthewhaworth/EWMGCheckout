@@ -42,6 +42,13 @@ class Vortex_Checkout_Api_Customer_Get implements Vortex_Api_EndpointInterface
              */
             $this->getBasket()->setCustomerEmail($request->getParam('email'))->save();
 
+            // Set customer's default addresses on quote if they have no already been set
+            $this->getAddressService()->setCustomerAddressIfAddressIsNotSet(
+                $this->getBasket(),
+                $customer->getDefaultBillingAddress(),
+                $customer->getDefaultShippingAddress()
+            );
+
             return $this->getCustomerMapper()->map($customer, $this->getCustomerSession()->isLoggedIn());
         } else {
             throw new Vortex_Api_Exception_BadRequest('Customer does not exist', 404);
@@ -90,5 +97,15 @@ class Vortex_Checkout_Api_Customer_Get implements Vortex_Api_EndpointInterface
         }
 
         return $this->customerMapper;
+    }
+
+    /**
+     * @return Vortex_Checkout_Service_Basket_Address
+     */
+    protected function getAddressService()
+    {
+        return new Vortex_Checkout_Service_Basket_Address(
+            Mage::getSingleton('checkout/type_onepage')
+        );
     }
 }
