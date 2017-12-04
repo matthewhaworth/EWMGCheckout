@@ -125,11 +125,11 @@ class Vortex_Checkout_Service_Basket_Address
      */
     public function setCustomerAddressIfAddressIsNotSet(
         Mage_Sales_Model_Quote $quote,
-        Mage_Customer_Model_Address $customerBillingAddress,
-        Mage_Customer_Model_Address $customerShippingAddress
+        $customerBillingAddress,
+        $customerShippingAddress
     ) {
         $isBillingAddressValid = $quote->getBillingAddress()->validate();
-        if ($isBillingAddressValid !== true) {
+        if ($isBillingAddressValid !== true && $customerBillingAddress && $customerBillingAddress->getId()) {
             $this->magentoCheckoutService->saveBilling(
                 $customerBillingAddress->getData(),
                 $customerBillingAddress->getId()
@@ -137,7 +137,7 @@ class Vortex_Checkout_Service_Basket_Address
         }
 
         $isShippingAddressValid = $quote->getShippingAddress()->validate();
-        if ($isShippingAddressValid !== true) {
+        if ($isShippingAddressValid !== true && $customerShippingAddress && $customerShippingAddress->getId()) {
             $this->magentoCheckoutService->saveShipping(
                 $customerShippingAddress->getData(),
                 $customerShippingAddress->getId()
