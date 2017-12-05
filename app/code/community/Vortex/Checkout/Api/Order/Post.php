@@ -34,6 +34,8 @@ class Vortex_Checkout_Api_Order_Post implements Vortex_Api_EndpointInterface
 
         if ($orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
+
+            Mage::dispatchEvent('checkout_onepage_controller_success_action', array('order_ids' => array($orderId)));
             return [
                 'increment_id' => $order->getIncrementId(),
                 'order' => $this->getOrderMapper()->map($order)
