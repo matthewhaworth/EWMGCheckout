@@ -93,6 +93,7 @@ class Vortex_Checkout_Mapper_Order_Items
             $itemData['subtotal_price'] = $this->coreHelper->formatCurrency($orderItem->getRowTotalInclTax(), false);
             $itemData['qty'] = (int) $orderItem->getQtyOrdered();
             $itemData['image'] = $this->getProductImage($orderItem);
+            $itemData['product_url'] = $orderItem->getProduct()->getProductUrl();
 
             if ($orderItem->getProduct()->getTypeId() === Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
                 $itemData = $this->addConfiguredOptions($orderItem, $itemData);

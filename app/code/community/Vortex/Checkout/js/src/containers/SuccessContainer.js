@@ -121,7 +121,9 @@ class SuccessContainer extends Component {
                                     <div className="checkout-section__container">
                                         <div className="checkout-success">
                                             <div className="checkout-success__msg">
-                                                <p>Your order has been successfully placed.<br/>Order number: <a href="">{order.increment_id}</a></p>
+                                                {customer.hasOwnProperty('id') && <p>Your order has been successfully placed.<br/>Order number: <a href={url(`/sales/order/view/order_id/${order.increment_id}/`)}>{order.increment_id}</a></p>}
+                                                {!customer.hasOwnProperty('id') && <p>Your order has been successfully placed.<br/>Order number: {order.increment_id}</p>}
+
                                                 <p>An email has been sent to: {order.customer_email}</p>
                                                 {customer.hasOwnProperty('id') && <p><a href={url("customer/account/index")} className="button button--secondary button--arrow-right"><span>View my Account</span></a></p>}
                                                 <p><a href={url('')} className="button button--secondary button--arrow-right"><span>Continue Shopping</span></a></p>
