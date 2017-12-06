@@ -51,11 +51,10 @@ class Vortex_Checkout_Mapper_Order_Items
     {
         $existingConfiguredOptions = (array_key_exists('configured_options', $itemData)) ? $itemData['configured_options'] : [];
 
+        $productOptions = $orderItem->getProductOptions();
         $itemData['configured_options'] = array_merge(
             $existingConfiguredOptions,
-            $orderItem->getProduct()
-                ->getTypeInstance(true)
-                ->getSelectedAttributesInfo($orderItem->getProduct())
+            $productOptions['attributes_info']
         );
 
         return $itemData;
