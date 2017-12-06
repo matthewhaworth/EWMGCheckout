@@ -19,7 +19,7 @@ export default class ListItems extends Component {
     }
 
     hasSpecialPrice(item){
-        return (item.price < item.original_price);
+        return parseFloat(item.price) < parseFloat(item.original_price);
     }
 
     render() {
