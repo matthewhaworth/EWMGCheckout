@@ -5,7 +5,7 @@ import PaypalButton from "../payment/paypal/PaypalButton";
 import GiftCardForm from "../giftcard/GiftCardForm";
 import GiftCardList from "../giftcard/GiftCardList";
 
-const ListTotals = ({basket, displayType, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery}) => {
+const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery}) => {
     const {shipping_with_symbol, subtotal_incl_tax_currency, total_with_symbol, discounts} = basket;
 
 
@@ -31,10 +31,10 @@ const ListTotals = ({basket, displayType, discountCode, onDiscountRemove, onDisc
                 <div className="checkout-basket__total-price">{shipping_with_symbol}</div>
             </div>}
 
-            <div className={'checkout-basket__discount' + (discountCode.applied ? ' applied' : '')}>
+            <div className={'checkout-basket__discount' + (isDiscountApplied ? ' applied' : '')}>
                 {discounts && discountList}
 
-                {(!discountCode.applied) && (<form className="form form--discount">
+                {(!isDiscountApplied) && (<form className="form form--discount">
                     <fieldset>
                         <label>Add discount code?</label>
                         <SingleInput inputType={'text'}

@@ -8,8 +8,7 @@ class Totals extends Component {
             discount: {
                 code: this.props.basket.discount_code,
                 saving: false,
-                removing: false,
-                applied: this.props.basket.discount_code && this.props.basket.discount_code !== ''
+                removing: false
             },
         };
     }
@@ -39,12 +38,12 @@ class Totals extends Component {
                     discount: {
                         ...this.state.discount,
                         saving: false,
-                        applied: response && response.discount_code && response.discount_code !== ''
                     }
                 });
             })
             .catch(() => {
                 this.setState({ discount: {
+                    ...this.state.discount,
                     saving: false
                 }})
             });
@@ -66,13 +65,13 @@ class Totals extends Component {
                     discount: {
                         ...this.state.discount,
                         removing: false,
-                        applied: false
                     }
                 });
             })
             .catch(() => {
                 this.setState({
                     discount: {
+                        ...this.state.discount,
                         removing: false
                     }
                 })
@@ -80,8 +79,11 @@ class Totals extends Component {
     }
 
     render() {
+        const isDiscountApplied = this.props.basket.discount_code && this.props.basket.discount_code !== '';
+
         return <ListTotals basket={this.props.basket}
                            displayType={this.props.displayType}
+                           isDiscountApplied={isDiscountApplied}
                            discountCode={this.state.discount}
                            includeGiftCard={this.props.includeGiftCard}
                            onDiscountRemove={(e) => this.onDiscountRemove(e)}
