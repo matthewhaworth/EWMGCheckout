@@ -31,7 +31,7 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Get implements Vortex_Api_Endpo
                 $distance
             );
         } catch (Exception $e) {
-            //Mage::log($e);
+            Mage::logException($e);
             throw new Vortex_Api_Exception_BadRequest('Could not find stores in that area.', 500);
         }
 
@@ -40,10 +40,11 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Get implements Vortex_Api_Endpo
             if (count($stores) === 10) break; // Only retrieve 10 stores.
             $coordinates = $store->getCoordinates();
             /* @var $store MicrosMultiChannel_StoreLocator_Model_Store_Db */
+            $streetName = ucwords(strtolower(implode(', ', $store->getStreet())));
             $stores[] = [
                 'id' => $store->getId(),
                 'name' => $store->getName(),
-                'address' => $store->getSummaryAddress(),
+                'address' => "{$streetName}, {$store->getCity()}, {$store->getPostcode()}",
                 'opening_hours' => ($store->getOpeningHours()) ? array_filter($store->getOpeningHours(), 'strlen') : null,
                 'distance' => number_format($store->getDistance(), 1),
                 'geolocation' => ['lat' => (float) $coordinates['latitude'], 'lng' => (float) $coordinates['longitude']]
