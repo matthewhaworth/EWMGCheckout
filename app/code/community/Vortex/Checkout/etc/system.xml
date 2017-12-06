@@ -25,20 +25,20 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </lookup_key>
-                        <find_endpoint>
-                            <label>Find Endpoint</label>
-                            <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </find_endpoint>
-                        <retrieve_endpoint>
-                            <label>Retrieve Endpoint</label>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </retrieve_endpoint>
+                        <!--<find_endpoint>-->
+                            <!--<label>Find Endpoint</label>-->
+                            <!--<sort_order>20</sort_order>-->
+                            <!--<show_in_default>1</show_in_default>-->
+                            <!--<show_in_website>1</show_in_website>-->
+                            <!--<show_in_store>1</show_in_store>-->
+                        <!--</find_endpoint>-->
+                        <!--<retrieve_endpoint>-->
+                            <!--<label>Retrieve Endpoint</label>-->
+                            <!--<sort_order>30</sort_order>-->
+                            <!--<show_in_default>1</show_in_default>-->
+                            <!--<show_in_website>1</show_in_website>-->
+                            <!--<show_in_store>1</show_in_store>-->
+                        <!--</retrieve_endpoint>-->
                         <geocode_key translate="label">
                             <label>Geocode Key</label>
                             <sort_order>40</sort_order>

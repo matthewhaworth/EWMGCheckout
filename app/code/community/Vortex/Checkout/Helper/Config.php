@@ -20,12 +20,12 @@ class Vortex_Checkout_Helper_Config
 
     public function getPcaFindEndpoint()
     {
-        return Mage::getStoreConfig(self::XML_CONFIG_PCA_FIND_ENDPOINT);
+        return 'https://services.postcodeanywhere.co.uk/CapturePlus/Interactive/Find/v2.10/json3ex.ws';//Mage::getStoreConfig(self::XML_CONFIG_PCA_FIND_ENDPOINT);
     }
 
     public function getPcaRetrieveEndpoint()
     {
-        return Mage::getStoreConfig(self::XML_CONFIG_PCA_RETRIEVE_ENDPOINT);
+        return 'https://services.postcodeanywhere.co.uk/CapturePlus/Interactive/RetrieveFormatted/v2.10/json3ex.ws';//Mage::getStoreConfig(self::XML_CONFIG_PCA_RETRIEVE_ENDPOINT);
     }
 
     public function getPcaGeocodeKey()

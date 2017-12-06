@@ -15,11 +15,11 @@ export default class PostcodeApi
         let url = new URI(config.postcodeAnywhere.findEndpoint);
         url.addQuery({
             Key: config.postcodeAnywhere.key,
-            Text: postcode
+            SearchTerm: postcode
         });
 
         if (key) {
-            url.addQuery({Container: key});
+            url.addQuery({LastId: key});
         }
 
         return fetch(url,

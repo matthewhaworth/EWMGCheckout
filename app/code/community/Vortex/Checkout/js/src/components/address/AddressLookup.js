@@ -18,7 +18,9 @@ export default class AddressLookup extends Component {
     }
 
     debounceAddressSearch(searchString) {
-        PostcodeApi.postcodeFind(searchString).then((addresses) => this.setState({suggestedAddresses: addresses, loading: false}))
+        PostcodeApi.postcodeFind(searchString).then(addresses =>
+            this.setState({suggestedAddresses: addresses, loading: false})
+        );
     }
 
     onAddressSearch(event) {
@@ -46,7 +48,7 @@ export default class AddressLookup extends Component {
 
         this.setState({loading: true});
 
-        if (selectedAddress.Type === 'Address') {
+        if (selectedAddress.Next === 'Retrieve') {
             PostcodeApi.postcodeRetrieve(key).then((addresses) => {
                 selectedAddress = addresses[0];
 

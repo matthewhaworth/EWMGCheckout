@@ -100,8 +100,8 @@
         <ewmg_checkout>
             <postcode_anywhere>
                 <lookup_key>ZM84-JH59-HD92-TG97</lookup_key>
-                <find_endpoint><![CDATA[https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.00/json3ex.ws]]></find_endpoint>
-                <retrieve_endpoint><![CDATA[https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3ex.ws]]></retrieve_endpoint>
+                <!--<find_endpoint><![CDATA[https://services.postcodeanywhere.co.uk/Capture/Interactive/Find/v1.00/json3ex.ws]]></find_endpoint>-->
+                <!--<retrieve_endpoint><![CDATA[https://services.postcodeanywhere.co.uk/Capture/Interactive/Retrieve/v1.00/json3ex.ws]]></retrieve_endpoint>-->
                 <geocode_key>MH39-HB51-RW69-KE13</geocode_key>
                 <geocode_country>GB</geocode_country>
                 <geocode_endpoint><![CDATA[https://services.postcodeanywhere.co.uk/Geocoding/International/Geocode/v1.10/json3ex.ws]]></geocode_endpoint>
