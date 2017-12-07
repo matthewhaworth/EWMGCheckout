@@ -111,8 +111,8 @@ class Shipping extends Component {
                                 <div className="button--payment-mastercard">
                                     <em className="path1" /><em className="path2"/><em className="path3"/><em className="path4"/>
                                 </div>
-                                <div className="button--payment-visa"></div>
-                                <div className="button--payment-amex"></div>
+                                <div className="button--payment-visa"/>
+                                <div className="button--payment-amex"/>
                             </div>
                         </div>
                     </button>

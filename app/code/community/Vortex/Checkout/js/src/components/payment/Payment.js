@@ -7,8 +7,14 @@ import CreditCardList from "./CreditCardList";
 import * as addressValidator from "../../validators/address";
 import OrderSubmission from "./OrderSubmission";
 import BillingAddress from "../billing/BillingAddress";
+import * as checkoutSteps from '../../store/checkoutSteps';
+import * as ReactDOM from 'react-dom';
 
 class Payment extends Component {
+
+    componentDidUpdate() {
+        this.scrollToView();
+    }
 
     constructor(props, context) {
         super(props, context);
@@ -22,6 +28,19 @@ class Payment extends Component {
             processingSubmit: false,
             creditCardFormVisible: !props.customer.savedCards || props.customer.savedCards.length === 0
         }
+    }
+
+    scrollToView(){
+        const node = ReactDOM.findDOMNode(this.refs.STATE_PAYMENT);
+
+        if(node && typeof this.props.scrollToView === 'undefined' && this.props.scrollToView() && this.state.loading){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
+
     }
 
     onCreditCardChange(event) {
@@ -123,7 +142,7 @@ class Payment extends Component {
             addressValidator.validate(basket.billing_address)._all;
 
         return (
-            <div className="checkout-section checkout-section--checkout">
+            <div className="checkout-section checkout-section--checkout" ref={checkoutSteps.STATE_PAYMENT}>
                 <div className="checkout-section__container">
                     <div className="form__title form__title--primary"><span className="form__title-count">3</span>Secure payment</div>
 

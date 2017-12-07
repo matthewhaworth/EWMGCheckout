@@ -15,7 +15,8 @@ class PaymentContainer extends Component {
                         saveCustomerAddress={this.props.customerActions.saveCustomerAddress}
                         addDiscountCode={this.props.basketActions.addDiscountCode}
                         removeDiscountCode={this.props.basketActions.removeDiscountCode}
-                        placeOrder={this.props.basketActions.placeOrder} />;
+                        placeOrder={this.props.basketActions.placeOrder}
+                        scrollToView={this.props.scrollToView} />;
     }
 }
 

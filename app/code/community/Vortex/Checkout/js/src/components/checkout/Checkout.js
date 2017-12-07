@@ -9,12 +9,37 @@ import LoginContainer from "../../containers/LoginContainer";
 import {STATE_DELIVERY, STATE_EMAIL, STATE_PAYMENT} from "../../store/checkoutSteps";
 import GlobalErrors from '../common/GlobalErrors';
 import DataLayer from "../common/DataLayer";
+import * as checkoutSteps from '../../store/checkoutSteps';
+import * as ReactDOM from 'react-dom';
 
 class Checkout extends Component {
+
+    componentDidUpdate() {
+        this.scrollToView();
+    }
+
+    scrollToView(){
+        const node = ReactDOM.findDOMNode(this.refs.STATE_DELIVERY);
+
+        if(node && this.state.scrollToShipping && !this.state.loading){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
+    }
+
     constructor(props, context) {
         super(props, context);
 
-        this.state = { loading: true };
+        this.state = {
+            loading: true,
+            scrollToShipping: false,
+            scrollToPayment: false,
+            scrollToBasket: false,
+            scrollToEmail: false
+        };
 
         props.fetchBasket().then(() => {
             props.getLoggedInCustomer().then(() => {
@@ -43,8 +68,10 @@ class Checkout extends Component {
     onBasketContinue() {
         if (this.props.customer.hasOwnProperty('id')) {
             this.props.changeCheckoutSection(STATE_DELIVERY);
+            this.setState({ scrollToShipping: true });
         } else {
             this.props.changeCheckoutSection(STATE_EMAIL);
+            this.setState({ scrollToEmail: true });
         }
     }
 
@@ -70,9 +97,12 @@ class Checkout extends Component {
 
     onShippingContinue() {
         this.props.changeCheckoutSection(STATE_PAYMENT);
+        this.setState({ scrollToShipping: true });
     }
 
     onPaymentMethodContinue() {
+        console.log("onPaymentMethodContinue");
+        this.setState({ scrollToPayment: true });
         //this.props.changeCheckoutSection(DONE);
     }
 
@@ -94,11 +124,11 @@ class Checkout extends Component {
                     <div className="checkout-maincontent__wrapper">
                         <div className="checkout-maincontent__container">
                             <div className="checkout-layout checkout-layout--animate">
-                                <BasketContainer onContinue={() => this.onBasketContinue()}/>
+                                <BasketContainer onContinue={() => this.onBasketContinue()} scrollToView={() => this.state.scrollToBasket}/>
 
                                 <div className="checkout-layout__column checkout-layout__column--checkout">
 
-                                    <div className="checkout-section__before-title checkout-section__before-title--primary">
+                                    <div className="checkout-section__before-title checkout-section__before-title--primary" ref={checkoutSteps.STATE_DELIVERY}>
                                         <span className="checkout-section__before-count">2</span>Delivery
                                     </div>
 
@@ -106,10 +136,11 @@ class Checkout extends Component {
                                                                                          onContinue={() => this.onLoginContinue()} />}
 
                                     <ShippingContainer active={checkout.visited.includes(STATE_DELIVERY)}
-                                                       onContinue={() => this.onShippingContinue()} />
+                                                       onContinue={() => this.onShippingContinue()}/>
 
                                     {!isZeroOrder && <PaymentContainer active={checkout.visited.includes(STATE_PAYMENT)}
-                                                      onContinue={() => this.onPaymentMethodContinue()} />}
+                                                      onContinue={() => this.onPaymentMethodContinue()}
+                                                      scrollToView={() => this.state.scrollToPayment}/>}
                                 </div>
                             </div>
                         </div>
