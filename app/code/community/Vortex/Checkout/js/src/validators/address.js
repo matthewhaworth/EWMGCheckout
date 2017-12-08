@@ -24,27 +24,8 @@ export const validators = {
         { message: 'Last name is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) }
     ],
     phone: [
-        {
-            message: 'Phone is required',
-            predicate: (value) =>  typeof value === 'string' && !isEmpty(value)
-        },
-        {
-            message: 'Phone number is invalid',
-            predicate: (value, address) => {
-                if (typeof value !== 'string') return false;
-                if (isEmpty(value)) return false;
-                const country = (address.country !== null && address.country !== '') ? address.country : false;
-                if (country) {
-                    try {
-                        return isValidNumber(value, country);
-                    } catch (e) {
-                        return true;
-                    }
-                } else {
-                    return true;
-                }
-            }
-        }
+        { message: 'Phone is required', predicate: (value) =>  typeof value === 'string' && !isEmpty(value) },
+        { message: 'Phone number is invalid', predicate: (value) => value !== null && value.length > 3 }
     ],
     line1: [
         { message: 'Line 1 is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) }

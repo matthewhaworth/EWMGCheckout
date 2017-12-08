@@ -16,7 +16,7 @@ class GlobalErrors extends Component {
 
 
         return (displayErrors) ?
-            <Transition in={true} onEntered={setTimeout(() => { errorActions.clearAllErrors() }, 3000)}>
+            <Transition in={true} onEntered={setTimeout(() => { errorActions.clearAllErrors() }, 6000)}>
                 {(status) => (
                     <div className={'checkout-globalerrors checkout-globalerrors--' + (status)}>
                         <div className="checkout-globalerrors__container">

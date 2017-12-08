@@ -8,11 +8,10 @@ class SingleInput extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.isPristine = this.props.value === '' || typeof this.props.value === 'undefined';
+        this.state = { wasBlurred: false };
     }
 
     onChange(event) {
-        this.isPristine = false;
         this.props.onChange(event);
     }
 
@@ -28,7 +27,8 @@ class SingleInput extends React.Component {
             autoComplete: autocomplete ? 'on' : 'off',
             ref: this.props.obtainRef || (() => {}),
             disabled: isDisabled,
-            pattern: pattern
+            pattern: pattern,
+            onBlur: () => this.setState({wasBlurred: true})
         };
 
         if (this.props.inputMask) {
@@ -41,10 +41,9 @@ class SingleInput extends React.Component {
     render() {
         const {title, errors, isDisabled, forceValidate, isCard, isCvc, showPassword, note} = this.props;
         const isValid = typeof errors === 'undefined' || errors.length === 0;
-        const shouldValidate = !this.isPristine || forceValidate;
+        const shouldValidate = this.state.wasBlurred || forceValidate;
         const errorsList = (!isValid) ? <li key={errors[0]}>{errors[0]}</li> : '';
         const isLoading = this.props.hasOwnProperty('loading') && this.props.loading;
-
 
         let inputClassNames = 'form__control ';
 

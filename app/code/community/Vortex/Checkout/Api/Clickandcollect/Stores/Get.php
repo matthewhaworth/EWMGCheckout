@@ -44,7 +44,7 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Get implements Vortex_Api_Endpo
             $stores[] = [
                 'id' => $store->getId(),
                 'name' => $store->getName(),
-                'address' => "{$streetName}, {$store->getCity()}, {$store->getPostcode()}",
+                'address' => "{$streetName}, {$store->getCity()}, {$store->getPostcode()}, {$store->getCounty()}",
                 'opening_hours' => ($store->getOpeningHours()) ? array_filter($store->getOpeningHours(), 'strlen') : null,
                 'distance' => number_format($store->getDistance(), 1),
                 'geolocation' => ['lat' => (float) $coordinates['latitude'], 'lng' => (float) $coordinates['longitude']]
