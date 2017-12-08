@@ -106,7 +106,8 @@ class SuccessContainer extends Component {
                 <Header checkoutStep={STATE_SUCCESS}
                         shippingCost={basket.shipping}
                         shippingCostWithSymbol={basket.shipping_with_symbol}
-                        basketTotalWithSymbol={basket.total_with_symbol} />
+                        basketTotalWithSymbol={basket.subtotal_incl_tax_currency}
+                        grandTotalWithSymbol={basket.total_with_symbol} />
                 <div className="checkout-maincontent">
                     <div className="checkout-maincontent__wrapper">
                         <div className="checkout-maincontent__container">

@@ -63,7 +63,7 @@ class Header extends Component {
                                     </li>
                                     <li className={this.getPaymentClasses()}>
                                         <span className="checkout-progress__title">Payment</span>
-                                        <span className="checkout-progress__subtitle">{this.props.basketTotalWithSymbol}</span>
+                                        <span className="checkout-progress__subtitle">{this.props.grandTotalWithSymbol}</span>
                                     </li>
                                 </ol>
                             </div>
