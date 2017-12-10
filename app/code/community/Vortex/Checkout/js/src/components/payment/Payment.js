@@ -9,11 +9,21 @@ import OrderSubmission from "./OrderSubmission";
 import BillingAddress from "../billing/BillingAddress";
 import * as checkoutSteps from '../../store/checkoutSteps';
 import * as ReactDOM from 'react-dom';
+import {connect} from "react-redux";
 
 class Payment extends Component {
 
-    componentDidUpdate() {
-        this.scrollToView();
+    scrollToView(){
+        const node = ReactDOM.findDOMNode(this.refs.STATE_PAYMENT);
+
+        if(node && !this.state.loading){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
+
     }
 
     constructor(props, context) {
@@ -28,19 +38,6 @@ class Payment extends Component {
             processingSubmit: false,
             creditCardFormVisible: !props.customer.savedCards || props.customer.savedCards.length === 0
         }
-    }
-
-    scrollToView(){
-        const node = ReactDOM.findDOMNode(this.refs.STATE_PAYMENT);
-
-        if(node && typeof this.props.scrollToView === 'undefined' && this.props.scrollToView() && this.state.loading){
-            node.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'start'
-            });
-        }
-
     }
 
     onCreditCardChange(event) {
@@ -179,4 +176,4 @@ class Payment extends Component {
     }
 }
 
-export default Payment;
+export default connect(null, null , null, { withRef: true })(Payment);

@@ -49,8 +49,16 @@ class BasketContainer extends Component {
         this.setState({ itemQty: itemQtyMap });
     }
 
-    componentDidUpdate() {
-        this.scrollToView();
+    scrollToView(){
+        const node = ReactDOM.findDOMNode(this.refs.STATE_BASKET);
+
+        if(node){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
     }
 
     onQuantityChange(item, itemQty, event) {
@@ -98,18 +106,6 @@ class BasketContainer extends Component {
 
     toggleItemsExpanded() {
         this.setState({itemsExpanded: !this.state.itemsExpanded});
-    }
-
-    scrollToView(){
-        const node = ReactDOM.findDOMNode(this.refs.STATE_BASKET);
-
-        if(node && typeof this.props.scrollToView === 'undefined' && this.props.scrollToView()){
-            node.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'start'
-            });
-        }
     }
 
     render() {
@@ -181,4 +177,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BasketContainer);
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(BasketContainer);

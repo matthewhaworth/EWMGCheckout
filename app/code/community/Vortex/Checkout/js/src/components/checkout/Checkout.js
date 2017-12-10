@@ -18,28 +18,10 @@ class Checkout extends Component {
         this.scrollToView();
     }
 
-    scrollToView(){
-        const node = ReactDOM.findDOMNode(this.refs.STATE_DELIVERY);
-
-        if(node && this.state.scrollToShipping && !this.state.loading){
-            node.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'start'
-            });
-        }
-    }
-
     constructor(props, context) {
         super(props, context);
 
-        this.state = {
-            loading: true,
-            scrollToShipping: false,
-            scrollToPayment: false,
-            scrollToBasket: false,
-            scrollToEmail: false
-        };
+        this.state = { loading: true };
 
         props.fetchBasket().then(() => {
             props.getLoggedInCustomer().then(() => {
@@ -65,13 +47,37 @@ class Checkout extends Component {
         }
     }
 
+    scrollToViewBasket() {
+        this.basketContainer.getWrappedInstance().scrollToView();
+    }
+
+    scrollToViewPayment() {
+        this.paymentContainer.getWrappedInstance().scrollToView();
+    }
+
+    scrollToViewEmail() {
+
+    }
+
+    scrollToView() {
+        const node = ReactDOM.findDOMNode(this.refs.STATE_DELIVERY);
+
+        if(node && !this.state.loading){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
+    }
+
     onBasketContinue() {
         if (this.props.customer.hasOwnProperty('id')) {
             this.props.changeCheckoutSection(STATE_DELIVERY);
-            this.setState({ scrollToShipping: true });
+            this.scrollToViewBasket();
         } else {
             this.props.changeCheckoutSection(STATE_EMAIL);
-            this.setState({ scrollToEmail: true });
+            this.scrollToViewEmail();
         }
     }
 
@@ -89,21 +95,22 @@ class Checkout extends Component {
 
             Promise.all([fetchBasket, changeCheckoutSection]).then(() => {
                 this.setState({ displayLoginContainer: false });
+                this.scrollToView();
             });
         } else {
             this.props.changeCheckoutSection(STATE_DELIVERY);
+            this.scrollToView();
         }
     }
 
     onShippingContinue() {
         this.props.changeCheckoutSection(STATE_PAYMENT);
-        this.setState({ scrollToShipping: true });
+        this.scrollToViewPayment();
     }
 
     onPaymentMethodContinue() {
-        console.log("onPaymentMethodContinue");
-        this.setState({ scrollToPayment: true });
         //this.props.changeCheckoutSection(DONE);
+        this.scrollToViewPayment();
     }
 
     renderCheckout() {
@@ -124,7 +131,7 @@ class Checkout extends Component {
                     <div className="checkout-maincontent__wrapper">
                         <div className="checkout-maincontent__container">
                             <div className="checkout-layout checkout-layout--animate">
-                                <BasketContainer onContinue={() => this.onBasketContinue()} scrollToView={() => this.state.scrollToBasket}/>
+                                <BasketContainer onContinue={() => this.onBasketContinue()} ref={(basket) => {this.basketContainer = basket}} />
 
                                 <div className="checkout-layout__column checkout-layout__column--checkout">
 
@@ -140,7 +147,7 @@ class Checkout extends Component {
 
                                     {!isZeroOrder && <PaymentContainer active={checkout.visited.includes(STATE_PAYMENT)}
                                                       onContinue={() => this.onPaymentMethodContinue()}
-                                                      scrollToView={() => this.state.scrollToPayment}/>}
+                                                      ref={(payment) => {this.paymentContainer = payment}}/>}
                                 </div>
                             </div>
                         </div>
