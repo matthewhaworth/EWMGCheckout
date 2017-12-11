@@ -7,6 +7,11 @@ import * as customerActions from "../actions/customerActions";
 import Payment from '../components/payment/Payment';
 
 class PaymentContainer extends Component {
+
+    scrollToView() {
+        this.payment.getWrappedInstance().scrollToView();
+    }
+
     render() {
         return <Payment active={this.props.active}
                         customer={this.props.customer}
@@ -15,7 +20,9 @@ class PaymentContainer extends Component {
                         saveCustomerAddress={this.props.customerActions.saveCustomerAddress}
                         addDiscountCode={this.props.basketActions.addDiscountCode}
                         removeDiscountCode={this.props.basketActions.removeDiscountCode}
-                        placeOrder={this.props.basketActions.placeOrder} />;
+                        placeOrder={this.props.basketActions.placeOrder}
+                        scrollToView={this.props.scrollToView}
+                        ref={(payment) => {this.payment = payment;}}/>;
     }
 }
 
@@ -34,7 +41,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PaymentContainer);
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(PaymentContainer);

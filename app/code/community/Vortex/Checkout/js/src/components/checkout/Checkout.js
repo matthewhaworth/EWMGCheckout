@@ -9,8 +9,15 @@ import LoginContainer from "../../containers/LoginContainer";
 import {STATE_DELIVERY, STATE_EMAIL, STATE_PAYMENT} from "../../store/checkoutSteps";
 import GlobalErrors from '../common/GlobalErrors';
 import DataLayer from "../common/DataLayer";
+import * as checkoutSteps from '../../store/checkoutSteps';
+import * as ReactDOM from 'react-dom';
 
 class Checkout extends Component {
+
+    componentDidUpdate() {
+        this.scrollToView();
+    }
+
     constructor(props, context) {
         super(props, context);
 
@@ -40,11 +47,39 @@ class Checkout extends Component {
         }
     }
 
+    scrollToViewBasket() {
+        this.basketContainer.getWrappedInstance().scrollToView();
+    }
+
+    scrollToViewPayment() {
+        this.paymentContainer.getWrappedInstance().scrollToView();
+    }
+
+    // EWMOC-47: Use if you to scroll to email section
+    // scrollToViewEmail() {
+    //
+    // }
+
+    scrollToView() {
+        const node = ReactDOM.findDOMNode(this.refs.STATE_DELIVERY);
+
+        if(node && !this.state.loading){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
+    }
+
     onBasketContinue() {
         if (this.props.customer.hasOwnProperty('id')) {
             this.props.changeCheckoutSection(STATE_DELIVERY);
+            this.scrollToViewBasket();
         } else {
             this.props.changeCheckoutSection(STATE_EMAIL);
+            //EWMOC-47: Use if you to scroll to email section
+            //this.scrollToViewEmail();
         }
     }
 
@@ -62,18 +97,22 @@ class Checkout extends Component {
 
             Promise.all([fetchBasket, changeCheckoutSection]).then(() => {
                 this.setState({ displayLoginContainer: false });
+                this.scrollToView();
             });
         } else {
             this.props.changeCheckoutSection(STATE_DELIVERY);
+            this.scrollToView();
         }
     }
 
     onShippingContinue() {
         this.props.changeCheckoutSection(STATE_PAYMENT);
+        this.scrollToViewPayment();
     }
 
     onPaymentMethodContinue() {
         //this.props.changeCheckoutSection(DONE);
+        this.scrollToViewPayment();
     }
 
     renderCheckout() {
@@ -95,11 +134,11 @@ class Checkout extends Component {
                     <div className="checkout-maincontent__wrapper">
                         <div className="checkout-maincontent__container">
                             <div className="checkout-layout checkout-layout--animate">
-                                <BasketContainer onContinue={() => this.onBasketContinue()}/>
+                                <BasketContainer onContinue={() => this.onBasketContinue()} ref={(basket) => {this.basketContainer = basket}} />
 
                                 <div className="checkout-layout__column checkout-layout__column--checkout">
 
-                                    <div className="checkout-section__before-title checkout-section__before-title--primary">
+                                    <div className="checkout-section__before-title checkout-section__before-title--primary" ref={checkoutSteps.STATE_DELIVERY}>
                                         <span className="checkout-section__before-count">2</span>Delivery
                                     </div>
 
@@ -107,10 +146,11 @@ class Checkout extends Component {
                                                                                          onContinue={() => this.onLoginContinue()} />}
 
                                     <ShippingContainer active={checkout.visited.includes(STATE_DELIVERY)}
-                                                       onContinue={() => this.onShippingContinue()} />
+                                                       onContinue={() => this.onShippingContinue()}/>
 
                                     {!isZeroOrder && <PaymentContainer active={checkout.visited.includes(STATE_PAYMENT)}
-                                                      onContinue={() => this.onPaymentMethodContinue()} />}
+                                                      onContinue={() => this.onPaymentMethodContinue()}
+                                                      ref={(payment) => {this.paymentContainer = payment}}/>}
                                 </div>
                             </div>
                         </div>

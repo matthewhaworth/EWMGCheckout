@@ -7,6 +7,8 @@ import * as basketActions from "../actions/basketActions";
 import Pluralize from 'react-pluralize';
 import CmsApi from "../api/CmsApi";
 import RawHtml from "../components/common/RawHtml";
+import * as checkoutSteps from '../store/checkoutSteps';
+import * as ReactDOM from 'react-dom';
 
 class BasketContainer extends Component {
     constructor(props, context) {
@@ -45,6 +47,18 @@ class BasketContainer extends Component {
         nextProps.basket.items.forEach((item) => itemQtyMap[item.item_id] = item.qty);
 
         this.setState({ itemQty: itemQtyMap });
+    }
+
+    scrollToView(){
+        const node = ReactDOM.findDOMNode(this.refs.STATE_BASKET);
+
+        if(node){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
     }
 
     onQuantityChange(item, itemQty, event) {
@@ -100,7 +114,7 @@ class BasketContainer extends Component {
         const hideDelivery = !checkout.step;
 
         return (
-            <div className="checkout-layout__column checkout-layout__column--basket">
+            <div className="checkout-layout__column checkout-layout__column--basket" ref={checkoutSteps.STATE_BASKET}>
                 <div className={'checkout-section checkout-section--basket ' + (this.state.itemsExpanded ? 'expanded' : '')}>
                     <div className="checkout-section__title">
                         <div className="checkout-section__title-text">
@@ -163,4 +177,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BasketContainer);
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(BasketContainer);
