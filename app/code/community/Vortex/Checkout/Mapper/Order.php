@@ -57,7 +57,8 @@ class Vortex_Checkout_Mapper_Order
      */
     private function mapDiscounts(Mage_Sales_Model_Order $order)
     {
-        $discountBreakdown = $order->getDiscountBreakdown();
+        $quote = Mage::getModel('sales/quote')->load($order->getQuoteId())->collectTotals();
+        $discountBreakdown = $quote->getDiscountBreakdown();
         $mappedDiscountAmount = [];
 
         if(!$discountBreakdown){

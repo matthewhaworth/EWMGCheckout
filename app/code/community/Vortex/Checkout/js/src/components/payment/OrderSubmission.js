@@ -57,6 +57,7 @@ class OrderSubmission extends Component {
             <div>
                 <Totals basket={basket}
                         displayType="secondary"
+                        includeGiftCard
                         addDiscountCode={code => addDiscountCode(code)}
                         removeDiscountCode={() => removeDiscountCode()}/>
 

@@ -11,36 +11,41 @@ class BillingAddress extends Component {
     constructor(props, context) {
         super(props, context);
 
-        const currentAddress = props.basket.billing_address;
-
-        // If the current address is 'new' and the customer has chosen to not save to address book
-        const currentAddressIsCustomerAddress = currentAddress.customer_address_id !== null;
-
-        const customerIsLoggedIn = props.customer.hasOwnProperty('id');
-        const displayNewAddressEntry = !customerIsLoggedIn ||
-            (customerIsLoggedIn && props.customer.addresses.length === 0) ||
-            (addressValidator.validate(currentAddress)._all && !currentAddressIsCustomerAddress);
-
         this.state = {
             forceShowChooseBillingAddress: null,
+            forceShowNewAddressEntry: null,
             loading: false,
-            displayNewAddressEntry,
             addressDisplayLoading: false
         }
     }
 
     shouldShowChooseBillingAddress() {
-        const basket = this.props.basket;
-        const forceShowChooseBillingAddress = this.state.forceShowChooseBillingAddress;
-
         // If the user has explicitly stated whether they want to be in an address change state
-        if (forceShowChooseBillingAddress !== null) {
-            return forceShowChooseBillingAddress;
+        if (this.state.forceShowChooseBillingAddress !== null) {
+            return this.state.forceShowChooseBillingAddress;
         }
 
+        const basket = this.props.basket;
         // if the user hasn't specified, determine the best action
         return !addressValidator.validate(basket.billing_address)._all || !basket.use_shipping_for_billing ||
             basket.is_click_and_collect;
+    }
+
+    shouldShowNewAddressEntry() {
+        if (this.state.forceShowNewAddressEntry !== null) {
+            return this.state.forceShowNewAddressEntry;
+        }
+
+        const {basket, customer} = this.props;
+        const currentAddress = basket.billing_address;
+
+        // If the current address is 'new' and the customer has chosen to not save to address book
+        const currentAddressIsCustomerAddress = currentAddress.customer_address_id !== null;
+
+        const customerIsLoggedIn = customer.hasOwnProperty('id');
+        return !customerIsLoggedIn ||
+            (customerIsLoggedIn && customer.addresses.length === 0) ||
+            (addressValidator.validate(currentAddress)._all && !currentAddressIsCustomerAddress);
     }
 
     onToggleDifferentBillingAddress() {
@@ -91,7 +96,8 @@ class BillingAddress extends Component {
         const showAddressList = customer.hasOwnProperty('id') && customer.hasOwnProperty('addresses')
             && customer.addresses.length > 0;
 
-        const chooseBillingAddress = this.shouldShowChooseBillingAddress();
+        const showNewAddressEntry = this.shouldShowNewAddressEntry();
+        const showChooseBillingAddress = this.shouldShowChooseBillingAddress();
         
         const addressList = <div>
             <AddressList
@@ -111,7 +117,7 @@ class BillingAddress extends Component {
 
         return (
             <div>
-                {!chooseBillingAddress &&
+                {!showChooseBillingAddress &&
                 <form className="form form--primary">
                     <fieldset>
                         <AddressDisplay addressLabel="Billing address"
@@ -126,7 +132,7 @@ class BillingAddress extends Component {
                         <label className="form__label">
                             <input type="checkbox"
                                    name="address"
-                                   checked={chooseBillingAddress}
+                                   checked={showChooseBillingAddress}
                                    onChange={(e) => this.onToggleDifferentBillingAddress(e)}
                                    value=""/>
 
@@ -135,11 +141,11 @@ class BillingAddress extends Component {
                     </div>
                 </div>}
 
-                {chooseBillingAddress && (
+                {showChooseBillingAddress && (
                     <div>
                         {showAddressList && addressList}
 
-                        {this.state.displayNewAddressEntry &&
+                        {showNewAddressEntry &&
                             <Address addressLabel="Billing address"
                                      address={basket.billing_address}
                                      allowAddressSave={customer.hasOwnProperty('id')}

@@ -121,7 +121,7 @@ class Checkout extends Component {
                 <Header checkoutStep={checkout.step}
                         shippingCost={basket.shipping}
                         shippingCostWithSymbol={basket.shipping_with_symbol}
-                        basketTotalWithSymbol={basket.subtotal_incl_tax_currency}
+                        basketTotalWithSymbol={basket.subtotal_incl_discount_currency}
                         grandTotalWithSymbol={basket.total_with_symbol} />
 
                 <GlobalErrors />

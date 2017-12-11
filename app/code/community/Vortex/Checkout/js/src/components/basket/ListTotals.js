@@ -5,7 +5,7 @@ import PaypalButton from "../payment/paypal/PaypalButton";
 import GiftCardForm from "../giftcard/GiftCardForm";
 import GiftCardList from "../giftcard/GiftCardList";
 
-const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery}) => {
+const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery, hideRemoveDiscount}) => {
     const {shipping_with_symbol, subtotal_incl_tax_currency, total_with_symbol, discounts} = basket;
 
 
@@ -16,7 +16,7 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
                 <div className="checkout-basket__total-label">{discount.discount_code ? discountCodeLabel(discount) : discount.discount_label}</div>
                 <div className="checkout-basket__total-price">-{discount.discount_amount_with_symbol}</div>
             </div>
-            {discount.discount_code && <a href="" onClick={(e) => onDiscountRemove(e)}>Remove</a>}
+            {discount.discount_code && !hideRemoveDiscount && <a href="" onClick={(e) => onDiscountRemove(e)}>Remove</a>}
         </div>
     );
 

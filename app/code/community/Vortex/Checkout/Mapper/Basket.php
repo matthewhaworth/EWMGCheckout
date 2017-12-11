@@ -176,12 +176,16 @@ class Vortex_Checkout_Mapper_Basket
         $response = [];
 
         $response['basket_id'] = $quote->getId();
-        $response['subtotal'] = $this->formatPrice($quote->getSubtotal());
-        $response['subtotal_with_symbol'] = $this->formatPriceWithSymbol($quote->getSubtotal());
-        $response['subtotal_incl_tax'] = $this->formatPrice($this->getSubtotalInclTax($quote));
-        $response['subtotal_incl_tax_currency'] = $this->formatPriceWithSymbol($response['subtotal_incl_tax']);
+
         $response['shipping'] = $this->formatPrice($quote->getShippingAddress()->getShippingAmount());
         $response['shipping_with_symbol'] = $this->formatPriceWithSymbol($quote->getShippingAddress()->getShippingAmount());
+
+        $response['subtotal_incl_tax'] = $this->formatPrice($this->getSubtotalInclTax($quote));
+        $response['subtotal_incl_tax_currency'] = $this->formatPriceWithSymbol($response['subtotal_incl_tax']);
+
+        $response['subtotal_incl_discount'] = $this->formatPrice($response['subtotal_incl_tax'] + $quote->getShippingAddress()->getDiscountAmount());
+        $response['subtotal_incl_discount_currency'] = $this->formatPriceWithSymbol($response['subtotal_incl_discount']);
+
         $response['discount_code'] = $quote->getCouponCode();
         $response['discount_total'] = $this->formatPrice(-$quote->getShippingAddress()->getDiscountAmount());
         $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol(-$quote->getShippingAddress()->getDiscountAmount());

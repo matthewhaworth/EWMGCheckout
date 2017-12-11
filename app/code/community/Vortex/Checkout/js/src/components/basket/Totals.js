@@ -90,6 +90,7 @@ class Totals extends Component {
                            onDiscountChange={(e) => this.onDiscountChange(e)}
                            onDiscountApply={(e) => this.onDiscountApply(e)}
                            onContinue={() => this.props.onContinue()}
+                           hideRemoveDiscount={this.props.hideRemoveDiscount}
                            hideDelivery={this.props.hideDelivery}/>;
     }
 }

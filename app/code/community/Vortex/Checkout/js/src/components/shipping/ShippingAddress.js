@@ -9,17 +9,9 @@ class ShippingAddress extends Component {
     constructor(props, context) {
         super(props, context);
 
-        const currentAddress = props.shippingAddress;
-
-        // If the current address is 'new' and the customer has chosen to not save to address book
-        const currentAddressIsCustomerAddress = currentAddress.customer_address_id !== null;
-
-        const customerIsLoggedIn = props.customer.hasOwnProperty('id');
-        const displayNewAddressEntry = !customerIsLoggedIn ||
-            (customerIsLoggedIn && props.customer.addresses.length === 0) ||
-            (addressValidator.validate(currentAddress)._all && !currentAddressIsCustomerAddress);
-
-        this.state = {displayNewAddressEntry};
+        this.state = {
+            forceShowNewAddressEntry: null
+        };
     }
 
     onShippingAddressContinue(address) {
@@ -28,7 +20,6 @@ class ShippingAddress extends Component {
 
     handleAddressChange(address, submitToServer = false) {
         const {customer, saveAddress} = this.props;
-
         return saveAddress(customer, address, ADDRESS_TYPE_SHIPPING, submitToServer);
     }
 
@@ -41,6 +32,24 @@ class ShippingAddress extends Component {
             .catch((err) => {
                 this.setState({loading: false});
             });
+    }
+
+    showNewAddressEntry() {
+        if (this.state.forceShowNewAddressEntry) {
+            return this.state.forceShowNewAddressEntry;
+        }
+
+        const customer = this.props.customer;
+        const currentAddress = this.props.shippingAddress;
+
+        // If the current address is 'new' and the customer has chosen to not save to address book
+        const currentAddressIsCustomerAddress = currentAddress.customer_address_id !== null;
+
+        const customerIsLoggedIn = customer.hasOwnProperty('id');
+        return !customerIsLoggedIn ||
+            (customerIsLoggedIn && customer.addresses.length === 0) ||
+            (addressValidator.validate(currentAddress)._all && !currentAddressIsCustomerAddress);
+
     }
 
     toggleDisplayNewAddressEntry(event) {
@@ -67,6 +76,8 @@ class ShippingAddress extends Component {
                 onToggle={(e) => this.toggleDisplayNewAddressEntry(e)} />
         </div>;
 
+        const showNewAddressEntry = this.showNewAddressEntry();
+
         const showAddressList = this.props.customer.hasOwnProperty('id')
             && this.props.customer.hasOwnProperty('addresses')
             && this.props.customer.addresses.length > 0;
@@ -75,7 +86,7 @@ class ShippingAddress extends Component {
             <div>
                 {showAddressList && addressList}
 
-                {this.state.displayNewAddressEntry && <Address addressLabel="Delivery address" address={this.props.shippingAddress}
+                {showNewAddressEntry && <Address addressLabel="Delivery address" address={this.props.shippingAddress}
                          allowAddressSave={this.state.displayNewAddressEntry && this.props.customer.hasOwnProperty('id')}
                          handleAddressChange={(e) => this.handleAddressChange(e)}
                          handleAddressSubmit={(e) => this.onShippingAddressContinue(e)} />}
