@@ -25,7 +25,7 @@ export const validators = {
     ],
     phone: [
         { message: 'Phone is required', predicate: (value) =>  typeof value === 'string' && !isEmpty(value) },
-        { message: 'Phone number is invalid', predicate: (value) => value !== null && value.length > 3 }
+        { message: 'Phone number is invalid', predicate: (value) => typeof value === 'string' && value.length > 3 }
     ],
     line1: [
         { message: 'Line 1 is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) }
