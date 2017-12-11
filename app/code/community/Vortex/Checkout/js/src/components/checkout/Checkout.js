@@ -55,9 +55,10 @@ class Checkout extends Component {
         this.paymentContainer.getWrappedInstance().scrollToView();
     }
 
-    scrollToViewEmail() {
-
-    }
+    // EWMOC-47: Use if you to scroll to email section
+    // scrollToViewEmail() {
+    //
+    // }
 
     scrollToView() {
         const node = ReactDOM.findDOMNode(this.refs.STATE_DELIVERY);
@@ -77,7 +78,8 @@ class Checkout extends Component {
             this.scrollToViewBasket();
         } else {
             this.props.changeCheckoutSection(STATE_EMAIL);
-            this.scrollToViewEmail();
+            //EWMOC-47: Use if you to scroll to email section
+            //this.scrollToViewEmail();
         }
     }
 
