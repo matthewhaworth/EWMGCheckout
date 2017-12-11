@@ -19,14 +19,14 @@ class Checkout extends Component {
 
         this.state = { loading: true };
 
-        props.fetchBasket().then(() => {
-            props.getLoggedInCustomer().then(() => {
-                this.setState({ displayLoginContainer: false });
-            }).catch(() => {
-                // Customer will not return if it does not exist, as server returns 4xx
-                this.setState({ displayLoginContainer: true });
-            }).then(() => {
-                this.setState({ loading: false });
+        props.getLoggedInCustomer().then(() => {
+            this.setState({ displayLoginContainer: false });
+        }).catch(() => {
+            // Customer will not return if it does not exist, as server returns 4xx
+            this.setState({ displayLoginContainer: true });
+        }).then(() => {
+            props.fetchBasket().then(() => {
+                this.setState({loading: false});
             });
         });
     }

@@ -34,6 +34,7 @@ export const validators = {
     city: [
         { message: 'City is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) }
     ],
+/*  This has been disabled as it is not required by account section sign up
     county: [
         {
             message: 'County is required',
@@ -42,7 +43,7 @@ export const validators = {
                 return typeof value === 'string' && !isEmpty(value)
             }
         }
-    ],
+    ],*/
     region_id: [
         {
             message: 'State is required',
