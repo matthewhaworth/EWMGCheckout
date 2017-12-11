@@ -14,10 +14,6 @@ import * as ReactDOM from 'react-dom';
 
 class Checkout extends Component {
 
-    componentDidUpdate() {
-        this.scrollToView();
-    }
-
     constructor(props, context) {
         super(props, context);
 
