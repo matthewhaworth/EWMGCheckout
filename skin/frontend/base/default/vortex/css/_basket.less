@@ -124,6 +124,25 @@
             position:absolute;
         }
 
+        &-stock{
+            position:absolute;
+            top:0;
+            left:0;
+            padding:(@primary-padding-mobile/2) @primary-padding-mobile;
+            .font-size(10);
+            line-height:1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+
+            //&--instock{}
+
+            &--outofstock{
+                background-color:@color-red;
+                color:@color-white;
+            }
+
+        }
+
         // Transition available states  'entering' | 'entered' | 'exiting' | 'exited' | 'unmounted'
 
         &--entered{}
