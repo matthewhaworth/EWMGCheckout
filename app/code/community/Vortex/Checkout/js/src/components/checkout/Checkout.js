@@ -97,7 +97,6 @@ class Checkout extends Component {
             });
         } else {
             this.props.changeCheckoutSection(STATE_DELIVERY);
-            this.scrollToView();
         }
     }
 
