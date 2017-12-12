@@ -87,7 +87,7 @@ export default class AddressLookup extends Component {
 
         return <div>
             <div className={'form__control form__control--autocomplete full ' + (this.state.loading ? 'form__control--loading' : '')}>
-                <label className="form__label">Address Lookup</label>
+                <label className="form__label">Please enter your post code to search for your address</label>
                 <div className="form__input">
                     <input type="text"
                            onChange={(e) => this.onAddressSearch(e)}
