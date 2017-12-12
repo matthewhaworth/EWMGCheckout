@@ -45,8 +45,8 @@ class SuccessContainer extends Component {
             window.location = this.redirectHome();
         }
 
-        this.props.orderActions.loadOrder(incrementId).then(() => {
-            this.props.customerActions.getLoggedInCustomer();
+        this.props.orderActions.loadOrder(incrementId).then(order => {
+            this.props.customerActions.checkCustomerExists(order.customer_email);
         }).catch(err => {
             window.location = this.redirectHome();
         });

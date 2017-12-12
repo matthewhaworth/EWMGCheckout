@@ -56,6 +56,15 @@ class BillingAddress extends Component {
             this.handleAddressChange(this.props.basket.shipping_address, true).then(() => {
                 this.setState({addressDisplayLoading: false});
             });
+        } else {
+            const address = this.props.basket.billing_address;
+            this.handleAddressChange({
+                ...addressValidator.emptyAddress,
+                first_name: address.first_name,
+                last_name: address.last_name,
+                email: address.email,
+                phone: address.phone,
+            });
         }
 
         this.setState({forceShowChooseBillingAddress});

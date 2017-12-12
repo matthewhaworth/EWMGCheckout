@@ -24,37 +24,7 @@ export const validators = {
     ],
     cardNumber: [
         { message: 'Card number is required', predicate: value => typeof value === 'string' && !isEmpty(value) },
-        { message: 'Invalid card number', predicate: value => typeof value === 'string' && cardValidator.number(value).isValid },
-        {
-            message: 'AMEX is not available',
-            predicate: value => {
-                if (typeof value !== 'string') {
-                    return false;
-                }
-
-                const cardTypes = creditCardType(value.split(' ').join(''));
-                if (cardTypes.length !== 1) {
-                    return true;
-                }
-
-                return cardTypes[0].type !== 'american-express';
-            }
-        },
-        {
-            message: 'Maestro is not available',
-            predicate: value => {
-                if (typeof value !== 'string') {
-                    return false;
-                }
-
-                const cardTypes = creditCardType(value.split(' ').join(''));
-                if (cardTypes.length !== 1) {
-                    return true;
-                }
-
-                return cardTypes[0].type !== 'maestro';
-            }
-        }
+        { message: 'Invalid card number', predicate: value => typeof value === 'string' && cardValidator.number(value).isValid }
     ],
     expiry: [
         { message: 'Expiry is required', predicate: value => typeof value === 'string' && !isEmpty(value) },
