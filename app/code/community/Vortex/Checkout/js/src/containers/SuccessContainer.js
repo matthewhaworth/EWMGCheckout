@@ -189,6 +189,7 @@ class SuccessContainer extends Component {
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Billing address</div>
                                                 <p>{order.billing_address.first_name || ''} {order.billing_address.last_name || ''}<br/>
+                                                    {order.billing_address.company || ''}<br/>
                                                     {order.billing_address.line1 || ''}<br/>
                                                     {order.billing_address.line2 || ''}<br/>
                                                     {order.billing_address.city || ''}<br/>
@@ -198,6 +199,7 @@ class SuccessContainer extends Component {
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Shipping address</div>
                                                 <p>{order.shipping_address.first_name || ''} {order.shipping_address.last_name || ''}<br/>
+                                                    {order.shipping_address.company || ''}<br/>
                                                     {order.shipping_address.line1 || ''}<br/>
                                                     {order.shipping_address.line2 || ''}<br/>
                                                     {order.shipping_address.city || ''}<br/>

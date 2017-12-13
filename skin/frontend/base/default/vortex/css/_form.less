@@ -1064,10 +1064,10 @@
 
             &__autocomplete{
                 position:absolute;
-                max-height:120px;
+                //max-height:120px;
 
                 &-list{
-                    max-height:120px;
+                    //max-height:120px;
                     overflow-x:auto;
                 }
             }
@@ -1116,6 +1116,15 @@
             // Between tablet - desktop
             @media (max-width: (@breakpoint-desktop - 1)){
 
+                &__autocomplete{
+                    max-height:175px;
+
+                    &-list{
+                        max-height:175px;
+                    }
+                }
+
+
                 &__control-wrapper--primary{
                     padding:@default-padding-tablet;
 
@@ -1129,9 +1138,15 @@
         @media (min-width: @breakpoint-desktop){
 
             &__autocomplete{
+                max-height:200px;
+
+                &-list{
+                    max-height:200px;
+                }
 
                 &-item{
                     padding:20px 24px;
+                    line-height:1;
                 }
             }
 
