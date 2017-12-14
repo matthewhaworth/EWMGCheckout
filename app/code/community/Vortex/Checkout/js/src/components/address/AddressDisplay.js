@@ -7,6 +7,7 @@ export const AddressDisplay = ({addressLabel, address, onAddressClick, loading})
             {addressLabel && <label>{addressLabel}</label>}
             <div className="form__autocomplete-result">
                 <a className="form__autocomplete-edit">Change</a>
+                {address.company && <span>{address.company}<br/></span>}
                 {address.line1 && <span>{address.line1}<br/></span>}
                 {address.line2 && <span>{address.line2}<br/></span>}
                 {address.city && <span>{address.city}<br/></span>}

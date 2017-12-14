@@ -58,6 +58,7 @@ class Vortex_Checkout_Mapper_Customer
                     'customer_address_id' => $address->getId(),
                     'first_name' => $address->getFirstname(),
                     'last_name' => $address->getLastname(),
+                    'company' => $address->getCompany(),
                     'line1' => $address->getStreet1(),
                     'line2' => $address->getStreet2(),
                     'postcode' => $address->getPostcode(),

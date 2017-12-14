@@ -53,8 +53,10 @@ export default class AddressLookup extends Component {
                 selectedAddress = addresses[0];
 
                 let addressDelta = {};
-                addressDelta['line1'] = (selectedAddress.Company || '') + selectedAddress.Line1;
-                addressDelta['line2'] = selectedAddress.Line2;
+                addressDelta['company'] = selectedAddress.Company || '';
+                addressDelta['line1'] = selectedAddress.Line1 || '';
+                addressDelta['line2'] = selectedAddress.Line2 || '';
+                addressDelta['line3'] = selectedAddress.Line3 || '';
                 addressDelta['city'] = selectedAddress.City;
 
                 if (Object.keys(config.countryRegionList).includes(selectedAddress.CountryIso2)) {
@@ -87,7 +89,7 @@ export default class AddressLookup extends Component {
 
         return <div>
             <div className={'form__control form__control--autocomplete full ' + (this.state.loading ? 'form__control--loading' : '')}>
-                <label className="form__label">Address Lookup</label>
+                <label className="form__label">Please enter your post code to search for your address</label>
                 <div className="form__input">
                     <input type="text"
                            onChange={(e) => this.onAddressSearch(e)}
