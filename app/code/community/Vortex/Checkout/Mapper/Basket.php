@@ -194,6 +194,8 @@ class Vortex_Checkout_Mapper_Basket
         $response['total_with_symbol'] = $this->formatPriceWithSymbol($quote->getGrandTotal());
         $response['item_count'] = $quote->getItemsCount() ?: 0;
 
+        $response['is_virtual'] = (boolean) $quote->isVirtual();
+
         if ($quote->getShippingAddress()->getId()) {
             $response['shipping_method'] = $quote->getShippingAddress()->getShippingMethod();
             $response['available_shipping_methods'] = $this->mapAvailableShippingMethods($quote);

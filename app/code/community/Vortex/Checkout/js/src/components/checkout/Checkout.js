@@ -70,7 +70,8 @@ class Checkout extends Component {
 
     onBasketContinue() {
         if (this.props.customer.hasOwnProperty('id')) {
-            this.props.changeCheckoutSection(STATE_DELIVERY);
+            const nextSection = this.props.basket.is_virtual ? STATE_PAYMENT : STATE_DELIVERY;
+            this.props.changeCheckoutSection(nextSection);
             this.scrollToViewBasket();
         } else {
             this.props.changeCheckoutSection(STATE_EMAIL);
@@ -89,14 +90,16 @@ class Checkout extends Component {
         // Context 2, continue as logged in user.
         if (this.props.customer.hasOwnProperty('id')) {
             const fetchBasket = this.props.fetchBasket();
-            const changeCheckoutSection = this.props.changeCheckoutSection(STATE_DELIVERY);
+            const nextSection = this.props.basket.is_virtual ? STATE_PAYMENT : STATE_DELIVERY;
+            const changeCheckoutSection = this.props.changeCheckoutSection(nextSection);
 
             Promise.all([fetchBasket, changeCheckoutSection]).then(() => {
                 this.setState({ displayLoginContainer: false });
                 this.scrollToView();
             });
         } else {
-            this.props.changeCheckoutSection(STATE_DELIVERY);
+            const nextSection = this.props.basket.is_virtual ? STATE_PAYMENT : STATE_DELIVERY;
+            this.props.changeCheckoutSection(nextSection);
             this.scrollToView();
         }
     }
@@ -115,7 +118,7 @@ class Checkout extends Component {
         const {checkout, basket} = this.props;
 
         const isZeroOrder = parseFloat(basket.total) === parseFloat(0);
-
+        const deliveryIsRequired = !this.props.basket.is_virtual;
         return (
             <div>
                 <Header checkoutStep={checkout.step}
@@ -134,15 +137,15 @@ class Checkout extends Component {
 
                                 <div className="checkout-layout__column checkout-layout__column--checkout">
 
-                                    <div className="checkout-section__before-title checkout-section__before-title--primary" ref={checkoutSteps.STATE_DELIVERY}>
+                                    {deliveryIsRequired && <div className="checkout-section__before-title checkout-section__before-title--primary" ref={checkoutSteps.STATE_DELIVERY}>
                                         <span className="checkout-section__before-count">2</span>Delivery
-                                    </div>
+                                    </div>}
 
                                     {this.state.displayLoginContainer && <LoginContainer active={checkout.visited.includes(STATE_EMAIL)}
                                                                                          onContinue={() => this.onLoginContinue()} />}
 
-                                    <ShippingContainer active={checkout.visited.includes(STATE_DELIVERY)}
-                                                       onContinue={() => this.onShippingContinue()}/>
+                                    {deliveryIsRequired && <ShippingContainer active={checkout.visited.includes(STATE_DELIVERY)}
+                                                       onContinue={() => this.onShippingContinue()}/>}
 
                                     {!isZeroOrder && <PaymentContainer active={checkout.visited.includes(STATE_PAYMENT)}
                                                       onContinue={() => this.onPaymentMethodContinue()}

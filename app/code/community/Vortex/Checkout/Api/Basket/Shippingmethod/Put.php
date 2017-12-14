@@ -15,6 +15,9 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
         }
 
         try {
+            // Collect totals to determine available shipping methods
+            $this->getBasket()->collectTotals()->save();
+
             $saveShippingMethodResponse = $this->getOnepageSingleton()->saveShippingMethod($body['shipping_method']);
 
             // Throw event that Magento would throw

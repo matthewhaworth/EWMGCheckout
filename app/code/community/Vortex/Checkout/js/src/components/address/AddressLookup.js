@@ -71,8 +71,8 @@ export default class AddressLookup extends Component {
                 const newAddress = {...this.props.address, ...addressDelta, customer_address_id: null};
                 this.props.onSubmitAddress(newAddress, true);
             });
-        } else {
-            PostcodeApi.postcodeFind(this.state.searchString, key).then((addresses) => {
+        } else if (selectedAddress.Next === 'Find') {
+            PostcodeApi.postcodeFind(selectedAddress.Text, key).then((addresses) => {
                 this.setState({suggestedAddresses: addresses, loading: false});
             });
         }
@@ -80,7 +80,7 @@ export default class AddressLookup extends Component {
 
     render() {
         const suggestedAddressesList = this.state.suggestedAddresses.map((address) => {
-            return <li className="form__autocomplete-item" key={address.Id} onClick={() => this.onAddressSelect(address.Id)}>
+            return <li className="form__autocomplete-item" key={address.Id + address.Text} onClick={() => this.onAddressSelect(address.Id)}>
                 {address.Type === 'Postcode' ? address.Description : (address.Text || address.Label)}
             </li>
         });

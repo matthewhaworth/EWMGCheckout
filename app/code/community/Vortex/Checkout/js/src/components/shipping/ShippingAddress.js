@@ -9,9 +9,7 @@ class ShippingAddress extends Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {
-            forceShowNewAddressEntry: null
-        };
+        this.state = { forceShowNewAddressEntry: null };
     }
 
     onShippingAddressContinue(address) {
@@ -24,7 +22,7 @@ class ShippingAddress extends Component {
     }
 
     handleSavedAddressChoice(address) {
-        this.setState({displayNewAddressEntry: false, loading: true});
+        this.setState({forceShowNewAddressEntry: false, loading: true});
         return this.handleAddressChange(address, true)
             .then(() => {
                 this.setState({loading: false});
@@ -35,7 +33,7 @@ class ShippingAddress extends Component {
     }
 
     showNewAddressEntry() {
-        if (this.state.forceShowNewAddressEntry) {
+        if (this.state.forceShowNewAddressEntry !== null) {
             return this.state.forceShowNewAddressEntry;
         }
 
@@ -57,10 +55,12 @@ class ShippingAddress extends Component {
             this.handleAddressChange({...this.props.shippingAddress, customer_address_id: null});
         }
 
-        this.setState({ displayNewAddressEntry: event.target.checked});
+        this.setState({ forceShowNewAddressEntry: event.target.checked});
     }
 
     render() {
+        const showNewAddressEntry = this.showNewAddressEntry();
+
         const addressList = <div>
             <AddressList
                 addresses={this.props.customer.addresses}
@@ -72,11 +72,9 @@ class ShippingAddress extends Component {
             <Checkbox
                 label="Delivery to new address"
                 name="new_customer_address"
-                checked={this.state.displayNewAddressEntry}
+                checked={showNewAddressEntry}
                 onToggle={(e) => this.toggleDisplayNewAddressEntry(e)} />
         </div>;
-
-        const showNewAddressEntry = this.showNewAddressEntry();
 
         const showAddressList = this.props.customer.hasOwnProperty('id')
             && this.props.customer.hasOwnProperty('addresses')
@@ -87,7 +85,7 @@ class ShippingAddress extends Component {
                 {showAddressList && addressList}
 
                 {showNewAddressEntry && <Address addressLabel="Delivery address" address={this.props.shippingAddress}
-                         allowAddressSave={this.state.displayNewAddressEntry && this.props.customer.hasOwnProperty('id')}
+                         allowAddressSave={this.props.customer.hasOwnProperty('id')}
                          handleAddressChange={(e) => this.handleAddressChange(e)}
                          handleAddressSubmit={(e) => this.onShippingAddressContinue(e)} />}
             </div>

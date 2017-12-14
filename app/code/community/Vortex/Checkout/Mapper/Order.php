@@ -185,24 +185,26 @@ class Vortex_Checkout_Mapper_Order
         $response['shipping'] = $this->formatPrice($order->getShippingAmount());
         $response['shipping_with_symbol'] = $this->formatPriceWithSymbol($order->getShippingAmount());
         $response['discount_code'] = $order->getCouponCode();
-        $response['discount_total'] = $this->formatPrice(-$order->getShippingAddress()->getDiscountAmount());
-        $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol(-$order->getShippingAddress()->getDiscountAmount());
         $response['discounts'] = $this->mapDiscounts($order);
         $response['total'] = $this->formatPrice($order->getGrandTotal());
         $response['total_with_symbol'] = $this->formatPriceWithSymbol($order->getGrandTotal());
         $response['item_count'] = $order->getTotalItemCount() ?: 0;
 
-        if ($order->getShippingAddress()->getId()) {
+        if ($order->getShippingAddress() && $order->getShippingAddress()->getId()) {
+            $response['discount_total'] = $this->formatPrice(-$order->getShippingAddress()->getDiscountAmount());
+            $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol(-$order->getShippingAddress()->getDiscountAmount());
             $response['shipping_method'] = $order->getShippingDescription();
             $response['available_shipping_methods'] = $this->mapAvailableShippingMethods($order);
             $response['shipping_address'] = $this->basketAddressMapper->map($order->getShippingAddress());
         } else {
+            $response['discount_total'] = 0;
+            $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol($response['discount_total']);
             $response['shipping_address'] = new stdClass;
             $response['available_shipping_methods'] = [];
             $response['shipping_method'] = '';
         }
 
-        if ($order->getBillingAddress()->getId()) {
+        if ($order->getBillingAddress() && $order->getBillingAddress()->getId()) {
             $response['billing_address'] = $this->basketAddressMapper->map($order->getBillingAddress());
         } else {
             $response['billing_address'] = new stdClass;

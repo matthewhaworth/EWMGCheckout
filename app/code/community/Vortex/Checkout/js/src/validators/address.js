@@ -34,25 +34,8 @@ export const validators = {
     city: [
         { message: 'City is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) }
     ],
-/*  This has been disabled as it is not required by account section sign up
-    county: [
-        {
-            message: 'County is required',
-            predicate: (value, address) => {
-                if (address.region_id !== null && address.region_id !== '') return true;
-                return typeof value === 'string' && !isEmpty(value)
-            }
-        }
-    ],*/
-    region_id: [
-        {
-            message: 'State is required',
-            predicate: (value, address) => {
-                if (address.county !== null && address.county !== '') return true;
-                return typeof value === 'string' && !isEmpty(value)
-            }
-        }
-    ],
+    county: [],
+    region_id: [],
     postcode: [
         { message: 'Postcode is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) },
         {

@@ -53,6 +53,7 @@ export default class AddressEdit extends Component {
                         <SingleInput inputType={'text'}
                                      title={'First name'}
                                      name={'first_name'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.first_name}
                                      value={address.first_name || ''}
@@ -61,6 +62,7 @@ export default class AddressEdit extends Component {
                         <SingleInput inputType={'text'}
                                      title={'Last name'}
                                      name={'last_name'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.last_name}
                                      value={address.last_name || ''}
@@ -69,6 +71,7 @@ export default class AddressEdit extends Component {
                         <SingleInput inputType={'text'}
                                      title={'Phone'}
                                      name={'phone'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.phone}
                                      value={address.phone || ''}
@@ -77,6 +80,7 @@ export default class AddressEdit extends Component {
                         <SingleInput inputType={'text'}
                                      title={'Line 1'}
                                      name={'line1'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.line1}
                                      value={address.line1 || ''}
@@ -84,6 +88,7 @@ export default class AddressEdit extends Component {
 
                         <SingleInput inputType={'text'}
                                      name={'line2'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.line2}
                                      value={address.line2 || ''}
@@ -93,6 +98,7 @@ export default class AddressEdit extends Component {
                         <SingleInput inputType={'text'}
                                      title={'City'}
                                      name={'city'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.city}
                                      value={address.city || ''}
@@ -101,6 +107,7 @@ export default class AddressEdit extends Component {
                         <SingleInput inputType={'text'}
                                      title={'County'}
                                      name={'county'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.county}
                                      value={address.county || ''}
@@ -108,6 +115,7 @@ export default class AddressEdit extends Component {
 
                         <Dropdown title={'Country'}
                                   name="country"
+                                  forceValidate
                                   onChange={(e) => this.onAddressChange(e)}
                                   errors={errors.country}
                                   options={config.countryList}
@@ -118,6 +126,7 @@ export default class AddressEdit extends Component {
                         <SingleInput inputType={'text'}
                                      title={'Post Code'}
                                      name={'postcode'}
+                                     forceValidate
                                      onChange={(e) => this.onAddressChange(e)}
                                      errors={errors.postcode}
                                      value={address.postcode || ''}

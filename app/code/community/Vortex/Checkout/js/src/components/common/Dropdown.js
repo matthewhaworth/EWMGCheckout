@@ -7,15 +7,18 @@ class Dropdown extends Component {
     constructor(props, context) {
         super(props, context);
 
+        this.state = {isPristine: true};
         this.onChange = this.onChange.bind(this);
     }
 
     onChange(event) {
+        this.setState({ isPristine: false });
         this.props.onChange(event);
     }
 
     render() {
         const {name, title, placeholder, options, errors, isDisabled} = this.props;
+        const shouldValidate = !this.state.isPristine || this.props.forceValidate;
         const isValid = typeof errors === 'undefined' || errors.length === 0;
         const errorsList = (!isValid) ? errors.map((message, index) => <li key={index}>{message}</li>) : '';
         const optionsList = (typeof options !== 'undefined')
@@ -31,8 +34,8 @@ class Dropdown extends Component {
         let inputClassNames = 'form__control ';
 
         inputClassNames += classNames({
-            'form__control--validated': isValid,
-            'form__control--error': !isValid,
+            'form__control--validated': shouldValidate && isValid,
+            'form__control--error': shouldValidate && !isValid,
             'form__control--disabled': isDisabled,
         });
 

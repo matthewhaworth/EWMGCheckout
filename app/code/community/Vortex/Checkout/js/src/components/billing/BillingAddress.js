@@ -28,7 +28,7 @@ class BillingAddress extends Component {
         const basket = this.props.basket;
         // if the user hasn't specified, determine the best action
         return !addressValidator.validate(basket.billing_address)._all || !basket.use_shipping_for_billing ||
-            basket.is_click_and_collect;
+            basket.is_click_and_collect || basket.is_virtual;
     }
 
     shouldShowNewAddressEntry() {
@@ -49,6 +49,7 @@ class BillingAddress extends Component {
     }
 
     onToggleDifferentBillingAddress() {
+        // Toggle force show choose billing address
         const forceShowChooseBillingAddress = !this.state.forceShowChooseBillingAddress;
 
         if (!forceShowChooseBillingAddress) {
@@ -77,11 +78,13 @@ class BillingAddress extends Component {
     handleAddressChange(address, submitToServer = false) {
         const {customer, saveAddress} = this.props;
 
-        return saveAddress(customer, address, ADDRESS_TYPE_BILLING, submitToServer);
+        return saveAddress(customer, address, ADDRESS_TYPE_BILLING, submitToServer).catch(err => {
+            this.setState({loading: false});
+        });
     }
 
     handleSavedAddressChoice(address) {
-        this.setState({displayNewAddressEntry: false, loading: true});
+        this.setState({forceShowNewAddressEntry: false, loading: true});
         return this.handleAddressChange(address, true).then(() => {
             this.setState({loading: false});
         });
@@ -92,10 +95,10 @@ class BillingAddress extends Component {
 
         if (isChecked) {
             this.handleAddressChange({...this.props.shippingAddress, customer_address_id: null}).then(() => {
-                this.setState({ displayNewAddressEntry: true});
+                this.setState({ forceShowNewAddressEntry: true});
             });
         } else {
-            this.setState({ displayNewAddressEntry: false });
+            this.setState({ forceShowNewAddressEntry: false });
         }
     }
 
@@ -120,7 +123,7 @@ class BillingAddress extends Component {
             <Checkbox
                 label="Use new address"
                 name="new_customer_billing_address"
-                checked={this.state.displayNewAddressEntry}
+                checked={showNewAddressEntry}
                 onToggle={(e) => this.toggleDisplayNewAddressEntry(e)} />
         </div>;
 
@@ -136,7 +139,7 @@ class BillingAddress extends Component {
                     </fieldset>
                 </form>}
 
-                {!basket.is_click_and_collect && <div className="form__control full">
+                {!basket.is_click_and_collect && !basket.is_virtual && <div className="form__control full">
                     <div className="form__checkbox">
                         <label className="form__label">
                             <input type="checkbox"
