@@ -100,7 +100,6 @@ class Checkout extends Component {
         } else {
             const nextSection = this.props.basket.is_virtual ? STATE_PAYMENT : STATE_DELIVERY;
             this.props.changeCheckoutSection(nextSection);
-            this.scrollToView();
         }
     }
 
