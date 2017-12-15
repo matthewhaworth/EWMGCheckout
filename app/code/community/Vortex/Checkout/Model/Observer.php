@@ -1,6 +1,4 @@
 <?php
-//require('app/code/community/Vortex/Checkout/controllers/IndexController.php');
-
 class Vortex_Checkout_Model_Observer
 {
     const IS_NEW_CHECKOUT = 'is_new_checkout';
@@ -93,6 +91,28 @@ class Vortex_Checkout_Model_Observer
     private function getCheckoutSession()
     {
         return Mage::getSingleton('checkout/session');
+    }
+
+    /**
+     * Most Magento checkouts have specific calls to action to force a re-select an re-save a customer address
+     * against the quote. This checkout does not. As a result, if you edit your customer address whilst a quote
+     * exists, the quote address, even if associated with a customer address, will not be updated.
+     *
+     * This method updates the quote address on customer address save.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function updateQuoteAddressOnCustomerAddressSave(Varien_Event_Observer $observer)
+    {
+        $customerAddress = $observer->getEvent()->getCustomerAddress();
+        $quoteAddresses = $this->getCheckoutSession()->getQuote()->getAddressesCollection();
+
+        foreach ($quoteAddresses as $quoteAddress) {
+            /** @var $quoteAddress Mage_Sales_Model_Quote_Address */
+            if ($quoteAddress->getCustomerAddressId() === $customerAddress->getId()) {
+                $quoteAddress->importCustomerAddress($customerAddress)->save();
+            }
+        }
     }
 
 //    public function disableCartMergeOnLogin(Varien_Event_Observer $observer)
