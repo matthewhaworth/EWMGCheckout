@@ -94,6 +94,7 @@ class Vortex_Checkout_Mapper_Basket_Items
             $itemData['subtotal_price'] = $this->coreHelper->formatCurrency($quoteItem->getRowTotalInclTax(), false);
             $itemData['qty'] = (int) $quoteItem->getQty();
             $itemData['image'] = $this->getProductImage($quoteItem);
+            $itemData['sku'] = $quoteItem->getSku();
 
             if ($quoteItem->getProduct()->getTypeId() === Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
                 $itemData = $this->addConfiguredOptions($quoteItem, $itemData);
