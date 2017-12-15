@@ -26,7 +26,8 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
                 ['request' => $request, 'quote'   => $this->getBasket()]
             );
 
-            $this->getBasket()->collectTotals()->save();
+            // Fix to force Magento to load in the new shipping method amount to the shipping address
+            $this->getBasket()->getShippingAddress()->setCollectShippingRates(true)->collectTotals()->save();
         } catch (Exception $e) {
             throw new Vortex_Api_Exception_BadRequest($e->getMessage(), 500);
         }
@@ -75,7 +76,7 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
      */
     protected function getBasket()
     {
-        return Mage::getSingleton('checkout/cart')->getQuote();
+        return $this->getOnepageSingleton()->getQuote();
     }
 
     /**
