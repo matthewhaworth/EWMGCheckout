@@ -35,6 +35,7 @@ export default class ListItems extends Component {
                             <img src={item.image} alt={item.name} />
                         </div>
                         <div className="checkout-basket__item-info">
+                            {item.outofstock && <span className="checkout-basket__item-stock checkout-basket__item-stock--outofstock">Out of stock</span>}
                             <div className="checkout-basket__item-title">
                                 <a href={item.product_url}>{item.name}</a>
                             </div>
