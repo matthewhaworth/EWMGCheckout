@@ -60,6 +60,9 @@ export default class ListItems extends Component {
                             </div>
                             <ul className="checkout-basket__item-attributes">
                                 {item.configured_options && item.configured_options.length > 0 && this.renderConfiguredOptions(item)}
+                                {item.sku && <li className="checkout-basket__item-attribute">
+                                    <span className="checkout-basket__item-attribute-label">Ref: {item.sku}</span>
+                                </li>}
                             </ul>
                             {this.props.onQuantityChange && <div className="checkout-basket__qty">
                                 <form className="form form--qty">
