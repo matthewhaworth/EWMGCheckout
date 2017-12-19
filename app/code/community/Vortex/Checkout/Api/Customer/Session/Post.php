@@ -21,7 +21,7 @@ class Vortex_Checkout_Api_Customer_Session_Post implements Vortex_Api_EndpointIn
     public function execute($body, Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
         if (!array_key_exists('email', $body) || !array_key_exists('password', $body)) {
-            throw new Vortex_Api_Exception_BadRequest('You must provide a customer email and password.', 403);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('You must provide a customer email and password.'), 403);
         }
 
         if ($this->getCustomerService()->authenticate($body['email'], $body['password'])) {
@@ -37,7 +37,7 @@ class Vortex_Checkout_Api_Customer_Session_Post implements Vortex_Api_EndpointIn
 
             return $this->getCustomerMapper()->map($customer, $this->getCustomerSession()->isLoggedIn());
         } else {
-            throw new Vortex_Api_Exception_BadRequest('Not authenticated.', 403);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Sorry, your email address and password combination doesn\'t match our records. Please check what you\'ve entered and try again.'), 403);
         }
     }
 
@@ -93,5 +93,14 @@ class Vortex_Checkout_Api_Customer_Session_Post implements Vortex_Api_EndpointIn
         return new Vortex_Checkout_Service_Basket_Address(
             Mage::getSingleton('checkout/type_onepage')
         );
+    }
+
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

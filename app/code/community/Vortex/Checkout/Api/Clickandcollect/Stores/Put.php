@@ -13,7 +13,7 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Put implements Vortex_Api_Endpo
     {
         $storeId = $body['store_id'] ?: false;
         if (!$storeId) {
-            throw new Vortex_Api_Exception_BadRequest('store_id is required', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('store_id is required'), 400);
         }
 
         $storeCollection = Mage::getModel('microsmultichannel_storelocator/lookup_service')->getStores(
@@ -109,5 +109,13 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Put implements Vortex_Api_Endpo
     protected function getOnepageSingleton()
     {
         return Mage::getSingleton('checkout/type_onepage');
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

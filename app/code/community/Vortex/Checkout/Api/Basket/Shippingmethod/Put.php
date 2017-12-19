@@ -11,7 +11,7 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
     public function execute($body, Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
         if (!array_key_exists('shipping_method', $body)) {
-            throw new Vortex_Api_Exception_BadRequest('shipping_method is required', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('shipping_method is required'), 400);
         }
 
         try {
@@ -101,5 +101,14 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
     protected function getConfigurationHelper()
     {
         return Mage::helper('catalog/product_configuration');
+    }
+
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

@@ -27,7 +27,7 @@ class Vortex_Checkout_Api_Basket_Put implements Vortex_Api_EndpointInterface
                 }
 
                 if ($product['qty'] > $itemToCheck->getProduct()->getStockItem()->getQty()) {
-                    throw new Vortex_Api_Exception_BadRequest('Insufficient quantity', 400);
+                    throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Insufficient quantity'), 400);
                 }
 
                 $item->setQty($product['qty']);
@@ -117,5 +117,13 @@ class Vortex_Checkout_Api_Basket_Put implements Vortex_Api_EndpointInterface
     protected function getConfigurationHelper()
     {
         return Mage::helper('catalog/product_configuration');
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

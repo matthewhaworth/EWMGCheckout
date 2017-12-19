@@ -11,7 +11,7 @@ class Vortex_Checkout_Api_Customer_Post implements Vortex_Api_EndpointInterface
     public function execute($body, Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
         if (!array_key_exists('password', $body)) {
-            throw new Vortex_Api_Exception_BadRequest('Password is required.', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Password is required.'), 400);
         }
 
         $customer = Mage::getModel('customer/customer')
@@ -19,7 +19,7 @@ class Vortex_Checkout_Api_Customer_Post implements Vortex_Api_EndpointInterface
             ->loadByEmail($this->getBasket()->getCustomerEmail());
         /* @var $customer Mage_Customer_Model_Customer */
         if ($customer && $customer->getId() > 0) {
-            throw new Vortex_Api_Exception_BadRequest('A customer with this email already exists.', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('A customer with this email already exists.'), 400);
         }
 
         try {
@@ -77,5 +77,13 @@ class Vortex_Checkout_Api_Customer_Post implements Vortex_Api_EndpointInterface
     protected function getCustomerMapper()
     {
         return new Vortex_Checkout_Mapper_Customer();
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

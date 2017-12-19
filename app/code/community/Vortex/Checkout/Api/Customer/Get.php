@@ -21,7 +21,7 @@ class Vortex_Checkout_Api_Customer_Get implements Vortex_Api_EndpointInterface
     public function execute($body, Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
         if (!$this->getCustomerSession()->isLoggedIn() && !$request->has('email')) {
-            throw new Vortex_Api_Exception_BadRequest('You must provide a customer email.', 403);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('You must provide a customer email.'), 403);
         }
 
         // Assume guest unless changed later by logging in
@@ -51,7 +51,7 @@ class Vortex_Checkout_Api_Customer_Get implements Vortex_Api_EndpointInterface
 
             return $this->getCustomerMapper()->map($customer, $this->getCustomerSession()->isLoggedIn());
         } else {
-            throw new Vortex_Api_Exception_BadRequest('Customer does not exist', 404);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Customer does not exist'), 404);
         }
     }
 
@@ -107,5 +107,13 @@ class Vortex_Checkout_Api_Customer_Get implements Vortex_Api_EndpointInterface
         return new Vortex_Checkout_Service_Basket_Address(
             Mage::getSingleton('checkout/type_onepage')
         );
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

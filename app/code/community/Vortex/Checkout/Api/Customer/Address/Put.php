@@ -21,23 +21,23 @@ class Vortex_Checkout_Api_Customer_Address_Put implements Vortex_Api_EndpointInt
     public function execute($body, Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
         if (!array_key_exists('customer_address_id', $body)) {
-            throw new Vortex_Api_Exception_BadRequest('Address must have an id', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Address must have an id'), 400);
         }
 
         if (!$this->getCustomerSession()->isLoggedIn()) {
-            throw new Vortex_Api_Exception_BadRequest('Customer must be logged in to change address', 403);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Customer must be logged in to change address'), 403);
         }
 
         $customerAddressId = $body['customer_address_id'];
         $customer = $this->getCustomerSession()->getCustomer();
         if (!$this->getCustomerService()->doesAddressBelongToCustomer($customerAddressId, $customer)) {
-            throw new Vortex_Api_Exception_BadRequest('Address does not belong to logged in customer', 403);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Address does not belong to logged in customer'), 403);
         }
 
         try {
             $this->getCustomerService()->saveCustomerAddress($customer, $customerAddressId, $body);
         } catch (Exception $e) {
-            throw new Vortex_Api_Exception_BadRequest('Unable to save address', 500);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Unable to save address'), 500);
         }
 
         return $this->getCustomerMapper()->map($customer, true);
@@ -77,5 +77,13 @@ class Vortex_Checkout_Api_Customer_Address_Put implements Vortex_Api_EndpointInt
         }
 
         return $this->customerMapper;
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

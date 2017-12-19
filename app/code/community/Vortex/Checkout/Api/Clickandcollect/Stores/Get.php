@@ -14,11 +14,11 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Get implements Vortex_Api_Endpo
         $latitude = $request->getParam('lat', false);
 
         if (!$longitude || !$latitude) {
-            throw new Vortex_Api_Exception_BadRequest('Sorry, we were not able to find that post code.', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Sorry, we were not able to find that post code.'), 400);
         }
 
         if (!$longitude === 'notfound' || $latitude === 'notfound') {
-            throw new Vortex_Api_Exception_BadRequest('Unable to find stores in that area', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Unable to find stores in that area'), 400);
         }
 
         $location = json_encode(['lat' => $latitude, 'lng' => $longitude]);
@@ -32,7 +32,7 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Get implements Vortex_Api_Endpo
             );
         } catch (Exception $e) {
             Mage::logException($e);
-            throw new Vortex_Api_Exception_BadRequest('Could not find stores in that area.', 500);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Could not find stores in that area.'), 500);
         }
 
         $stores = [];
@@ -68,5 +68,13 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Get implements Vortex_Api_Endpo
     private function getLookupService()
     {
         return Mage::getModel('microsmultichannel_storelocator/lookup_service');
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }
