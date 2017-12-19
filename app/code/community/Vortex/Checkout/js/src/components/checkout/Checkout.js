@@ -6,7 +6,7 @@ import Header from "../header/Header";
 import ShippingContainer from "../../containers/ShippingContainer";
 import PaymentContainer from "../../containers/PaymentContainer";
 import LoginContainer from "../../containers/LoginContainer";
-import {STATE_DELIVERY, STATE_EMAIL, STATE_PAYMENT} from "../../store/checkoutSteps";
+import {STATE_DELIVERY, STATE_EMAIL, STATE_PAYMENT, STATE_BASKET} from "../../store/checkoutSteps";
 import GlobalErrors from '../common/GlobalErrors';
 import DataLayer from "../common/DataLayer";
 import * as checkoutSteps from '../../store/checkoutSteps';
@@ -113,6 +113,23 @@ class Checkout extends Component {
         this.scrollToViewPayment();
     }
 
+    onStepsClick(step, active) {
+        if(active){
+            this.props.changeCheckoutSection(step);
+            switch (step){
+                case 'STATE_BASKET':
+                    this.scrollToViewBasket();
+                    break;
+                case 'STATE_DELIVERY':
+                    this.scrollToView();
+                    break;
+                case 'STATE_PAYMENT':
+                    this.scrollToViewPayment();
+                    break;
+            }
+        }
+    }
+
     renderCheckout() {
         const {checkout, basket} = this.props;
 
@@ -124,7 +141,8 @@ class Checkout extends Component {
                         shippingCost={basket.shipping}
                         shippingCostWithSymbol={basket.shipping_with_symbol}
                         basketTotalWithSymbol={basket.subtotal_incl_discount_currency}
-                        grandTotalWithSymbol={basket.total_with_symbol} />
+                        grandTotalWithSymbol={basket.total_with_symbol}
+                        onClick={(step, complete) => this.onStepsClick(step, complete)}/>
 
                 <GlobalErrors />
 
