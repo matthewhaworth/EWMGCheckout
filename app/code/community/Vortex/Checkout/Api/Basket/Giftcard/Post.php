@@ -13,7 +13,7 @@ class Vortex_Checkout_Api_Basket_Giftcard_Post implements Vortex_Api_EndpointInt
     public function execute($body, Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
     {
         if (!isset($body['giftcard_code']) || !isset($body['giftcard_pin'])) {
-            throw new Vortex_Api_Exception_BadRequest('Giftcard code and pin are required', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Giftcard code and pin are required'), 400);
         }
 
         $this->handleObservers($body, $request, $response);
@@ -21,16 +21,16 @@ class Vortex_Checkout_Api_Basket_Giftcard_Post implements Vortex_Api_EndpointInt
         $code = $body['giftcard_code'];
         try {
             if (strlen($code) > Enterprise_GiftCardAccount_Helper_Data::GIFT_CARD_CODE_MAX_LENGTH) {
-                throw new Vortex_Api_Exception_BadRequest('Invalid code', 400);
+                throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Invalid code'), 400);
             }
             Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
                 ->loadByCode($code)
                 ->addToCart();
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
-            throw new Vortex_Api_Exception_BadRequest('Invalid card', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Invalid card'), 400);
         } catch (Exception $e) {
-            throw new Vortex_Api_Exception_BadRequest('Cannot apply gift card', 500);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Cannot apply gift card'), 500);
         }
 
         $basketMapper = new Vortex_Checkout_Mapper_Basket(
@@ -87,6 +87,14 @@ class Vortex_Checkout_Api_Basket_Giftcard_Post implements Vortex_Api_EndpointInt
     protected function getConfigurationHelper()
     {
         return Mage::helper('catalog/product_configuration');
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 
     /**

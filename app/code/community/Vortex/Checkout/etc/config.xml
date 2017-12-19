@@ -94,7 +94,15 @@
                 </args>
             </checkout>
         </routers>
-
+        <translate>
+            <modules>
+                <vortex_checkout>
+                    <files>
+                        <default>Vortex_Checkout.csv</default>
+                    </files>
+                </vortex_checkout>
+            </modules>
+        </translate>
         <layout>
             <updates>
                 <vortex_checkout>

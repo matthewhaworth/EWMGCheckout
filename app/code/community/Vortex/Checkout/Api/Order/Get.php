@@ -12,12 +12,12 @@ class Vortex_Checkout_Api_Order_Get implements Vortex_Api_EndpointInterface
     {
         $incrementId = $request->getParam('increment_id', false);
         if (!$incrementId) {
-            throw new Vortex_Api_Exception_BadRequest('Increment id required.', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Increment id required.'), 400);
         }
 
         $lastOrder = $this->getCheckoutSession()->getLastRealOrder();
         if (!$lastOrder || !$lastOrder->getId() || $incrementId !== $this->getCheckoutSession()->getLastRealOrder()->getIncrementId()) {
-            throw new Vortex_Api_Exception_BadRequest('You are not authorised to view this order.', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('You are not authorised to view this order.'), 400);
         }
 
         $orderMapper = new Vortex_Checkout_Mapper_Order(
@@ -71,5 +71,13 @@ class Vortex_Checkout_Api_Order_Get implements Vortex_Api_EndpointInterface
     protected function getConfigurationHelper()
     {
         return Mage::helper('catalog/product_configuration');
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

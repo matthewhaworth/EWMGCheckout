@@ -41,7 +41,7 @@ class Vortex_Checkout_Api_Order_Post implements Vortex_Api_EndpointInterface
                 'order' => $this->getOrderMapper()->map($order)
             ];
         } else {
-            throw new Vortex_Api_Exception_BadRequest('Could not place order', 500);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Could not place order'), 500);
         }
     }
 
@@ -104,5 +104,13 @@ class Vortex_Checkout_Api_Order_Post implements Vortex_Api_EndpointInterface
     protected function getConfigurationHelper()
     {
         return Mage::helper('catalog/product_configuration');
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }

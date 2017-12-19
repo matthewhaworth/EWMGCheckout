@@ -14,7 +14,7 @@ class Vortex_Checkout_Api_Cms_Get implements Vortex_Api_EndpointInterface
     {
         $layoutHandle = $request->getParam('layout_handle', false);
         if (!$layoutHandle) {
-            throw new Vortex_Api_Exception_BadRequest('Could not load CMS content', 400);
+            throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Could not load CMS content'), 400);
         }
 
         try {
@@ -41,5 +41,13 @@ class Vortex_Checkout_Api_Cms_Get implements Vortex_Api_EndpointInterface
     protected function getLayout()
     {
         return Mage::app()->getLayout();
+    }
+
+    /**
+     * @return Vortex_Checkout_Helper_Data
+     */
+    protected function getHelper()
+    {
+        return Mage::helper('vortex_checkout');
     }
 }
