@@ -113,8 +113,8 @@ class Checkout extends Component {
         this.scrollToViewPayment();
     }
 
-    onStepsClick(step, active) {
-        if(active){
+    onStepsClick(step, clickable) {
+        if(clickable){
             this.props.changeCheckoutSection(step);
             switch (step){
                 case 'STATE_BASKET':
