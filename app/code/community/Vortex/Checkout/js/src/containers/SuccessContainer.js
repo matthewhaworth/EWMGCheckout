@@ -188,31 +188,35 @@ class SuccessContainer extends Component {
                                         <div className="checkout-success__box checkout-success__box--secondary">
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Billing address</div>
-                                                <p>{order.billing_address.first_name || ''} {order.billing_address.last_name || ''}<br/>
-                                                    {order.billing_address.company || ''}<br/>
-                                                    {order.billing_address.line1 || ''}<br/>
-                                                    {order.billing_address.line2 || ''}<br/>
-                                                    {order.billing_address.city || ''}<br/>
-                                                    {order.billing_address.postcode || ''}<br />
-                                                    {order.billing_address.phone || ''}</p>
+                                                <p>{order.billing_address.first_name && <span>{order.billing_address.first_name}&nbsp;</span>}
+                                                    {order.billing_address.last_name && <span>{order.billing_address.last_name}</span>}
+                                                    {order.billing_address.company && <span><br/>{order.billing_address.company}</span>}
+                                                    {order.billing_address.line1 && <span><br/>{order.billing_address.line1}</span>}
+                                                    {order.billing_address.line2 && <span><br/>{order.billing_address.line2}</span>}
+                                                    {order.billing_address.city && <span><br/>{order.billing_address.city}</span>}
+                                                    {order.billing_address.postcode && <span>,&nbsp;{order.billing_address.postcode}</span>}
+                                                    {order.billing_address.phone && <span><br/>{order.billing_address.phone}</span>}
+                                                    </p>
                                             </div>
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Shipping address</div>
-                                                <p>{order.shipping_address.first_name || ''} {order.shipping_address.last_name || ''}<br/>
-                                                    {order.shipping_address.company || ''}<br/>
-                                                    {order.shipping_address.line1 || ''}<br/>
-                                                    {order.shipping_address.line2 || ''}<br/>
-                                                    {order.shipping_address.city || ''}<br/>
-                                                    {order.shipping_address.postcode || ''}<br />
-                                                    {order.shipping_address.phone || ''}</p>
+                                                <p>{order.shipping_address.first_name && <span>{order.shipping_address.first_name}&nbsp;</span>}
+                                                    {order.shipping_address.last_name && <span>{order.shipping_address.last_name}</span>}
+                                                    {order.shipping_address.company && <span><br/>{order.shipping_address.company}</span>}
+                                                    {order.shipping_address.line1 && <span><br/>{order.shipping_address.line1}</span>}
+                                                    {order.shipping_address.line2 && <span><br/>{order.shipping_address.line2}</span>}
+                                                    {order.shipping_address.city && <span><br/>{order.shipping_address.city}</span>}
+                                                    {order.shipping_address.postcode && <span>,&nbsp;{order.shipping_address.postcode}</span>}
+                                                    {order.shipping_address.phone && <span><br/>{order.shipping_address.phone}</span>}
+                                                    </p>
                                             </div>
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Payment method</div>
-                                                <p>{order.payment_method || ''}</p>
+                                                {order.payment_method && <p>{order.payment_method}</p>}
                                             </div>
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Delivery information</div>
-                                                <p>{order.shipping_method || ''}</p>
+                                                {order.shipping_method && <p>{order.shipping_method}</p>}
                                             </div>
                                         </div>
                                     </div>
