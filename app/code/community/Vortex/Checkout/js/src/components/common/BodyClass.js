@@ -7,7 +7,7 @@ export default class BodyClass extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.stepClassMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_BASKET)] = '';
+        this.stepClassMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_BASKET)] = 'checkout--step-basket';
         this.stepClassMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_EMAIL)] = 'checkout--step-delivery';
         this.stepClassMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_PASSWORD)] = 'checkout--step-delivery';
         this.stepClassMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_DELIVERY)] = 'checkout--step-delivery';
