@@ -26,11 +26,21 @@ class Vortex_Checkout_Api_Basket_Put implements Vortex_Api_EndpointInterface
                     $itemToCheck = $item;
                 }
 
-                if ($product['qty'] > $itemToCheck->getProduct()->getStockItem()->getQty()) {
-                    throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Insufficient quantity'), 400);
+                $newQuantity = $product['qty'];
+                $itemToCheckStockItem = $itemToCheck->getProduct()->getStockItem();
+
+                if ($newQuantity > $itemToCheckStockItem->getQty()) {
+                    // They're requesting more, inform them that there is insufficient quantity
+                    if ($newQuantity > $item->getQty()) {
+                        throw new Vortex_Api_Exception_BadRequest($this->getHelper()->__('Insufficient quantity'), 400);
+                    }
+
+                    if ($newQuantity <= $item->getQty()) {
+                        $newQuantity = $itemToCheckStockItem->getQty();
+                    }
                 }
 
-                $item->setQty($product['qty']);
+                $item->setQty($newQuantity);
             }
         }
 

@@ -15,6 +15,11 @@ class SingleInput extends React.Component {
         this.props.onChange(event);
     }
 
+    onBlur(event) {
+        this.props.onChange(event);
+        this.setState({wasBlurred: true})
+    }
+
     renderInput() {
         const {name, inputType, placeholder, value, isDisabled, autocomplete, pattern} = this.props;
 
@@ -28,7 +33,7 @@ class SingleInput extends React.Component {
             ref: this.props.obtainRef || (() => {}),
             disabled: isDisabled,
             pattern: pattern,
-            onBlur: () => this.setState({wasBlurred: true})
+            onBlur: (e) => this.onBlur(e)
         };
 
         if (this.props.inputMask) {
