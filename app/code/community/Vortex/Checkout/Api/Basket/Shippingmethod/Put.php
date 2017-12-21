@@ -15,8 +15,8 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
         }
 
         try {
-            // Collect totals to determine available shipping methods
-            $this->getBasket()->collectTotals()->save();
+            // Collect shipping rates (this would typically be done in a previous request in Magento's vanilla checkout)
+            $this->getBasket()->getShippingAddress()->setCollectShippingRates(true)->collectShippingRates();
 
             $saveShippingMethodResponse = $this->getOnepageSingleton()->saveShippingMethod($body['shipping_method']);
 
@@ -27,7 +27,7 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
             );
 
             // Fix to force Magento to load in the new shipping method amount to the shipping address
-            $this->getBasket()->getShippingAddress()->setCollectShippingRates(true)->collectTotals()->save();
+            $this->getBasket()->collectTotals()->save();
         } catch (Exception $e) {
             throw new Vortex_Api_Exception_BadRequest($e->getMessage(), 500);
         }
@@ -59,9 +59,19 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
                 $this->getConfigurationHelper()
             ),
             new Vortex_Checkout_Mapper_Basket_Address(),
-            $this->getCoreHelper()
+            $this->getCoreHelper(),
+            $this->getCheckoutSession()
         );
     }
+
+    /**
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function getCheckoutSession()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+
 
     /**
      * @return Mage_Checkout_Model_Cart

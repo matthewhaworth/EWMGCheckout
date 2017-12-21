@@ -17,20 +17,27 @@ class Vortex_Checkout_Mapper_Basket
     protected $coreHelper;
 
     /**
+     * @var Mage_Checkout_Model_Session
+     */
+    protected $checkoutSession;
+
+    /**
      * Vortex_Checkout_Mapper_Basket constructor.
      * @param Vortex_Checkout_Mapper_Basket_Items $basketItemsMapper
      * @param Vortex_Checkout_Mapper_Basket_Address $basketAddressMapper
      * @param Mage_Core_Helper_Data $coreHelper
+     * @param Mage_Checkout_Model_Session $checkoutSession
      */
     public function __construct(
         Vortex_Checkout_Mapper_Basket_Items $basketItemsMapper,
         Vortex_Checkout_Mapper_Basket_Address $basketAddressMapper,
-        Mage_Core_Helper_Data $coreHelper
+        Mage_Core_Helper_Data $coreHelper,
+        Mage_Checkout_Model_Session $checkoutSession
     ) {
         $this->basketItemsMapper = $basketItemsMapper;
         $this->basketAddressMapper = $basketAddressMapper;
         $this->coreHelper = $coreHelper;
-
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -49,6 +56,28 @@ class Vortex_Checkout_Mapper_Basket
     private function formatPriceWithSymbol($price)
     {
         return $this->coreHelper->formatCurrency($price, false);
+    }
+
+    /**
+     * Map messages that are placed into the session by third parties i.e. observers, paypal, etc.
+     * We won't propagate success messages, as success is virtually always dealt with explicitly by this checkout.
+     *
+     * @return array
+     */
+    private function mapSessionMessages()
+    {
+        $errors = [];
+
+        foreach ($this->checkoutSession->getMessages(true)->getItems() as $message) {
+            /** @var $message Mage_Core_Model_Message_Abstract */
+
+            // Don't propagate success messages, the checkout will handle anything that needs confirming
+            if ($message->getType() !== Mage_Core_Model_Message::SUCCESS) {
+                $errors[] = $message->getText();
+            }
+        }
+
+        return $errors;
     }
 
     /**
@@ -224,6 +253,9 @@ class Vortex_Checkout_Mapper_Basket
         }
 
         $response['items'] = $this->basketItemsMapper->map($quote);
+
+        // Irrelevant to basket really, included out of necessity of reducing requests
+        $response['errors'] = $this->mapSessionMessages();
 
         return $response;
     }

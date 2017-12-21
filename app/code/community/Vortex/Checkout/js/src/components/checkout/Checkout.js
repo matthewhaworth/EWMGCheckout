@@ -10,7 +10,6 @@ import {STATE_DELIVERY, STATE_EMAIL, STATE_PAYMENT} from "../../store/checkoutSt
 import GlobalErrors from '../common/GlobalErrors';
 import DataLayer from "../common/DataLayer";
 import * as checkoutSteps from '../../store/checkoutSteps';
-import * as ReactDOM from 'react-dom';
 
 class Checkout extends Component {
 
@@ -44,10 +43,18 @@ class Checkout extends Component {
     }
 
     scrollToViewBasket() {
+        if (!this.basketContainer) {
+            return;
+        }
+
         this.basketContainer.getWrappedInstance().scrollToView();
     }
 
     scrollToViewPayment() {
+        if (!this.paymentContainer) {
+            return;
+        }
+
         this.paymentContainer.getWrappedInstance().scrollToView();
     }
 
@@ -56,16 +63,12 @@ class Checkout extends Component {
     //
     // }
 
-    scrollToView() {
-        const node = ReactDOM.findDOMNode(this.refs.STATE_DELIVERY);
-
-        if(node && !this.state.loading){
-            node.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-                inline: 'start'
-            });
+    scrollToViewDelivery() {
+        if (!this.shippingContainer) {
+            return;
         }
+
+        this.shippingContainer.getWrappedInstance().scrollToView();
     }
 
     onBasketContinue() {
@@ -95,7 +98,6 @@ class Checkout extends Component {
 
             Promise.all([fetchBasket, changeCheckoutSection]).then(() => {
                 this.setState({ displayLoginContainer: false });
-                this.scrollToView();
             });
         } else {
             const nextSection = this.props.basket.is_virtual ? STATE_PAYMENT : STATE_DELIVERY;
@@ -105,12 +107,10 @@ class Checkout extends Component {
 
     onShippingContinue() {
         this.props.changeCheckoutSection(STATE_PAYMENT);
-        this.scrollToViewPayment();
     }
 
     onPaymentMethodContinue() {
-        //this.props.changeCheckoutSection(DONE);
-        this.scrollToViewPayment();
+
     }
 
     renderCheckout() {
@@ -136,17 +136,22 @@ class Checkout extends Component {
 
                                 <div className="checkout-layout__column checkout-layout__column--checkout">
 
-                                    {deliveryIsRequired && <div className="checkout-section__before-title checkout-section__before-title--primary" ref={checkoutSteps.STATE_DELIVERY}>
+                                    {deliveryIsRequired && <div className="checkout-section__before-title checkout-section__before-title--primary"
+                                                                ref={checkoutSteps.STATE_DELIVERY}>
                                         <span className="checkout-section__before-count">2</span>Delivery
                                     </div>}
 
-                                    {this.state.displayLoginContainer && <LoginContainer active={checkout.visited.includes(STATE_EMAIL)}
-                                                                                         onContinue={() => this.onLoginContinue()} />}
+                                    {checkout.visited.includes(STATE_EMAIL) && this.state.displayLoginContainer &&
+                                        <LoginContainer active={checkout.visited.includes(STATE_EMAIL)}
+                                                         onContinue={() => this.onLoginContinue()} />}
 
-                                    {deliveryIsRequired && <ShippingContainer active={checkout.visited.includes(STATE_DELIVERY)}
-                                                       onContinue={() => this.onShippingContinue()}/>}
+                                    {checkout.visited.includes(STATE_DELIVERY) && deliveryIsRequired &&
+                                        <ShippingContainer active={checkout.visited.includes(STATE_DELIVERY)}
+                                                       onContinue={() => this.onShippingContinue()}
+                                                       ref={(shipping) => {this.shippingContainer = shipping}}/>}
 
-                                    {!isZeroOrder && <PaymentContainer active={checkout.visited.includes(STATE_PAYMENT)}
+                                    {checkout.visited.includes(STATE_PAYMENT) && !isZeroOrder &&
+                                        <PaymentContainer active={checkout.visited.includes(STATE_PAYMENT)}
                                                       onContinue={() => this.onPaymentMethodContinue()}
                                                       ref={(payment) => {this.paymentContainer = payment}}/>}
                                 </div>
@@ -172,6 +177,19 @@ class Checkout extends Component {
                          customerExists={this.props.customer.existingCustomer}
                          step={this.props.checkout.step} />
         );
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const previousStep = checkoutSteps.steps[prevProps.checkout.step];
+        const currentStep = checkoutSteps.steps[this.props.checkout.step];
+
+        if (currentStep === STATE_DELIVERY && previousStep !== STATE_DELIVERY) {
+            this.scrollToViewDelivery();
+        }
+
+        if (currentStep === STATE_PAYMENT && previousStep !== STATE_PAYMENT) {
+            this.scrollToViewPayment();
+        }
     }
 }
 

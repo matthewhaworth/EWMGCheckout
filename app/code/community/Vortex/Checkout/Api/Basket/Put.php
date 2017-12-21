@@ -75,8 +75,17 @@ class Vortex_Checkout_Api_Basket_Put implements Vortex_Api_EndpointInterface
                 $this->getConfigurationHelper()
             ),
             new Vortex_Checkout_Mapper_Basket_Address(),
-            $this->getCoreHelper()
+            $this->getCoreHelper(),
+            $this->getCheckoutSession()
         );
+    }
+
+    /**
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function getCheckoutSession()
+    {
+        return Mage::getSingleton('checkout/session');
     }
 
     /**

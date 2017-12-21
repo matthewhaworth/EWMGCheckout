@@ -36,13 +36,22 @@ class Vortex_Checkout_Api_Basket_Giftcard_Post implements Vortex_Api_EndpointInt
         $basketMapper = new Vortex_Checkout_Mapper_Basket(
             $this->getBasketItemsMapper(),
             new Vortex_Checkout_Mapper_Basket_Address(),
-            $this->getCoreHelper()
+            $this->getCoreHelper(),
+            $this->getCheckoutSession()
         );
 
 
         // @todo remove the requirement for this to happen
         $this->getBasket()->collectTotals();
         return $basketMapper->map($this->getBasket());
+    }
+
+    /**
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function getCheckoutSession()
+    {
+        return Mage::getSingleton('checkout/session');
     }
 
     /**

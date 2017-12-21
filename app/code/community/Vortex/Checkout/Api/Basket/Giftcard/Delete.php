@@ -28,10 +28,19 @@ class Vortex_Checkout_Api_Basket_Giftcard_Delete implements Vortex_Api_EndpointI
         $basketMapper = new Vortex_Checkout_Mapper_Basket(
             $this->getBasketItemsMapper(),
             new Vortex_Checkout_Mapper_Basket_Address(),
-            $this->getCoreHelper()
+            $this->getCoreHelper(),
+            $this->getCheckoutSession()
         );
 
         return $basketMapper->map($this->getBasket());
+    }
+
+    /**
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function getCheckoutSession()
+    {
+        return Mage::getSingleton('checkout/session');
     }
 
     /**

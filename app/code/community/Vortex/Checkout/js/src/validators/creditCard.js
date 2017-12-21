@@ -34,7 +34,22 @@ export const validators = {
     ],
     cvc: [
         { message: 'CVC is required', predicate: value => typeof value === 'string' && !isEmpty(value)},
-        { message: 'CVC must be at least 3 numbers', predicate: value => typeof value === 'string' && value.split(' ').join('').length >= 3 }
+        {
+            message: 'CVC must be appropriate length for card type',
+            predicate: (value, creditCard) => {
+                if (!creditCard.cardNumber) {
+                    return false;
+                }
+
+                const cardValidationData = cardValidator.number(creditCard.cardNumber.split(' ').join(''));
+                if (!cardValidationData || !cardValidationData.card) {
+                    return false;
+                }
+
+                const requiredSize = cardValidationData.card.code.size;
+                return typeof value === 'string' && value.split(' ').join('').length === requiredSize;
+            }
+        }
     ]
 };
 
@@ -42,7 +57,7 @@ export function validate(creditCard) {
     let errors = {};
     Object.keys(validators).forEach((fieldKey) =>
         errors[fieldKey] = validators[fieldKey]
-            .filter(rule => !rule.predicate(creditCard[fieldKey]))
+            .filter(rule => !rule.predicate(creditCard[fieldKey], creditCard))
             .map((rule) => rule.message)
     );
 

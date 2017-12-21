@@ -64,7 +64,7 @@ class Payment extends Component {
     mapCardDataToWorldpay(cardData) {
         const expiryDates = cardData.expiry.split('/');
         return {
-            cvc: cardData.cvc,
+            cvc: cardData.cvc.split(' ').join(''),
             cardHolderName: cardData.cardHolderName,
             cardNumber: cardData.cardNumber.split(' ').join(''),
             expiryMonth: expiryDates[0],

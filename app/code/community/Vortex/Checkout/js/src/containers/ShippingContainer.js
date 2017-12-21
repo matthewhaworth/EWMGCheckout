@@ -4,10 +4,25 @@ import {bindActionCreators} from "redux";
 import * as customerActions from "../actions/customerActions";
 import * as basketActions from "../actions/basketActions";
 import Shipping from "../components/shipping/Shipping";
+import {findDOMNode} from "react-dom";
+import * as checkoutSteps from "../store/checkoutSteps";
 
 class ShippingContainer extends Component {
+    scrollToView(){
+        const node = findDOMNode(this.refs.STATE_DELIVERY);
+
+        if(node){
+            node.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+                inline: 'start'
+            });
+        }
+    }
+
     render() {
-        return <Shipping active={this.props.active}
+        return <div ref={checkoutSteps.STATE_DELIVERY}>
+                <Shipping active={this.props.active}
                          basket={this.props.basket}
                          customer={this.props.customer}
                          addDiscountCode={this.props.basketActions.addDiscountCode}
@@ -20,6 +35,7 @@ class ShippingContainer extends Component {
                          clearClickAndCollectStore={this.props.basketActions.clearClickAndCollectStore}
                          placeOrder={this.props.basketActions.placeOrder}
                          onContinue={this.props.onContinue}/>
+                </div>
     }
 }
 
@@ -39,5 +55,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
+    null,
+    {withRef: true}
 )(ShippingContainer);

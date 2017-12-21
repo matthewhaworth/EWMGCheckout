@@ -190,6 +190,16 @@ class Vortex_Checkout_Mapper_Order
         $response['total_with_symbol'] = $this->formatPriceWithSymbol($order->getGrandTotal());
         $response['item_count'] = $order->getTotalItemCount() ?: 0;
 
+        if ($order->getCustomerIsGuest()) {
+            $customer = Mage::getModel('customer/customer')
+                ->setWebsiteId($order->getStore()->getWebsiteId())
+                ->loadByEmail($order->getCustomerEmail());
+
+            $response['is_guest'] = !$customer || !$customer->getId();
+        } else {
+            $response['is_guest'] = false;
+        }
+
         if ($order->getShippingAddress() && $order->getShippingAddress()->getId()) {
             $response['discount_total'] = $this->formatPrice(-$order->getShippingAddress()->getDiscountAmount());
             $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol(-$order->getShippingAddress()->getDiscountAmount());

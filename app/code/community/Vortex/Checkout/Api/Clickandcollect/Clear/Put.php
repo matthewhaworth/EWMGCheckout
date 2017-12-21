@@ -31,8 +31,17 @@ class Vortex_Checkout_Api_Clickandcollect_Clear_Put implements Vortex_Api_Endpoi
         return new Vortex_Checkout_Mapper_Basket(
             $this->getBasketItemsMapper(),
             new Vortex_Checkout_Mapper_Basket_Address(),
-            $this->getCoreHelper()
+            $this->getCoreHelper(),
+            $this->getCheckoutSession()
         );
+    }
+
+    /**
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function getCheckoutSession()
+    {
+        return Mage::getSingleton('checkout/session');
     }
 
     /**
