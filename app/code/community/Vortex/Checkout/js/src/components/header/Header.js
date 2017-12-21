@@ -21,9 +21,8 @@ class Header extends Component {
     ];
 
     getSectionClass(sectionSteps) {
-
-        let isActive = sectionSteps.includes(this.props.checkoutStep);
-        let isComplete = this.props.checkoutStep > Math.max(...sectionSteps) || this.props.checkoutStep === checkoutSteps.STATE_SUCCESS;
+        let isActive = this.isActive(sectionSteps);
+        let isComplete = this.isComplete(sectionSteps);
 
         return classNames({
             'checkout-progress__step': true,
@@ -31,6 +30,21 @@ class Header extends Component {
             'complete': isComplete,
             'inactive': !isActive && !isComplete
         });
+    }
+
+    getIsClickable(sectionSteps){
+        let isActive = this.isActive(sectionSteps);
+        let isComplete = this.isComplete(sectionSteps);
+
+        return isActive || isComplete;
+    }
+
+    isActive(steps) {
+        return steps.includes(this.props.checkoutStep);
+    }
+
+    isComplete(steps) {
+        return this.props.checkoutStep > Math.max(...steps) || this.props.checkoutStep === checkoutSteps.STATE_SUCCESS;
     }
 
     getShoppingBagClasses() {
@@ -53,15 +67,15 @@ class Header extends Component {
                         <div className="checkout-header__top">
                             <div className="checkout-progress">
                                 <ol className="checkout-progress__steps-list">
-                                    <li className={this.getShoppingBagClasses()}>
+                                    <li onClick={(step, clickable) => this.props.onClick(checkoutSteps.STATE_BASKET, this.getIsClickable(this.shoppingBagSteps))} className={this.getShoppingBagClasses()}>
                                         <span className="checkout-progress__title"><em>Shopping </em>Bag</span>
                                         <span className="checkout-progress__subtitle">{this.props.basketTotalWithSymbol}</span>
                                     </li>
-                                    <li className={this.getDeliveryClasses()}>
+                                    <li onClick={(step, clickable) => this.props.onClick(checkoutSteps.STATE_DELIVERY, this.getIsClickable(this.deliverySteps))} className={this.getDeliveryClasses()}>
                                         <span className="checkout-progress__title">Delivery</span>
                                         <span className="checkout-progress__subtitle">{this.props.shippingCost ? this.props.shippingCostWithSymbol : 'FREE'}</span>
                                     </li>
-                                    <li className={this.getPaymentClasses()}>
+                                    <li onClick={(step, clickable) => this.props.onClick(checkoutSteps.STATE_PAYMENT, this.getIsClickable(this.paymentSteps))} className={this.getPaymentClasses()}>
                                         <span className="checkout-progress__title">Payment</span>
                                         <span className="checkout-progress__subtitle">{this.props.grandTotalWithSymbol}</span>
                                     </li>
