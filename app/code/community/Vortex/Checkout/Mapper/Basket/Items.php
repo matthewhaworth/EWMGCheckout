@@ -95,12 +95,15 @@ class Vortex_Checkout_Mapper_Basket_Items
             $itemData['qty'] = (int) $quoteItem->getQty();
             $itemData['image'] = $this->getProductImage($quoteItem);
             $itemData['sku'] = $quoteItem->getSku();
-            $itemData['outofstock'] = !$quoteItem->getProduct()->getStockItem()->getIsInStock();
 
-
+            $stockItem = $quoteItem->getProduct()->getStockItem();
             if ($quoteItem->getProduct()->getTypeId() === Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+                $stockItem = $quoteItem->getOptionByCode('simple_product')->getProduct()->getStockItem();
                 $itemData = $this->addConfiguredOptions($quoteItem, $itemData);
             }
+
+            $itemData['out_of_stock'] = !$stockItem->getIsInStock();
+            $itemData['in_stock_left'] = (int) $stockItem->getQty();
 
             $customOptions = $this->configurationHelper->getCustomOptions($quoteItem);
             if ($customOptions && count($customOptions) > 0) {
