@@ -7,7 +7,8 @@ export const validators = {
         { message: 'Please enter a valid email address. For example johndoe@domain.com.', predicate: (value) => typeof value === 'string' && isEmail(value) }
     ],
     password: [
-        { message: 'Password is required, or continue as guest', predicate: (value) => typeof value === 'string' && !isEmpty(value) }
+        { message: 'Password is required, or continue as guest', predicate: (value) => typeof value === 'string' && !isEmpty(value) },
+        { message: 'Password must be at least six characters', predicate: (value) => typeof value === 'string' && value.length >= 6 }
     ]
 };
 

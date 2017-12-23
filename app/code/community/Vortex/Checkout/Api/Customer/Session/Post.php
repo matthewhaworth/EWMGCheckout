@@ -29,11 +29,7 @@ class Vortex_Checkout_Api_Customer_Session_Post implements Vortex_Api_EndpointIn
             $customer = $this->getCustomerService()->getCustomer($body['email']);
 
             // Set customer's default addresses on quote if they have no already been set
-            $this->getAddressService()->setCustomerAddressIfAddressIsNotSet(
-                $this->getBasket(),
-                $customer->getDefaultBillingAddress(),
-                $customer->getDefaultShippingAddress()
-            );
+            $this->getAddressService()->setCustomerAddressIfAddressIsNotSet($this->getBasket(), $customer);
 
             return $this->getCustomerMapper()->map($customer, $this->getCustomerSession()->isLoggedIn());
         } else {

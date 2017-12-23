@@ -58,14 +58,17 @@ class BillingAddress extends Component {
                 this.setState({addressDisplayLoading: false});
             });
         } else {
-            const address = this.props.basket.billing_address;
-            this.handleAddressChange({
-                ...addressValidator.emptyAddress,
-                first_name: address.first_name,
-                last_name: address.last_name,
-                email: address.email,
-                phone: address.phone,
-            });
+            // Clear the address if the customer isn't logged in, if they are logged in, we'll just leave it ticked
+            if (!this.props.customer.hasOwnProperty('id')) {
+                const address = this.props.basket.billing_address;
+                this.handleAddressChange({
+                    ...addressValidator.emptyAddress,
+                    first_name: address.first_name,
+                    last_name: address.last_name,
+                    email: address.email,
+                    phone: address.phone,
+                });
+            }
         }
 
         this.setState({forceShowChooseBillingAddress});
@@ -110,7 +113,7 @@ class BillingAddress extends Component {
 
         const showNewAddressEntry = this.shouldShowNewAddressEntry();
         const showChooseBillingAddress = this.shouldShowChooseBillingAddress();
-        
+
         const addressList = <div>
             <AddressList
                 addresses={customer.addresses}
@@ -158,11 +161,11 @@ class BillingAddress extends Component {
                         {showAddressList && addressList}
 
                         {showNewAddressEntry &&
-                            <Address addressLabel="Billing address"
-                                     address={basket.billing_address}
-                                     allowAddressSave={customer.hasOwnProperty('id')}
-                                     handleAddressChange={(e) => this.handleAddressChange(e)}
-                                     handleAddressSubmit={(e) => this.onPaymentAddressContinue(e)} />}
+                        <Address addressLabel="Billing address"
+                                 address={basket.billing_address}
+                                 allowAddressSave={customer.hasOwnProperty('id')}
+                                 handleAddressChange={(e) => this.handleAddressChange(e)}
+                                 handleAddressSubmit={(e) => this.onPaymentAddressContinue(e)} />}
                     </div>)}
             </div>
         );
