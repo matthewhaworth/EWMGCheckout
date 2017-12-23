@@ -216,7 +216,7 @@ class SuccessContainer extends Component {
                                             </div>
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Delivery information</div>
-                                                {order.shipping_method && <p>{order.shipping_method}</p>}
+                                                {order.shipping_method && <p dangerouslySetInnerHTML={{__html: order.shipping_method}}/>}
                                             </div>
                                         </div>
                                     </div>

@@ -12,7 +12,7 @@ const ListMethods = ({shippingMethods, selectedShippingMethod, setShippingMethod
                            value={method.code}
                            onChange={() => setShippingMethod(method.code)}
                            checked={method.code === selectedShippingMethod} />
-                    <span className="form__label-text">{method.method_title}<br/><span className="strong">{method.price_with_symbol}</span></span>
+                    <span className="form__label-text"><span dangerouslySetInnerHTML={{__html: method.method_title}}/><br/><span className="strong">{method.price_with_symbol}</span></span>
                 </label>
             </div>
         );
