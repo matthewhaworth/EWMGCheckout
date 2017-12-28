@@ -174,7 +174,8 @@ class SuccessContainer extends Component {
                                                        showFinalPrice />
 
                                             <Totals basket={order}
-                                                    includeGiftCard={false}
+                                                    includeGiftCard
+                                                    disableRemoveCards
                                                     displayType="primary"
                                                     hideRemoveDiscount
                                                     onContinue={false}/>

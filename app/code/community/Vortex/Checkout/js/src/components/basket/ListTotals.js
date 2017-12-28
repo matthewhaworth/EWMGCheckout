@@ -5,7 +5,7 @@ import PaypalButton from "../payment/paypal/PaypalButton";
 import GiftCardForm from "../giftcard/GiftCardForm";
 import GiftCardList from "../giftcard/GiftCardList";
 
-const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery, hideRemoveDiscount}) => {
+const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery, hideRemoveDiscount, disableRemoveCards}) => {
     const {shipping_with_symbol, subtotal_incl_tax_currency, total_with_symbol, discounts} = basket;
 
 
@@ -57,7 +57,7 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
 
             {includeGiftCard && <div>
                 <GiftCardForm />
-                {basket.gift_cards && basket.gift_cards.length > 0 && <GiftCardList />}
+                {basket.gift_cards && basket.gift_cards.length > 0 && <GiftCardList disableRemoveCards={disableRemoveCards} />}
             </div>}
 
             <div className="checkout-basket__total checkout-basket__total--grand">

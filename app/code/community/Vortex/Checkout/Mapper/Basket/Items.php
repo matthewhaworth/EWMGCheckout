@@ -99,8 +99,7 @@ class Vortex_Checkout_Mapper_Basket_Items
             if ($quoteItem->getProduct()->getTypeId() === Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
                 $stockItem = $quoteItem->getOptionByCode('simple_product')->getProduct()->getStockItem();
                 $itemData = $this->addConfiguredOptions($quoteItem, $itemData);
-            }
-            else{
+            } else {
                 $stockItem = $quoteItem->getProduct()->getStockItem();
             }
 
