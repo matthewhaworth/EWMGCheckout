@@ -22,11 +22,11 @@ class Vortex_Checkout_V1Controller extends Mage_Core_Controller_Front_Action
             '/fast-checkout/v1/api'
         );
 
+        $handler->handle();
+
         // All errors will be dealt with by the checkout itself.
         // These are a redundant artifact of Magento's god classes.
         $this->clearSessionMessages();
-
-        $handler->handle();
     }
 
     /**

@@ -246,8 +246,6 @@ class Vortex_Checkout_Mapper_Order
         $response['discounts'] = $this->mapDiscounts($order);
         $discountWithoutShipping = $this->calculateDiscountWithoutShipping($response['discounts']);
 
-        $response['ff_249'] = $discountWithoutShipping;
-        $response['ff_250'] = $response['gift_card_total'];
         $response['subtotal_incl_discount'] = $this->formatPrice(
             $response['subtotal_incl_tax'] - $discountWithoutShipping - $response['gift_card_total']
         );

@@ -133,7 +133,9 @@ class Vortex_Checkout_Mapper_Basket
     private function mapAvailableShippingMethods(Mage_Sales_Model_Quote $quote)
     {
         $shippingRates = [];
-        foreach ($quote->getShippingAddress()->getAllShippingRates() as $shippingRate) {
+        $shippingAddress = $quote->getShippingAddress();
+        $shippingAddress->collectShippingRates()->save();
+        foreach ($shippingAddress->getAllShippingRates() as $shippingRate) {
             /** @var $shippingRate Mage_Sales_Model_Quote_Address_Rate */
             $shippingRates[] = [
                 'code' => $shippingRate->getCode(),

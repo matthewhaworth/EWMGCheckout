@@ -32,6 +32,7 @@ class Vortex_Checkout_Service_Basket_Address
         $mappedAddress = $this->mapApiAddressToMagentoAddress($addressData);
         if ($addressType === self::ADDRESS_TYPE_BILLING) {
             $saveResponse = $this->magentoCheckoutService->saveBilling($mappedAddress, $customerAddressId);
+            $this->magentoCheckoutService->getQuote()->getShippingAddress()->setSameAsBilling(false)->save();
         } else {
 
             $useShippingForBilling = array_key_exists('use_shipping_for_billing', $addressData)
@@ -48,6 +49,7 @@ class Vortex_Checkout_Service_Basket_Address
                  * not triggering _afterSave() on save(), which saves the addresses.
                  */
                 $this->magentoCheckoutService->getQuote()->getBillingAddress()->save();
+                $this->magentoCheckoutService->getQuote()->getShippingAddress()->setSameAsBilling(true)->save();
 
                 $saveResponse = array_merge($saveResponseShipping, $saveResponseBilling);
             } else {
@@ -156,7 +158,10 @@ class Vortex_Checkout_Service_Basket_Address
                 $lastOrder = $orderCollection->getFirstItem();
                 /** @var $lastOrder Mage_Sales_Model_Order */
                 if ($lastOrder) {
-                    $lastCustomerAddressId = $lastOrder->getBillingAddress()->getCustomerAddressId();
+                    $lastCustomerAddressId = $lastOrder->getBillingAddress() ?
+                        $lastOrder->getBillingAddress()->getCustomerAddressId() :
+                        false;
+
                     if ($lastCustomerAddressId) {
                         $chosenDefaultBillingAddress = Mage::getModel('customer/address')
                             ->load($lastCustomerAddressId);
@@ -188,7 +193,10 @@ class Vortex_Checkout_Service_Basket_Address
                 $lastOrder = $orderCollection->getFirstItem();
                 /** @var $lastOrder Mage_Sales_Model_Order */
                 if ($lastOrder) {
-                    $lastCustomerAddressId = $lastOrder->getShippingAddress()->getCustomerAddressId();
+                    $lastCustomerAddressId = $lastOrder->getShippingAddress() ?
+                        $lastOrder->getShippingAddress()->getCustomerAddressId() :
+                        false;
+
                     if ($lastCustomerAddressId) {
                         $chosenDefaultShippingAddress = Mage::getModel('customer/address')
                             ->load($lastCustomerAddressId);
