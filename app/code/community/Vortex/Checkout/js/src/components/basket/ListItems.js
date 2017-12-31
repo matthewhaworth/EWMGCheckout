@@ -37,7 +37,7 @@ export default class ListItems extends Component {
                         <div className="checkout-basket__item-info">
                             {item.out_of_stock
                                 ? <span className="checkout-basket__item-stock checkout-basket__item-stock--outofstock">Out of stock</span>
-                                : item.in_stock_left < item.qty &&  <span className="checkout-basket__item-stock checkout-basket__item-stock--outofstock">{item.in_stock_left} only left in stock</span>
+                                : item.in_stock_left < item.qty && !item.saleable &&  <span className="checkout-basket__item-stock checkout-basket__item-stock--outofstock">{item.in_stock_left} only left in stock</span>
                             }
                             <div className="checkout-basket__item-title">
                                 <a href={item.product_url}>{item.name}</a>
