@@ -147,6 +147,13 @@
 	     -o-transform:  translate(@x, @y);
 }
 
+.translate3d(@x, @y, @z) {
+    -webkit-transform: translate3d(@x, @y, @z);
+       -moz-transform: translate3d(@x, @y, @z);
+         -o-transform: translate3d(@x, @y, @z);
+            transform: translate3d(@x, @y, @z);
+}
+
 .transition(@property: all, @time:0.2s){
     -webkit-transition: @property @time;
        -moz-transition: @property @time;
