@@ -19,7 +19,13 @@ class Vortex_Checkout_Model_Observer
 
         $result = $observer->getEvent()->getResult();
 
+        $item = $observer->getEvent()->getItem();
+
         if ($result['discount_amount'] == 0) {
+            return;
+        }
+
+        if (in_array($item->getId(), $quote->getDiscountsCollected())) {
             return;
         }
 
@@ -28,11 +34,15 @@ class Vortex_Checkout_Model_Observer
         $currentDiscount = (count($discountBreakdown) && array_key_exists($rule->getId(), $discountBreakdown))
             ? $discountBreakdown[$rule->getId()]['discount_amount']
             : 0;
+
         $discountBreakdown[$rule->getId()] = [
             'discount_label' => $rule->getName(),
             'discount_amount' => $currentDiscount + $result['discount_amount'],
             'discount_code' => $rule->getCouponCode() ?: ($rule->getCode() ?: '')
         ];
+
+        $discountsCollected = is_array($quote->getDiscountsCollected()) ? $quote->getDiscountsCollected() : [];
+        $quote->setDiscountsCollected(array_merge($discountsCollected, [$item->getId()]));
 
         $quote->setDiscountBreakdown($discountBreakdown);
     }
