@@ -83,6 +83,7 @@ class Totals extends Component {
 
         return <ListTotals basket={this.props.basket}
                            displayType={this.props.displayType}
+                           disableRemoveCards={this.props.disableRemoveCards}
                            isDiscountApplied={isDiscountApplied}
                            discountCode={this.state.discount}
                            includeGiftCard={this.props.includeGiftCard}

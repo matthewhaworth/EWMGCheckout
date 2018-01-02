@@ -124,11 +124,11 @@ class SuccessContainer extends Component {
                                     <div className="checkout-section__container">
                                         <div className="checkout-success">
                                             <div className="checkout-success__msg">
-                                                {!order.is_guest && <p>Your order has been successfully placed.<br/>Order number: <a href={url(`/sales/order/view/order_id/${order.increment_id}/`)}>{order.increment_id}</a></p>}
-                                                {order.is_guest && <p>Your order has been successfully placed.<br/>Order number: {order.increment_id}</p>}
+                                                {customer.hasOwnProperty('id') && <p>Your order has been successfully placed.<br/>Order number: <a href={url(`/sales/order/view/order_id/${order.increment_id}/`)}>{order.increment_id}</a></p>}
+                                                {!customer.hasOwnProperty('id') && <p>Your order has been successfully placed.<br/>Order number: {order.increment_id}</p>}
 
                                                 <p>An email has been sent to: {order.customer_email}</p>
-                                                {!order.is_guest && <p><a href={url("customer/account/index")} className="button button--secondary button--arrow-right"><span>View my Account</span></a></p>}
+                                                {customer.hasOwnProperty('id') && <p><a href={url("customer/account/index")} className="button button--secondary button--arrow-right"><span>View my Account</span></a></p>}
                                                 <p><a href={url('')} className="button button--secondary button--arrow-right"><span>Continue Shopping</span></a></p>
                                             </div>
                                         </div>
@@ -174,7 +174,8 @@ class SuccessContainer extends Component {
                                                        showFinalPrice />
 
                                             <Totals basket={order}
-                                                    includeGiftCard={false}
+                                                    includeGiftCard
+                                                    disableRemoveCards
                                                     displayType="primary"
                                                     hideRemoveDiscount
                                                     onContinue={false}/>
@@ -216,7 +217,7 @@ class SuccessContainer extends Component {
                                             </div>
                                             <div className="checkout-success__details">
                                                 <div className="checkout-success__details-title">Delivery information</div>
-                                                {order.shipping_method && <p>{order.shipping_method}</p>}
+                                                {order.shipping_method && <p dangerouslySetInnerHTML={{__html: order.shipping_method}}/>}
                                             </div>
                                         </div>
                                     </div>

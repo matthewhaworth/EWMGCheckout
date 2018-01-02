@@ -75,7 +75,6 @@ class Vortex_Api_Handler
         } catch (Vortex_Api_Exception_BadRequest $e) {
             $this->do4xx($e->getMessage(), $e->getCode());
         } catch (Exception $e) {
-            echo $e->getMessage();echo $e->getTraceAsString();die;
             $this->do500($e->getMessage());
             return;
         }

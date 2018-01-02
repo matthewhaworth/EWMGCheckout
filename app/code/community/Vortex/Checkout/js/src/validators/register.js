@@ -4,6 +4,7 @@ export const validators = {
     password: [
         { message: 'Password is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) },
         { message: 'Password must be at least six characters', predicate: (value) => typeof value === 'string' && value.length >= 6 },
+        { message: 'Password must not contain spaces', predicate: (value) => typeof value === 'string' && value.split(' ').join('').length === value.length }
     ],
     password_confirmation: [
         { message: 'Password confirmation is required', predicate: (value, register) => typeof value === 'string' && !isEmpty(value) },

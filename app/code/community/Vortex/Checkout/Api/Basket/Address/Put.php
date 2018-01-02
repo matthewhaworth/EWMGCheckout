@@ -15,6 +15,9 @@ class Vortex_Checkout_Api_Basket_Address_Put implements Vortex_Api_EndpointInter
 
         $this->getBasketAddressService()->saveAddress($body);
 
+        // Collect shipping rates
+        $this->getBasket()->getShippingAddress()->setCollectShippingRates(true)->collectShippingRates();
+
         return $this->getBasketMapper()->map($this->getBasket());
     }
 

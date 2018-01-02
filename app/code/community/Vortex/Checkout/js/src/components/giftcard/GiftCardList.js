@@ -23,7 +23,7 @@ class GiftCardList extends Component {
             <div key={giftCard.card_number} className="checkout-basket__giftcard applied">
                 <div className="checkout-basket__giftcard-label">
                     Gift Card ({giftCard.card_number})
-                    <a href="#" onClick={(e) => this.onSubmit(e, giftCard.card_number)}>Remove</a>
+                    {!this.props.disableRemoveCards && <a href="#" onClick={(e) => this.onSubmit(e, giftCard.card_number)}>Remove</a>}
                 </div>
                 <div className="checkout-basket__giftcard-price">{giftCard.amount_with_symbol}</div>
             </div>

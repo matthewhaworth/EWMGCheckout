@@ -17,6 +17,11 @@ class Vortex_Checkout_Mapper_Order
     protected $coreHelper;
 
     /**
+     * @var Mage_Sales_Model_Quote
+     */
+    protected $quote;
+
+    /**
      * Vortex_Checkout_Mapper_Basket constructor.
      * @param Vortex_Checkout_Mapper_Order_Items $basketItemsMapper
      * @param Vortex_Checkout_Mapper_Order_Address $basketAddressMapper
@@ -53,11 +58,26 @@ class Vortex_Checkout_Mapper_Order
 
     /**
      * @param Mage_Sales_Model_Order $order
+     * @return Mage_Sales_Model_Quote
+     */
+    private function getOrderQuote(Mage_Sales_Model_Order $order)
+    {
+        if (is_null($this->quote)) {
+            $this->quote = Mage::getModel('sales/quote')->load($order->getQuoteId())
+                ->setGiftCardsTotalCollected(false)
+                ->collectTotals();
+        }
+
+        return $this->quote;
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order $order
      * @return array
      */
     private function mapDiscounts(Mage_Sales_Model_Order $order)
     {
-        $quote = Mage::getModel('sales/quote')->load($order->getQuoteId())->collectTotals();
+        $quote = $this->getOrderQuote($order);
         $discountBreakdown = $quote->getDiscountBreakdown();
         $mappedDiscountAmount = [];
 
@@ -126,41 +146,58 @@ class Vortex_Checkout_Mapper_Order
      */
     private function mapGiftCards(Mage_Sales_Model_Order $order)
     {
-        // This is the only way to obtain a total from a quote
-        $giftCardTotal = null;
-        foreach ($order->getTotals() as $total) {
-            if ($total->getCode() === 'giftcardaccount') {
-                $giftCardTotal = $total;
-            }
-        }
-
-        if ($giftCardTotal === null) {
-            return [];
-        }
-
-        $giftCards = $giftCardTotal->getGiftCards();
-
         $mappedGiftCards = [];
-        foreach ($giftCards as $giftCard) {
-            $mappedGiftCards[] = [
-                'card_number' => $giftCard['c'],
-                'amount' => $this->formatPrice($giftCard['ba']),
-                'amount_with_symbol' => $this->formatPriceWithSymbol($giftCard['ba'])
-            ];
+        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($order);
+        if (is_array($cards)) {
+            foreach ($cards as $card) {
+                $mappedGiftCards[] = [
+                    'card_number' => $card['c'],
+                    'amount' => $this->formatPrice($card['ba']),
+                    'amount_with_symbol' => $this->formatPriceWithSymbol($card['ba']),
+                ];
+            }
         }
 
         return $mappedGiftCards;
     }
 
     /**
+     * @param array $giftCards
+     * @return float
+     */
+    private function calculateGiftCardTotal(array $giftCards)
+    {
+        $giftCardTotal = 0;
+        foreach ($giftCards as $giftCard) {
+            $giftCardTotal += $giftCard['amount'];
+        }
+
+        return $giftCardTotal;
+    }
+
+    /**
+     * @param array $discounts
+     * @return float
+     */
+    private function calculateDiscountWithoutShipping(array $discounts)
+    {
+        $discountWithoutShipping = 0.0;
+        foreach ($discounts as $discount) {
+            $discountWithoutShipping += $discount['discount_amount'];
+        }
+
+        return $discountWithoutShipping;
+    }
+
+    /**
      * There is no way in Magento to get the subtotal including tax, but excluding delivery, discounts, etc
      *
-     * @param Mage_Sales_Model_Order $order
+     * @param Mage_Sales_Model_Quote $quote
      * @return int
      */
-    private function getSubtotalInclTax(Mage_Sales_Model_Order $order)
+    private function getSubtotalInclTax(Mage_Sales_Model_Quote $quote)
     {
-        $items = $order->getAllItems();
+        $items = $quote->getAllItems();
         $priceInclVat = 0;
         foreach ($items as $item) {
             $priceInclVat += $item->getRowTotalInclTax();
@@ -178,14 +215,42 @@ class Vortex_Checkout_Mapper_Order
 
         $response['order_id'] = $order->getId();
         $response['increment_id'] = $order->getIncrementId();
-        $response['subtotal'] = $this->formatPrice($order->getSubtotal());
-        $response['subtotal_with_symbol'] = $this->formatPriceWithSymbol($order->getSubtotal());
-        $response['subtotal_incl_tax'] = $this->formatPrice($this->getSubtotalInclTax($order));
-        $response['subtotal_incl_tax_currency'] = $this->formatPriceWithSymbol($response['subtotal_incl_tax']);
-        $response['shipping'] = $this->formatPrice($order->getShippingAmount());
-        $response['shipping_with_symbol'] = $this->formatPriceWithSymbol($order->getShippingAmount());
+
+        $quote = $this->getOrderQuote($order);
+        $totals = $quote->getTotals();
+
+        $shipping = array_key_exists('shipping', $totals) ? $totals['shipping']->getValue() : 0;
+        $response['shipping'] = $this->formatPrice($shipping);
+        $response['shipping_with_symbol'] = $this->formatPriceWithSymbol($shipping);
+
+        $subtotalInclTax = $this->getSubtotalInclTax($quote);
+        $response['subtotal_incl_tax'] = $this->formatPrice($subtotalInclTax);
+        $response['subtotal_incl_tax_currency'] = $this->formatPriceWithSymbol($subtotalInclTax);
+
+        $discount = array_key_exists('discount', $totals) ? $totals['discount']->getValue() : 0;
+        $response['discount_total'] = $this->formatPrice(-$discount);
+        $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol(-$discount);
+
         $response['discount_code'] = $order->getCouponCode();
+
+        if ($order->hasGiftCards()) {
+            $response['gift_cards'] = $this->mapGiftCards($order);
+            $response['gift_card_total'] = $this->formatPrice($this->calculateGiftCardTotal($response['gift_cards']));
+            $response['gift_card_total_currency'] = $this->formatPriceWithSymbol($response['gift_card_total']);
+        } else {
+            $response['gift_cards'] = [];
+            $response['gift_card_total'] = $this->formatPrice(0);
+            $response['gift_card_total_currency'] = $this->formatPriceWithSymbol($response['gift_card_total']);
+        }
+
         $response['discounts'] = $this->mapDiscounts($order);
+        $discountWithoutShipping = $this->calculateDiscountWithoutShipping($response['discounts']);
+
+        $response['subtotal_incl_discount'] = $this->formatPrice(
+            $response['subtotal_incl_tax'] - $discountWithoutShipping - $response['gift_card_total']
+        );
+        $response['subtotal_incl_discount_currency'] = $this->formatPriceWithSymbol($response['subtotal_incl_discount']);
+
         $response['total'] = $this->formatPrice($order->getGrandTotal());
         $response['total_with_symbol'] = $this->formatPriceWithSymbol($order->getGrandTotal());
         $response['item_count'] = $order->getTotalItemCount() ?: 0;
@@ -201,14 +266,10 @@ class Vortex_Checkout_Mapper_Order
         }
 
         if ($order->getShippingAddress() && $order->getShippingAddress()->getId()) {
-            $response['discount_total'] = $this->formatPrice(-$order->getShippingAddress()->getDiscountAmount());
-            $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol(-$order->getShippingAddress()->getDiscountAmount());
             $response['shipping_method'] = $order->getShippingDescription();
             $response['available_shipping_methods'] = $this->mapAvailableShippingMethods($order);
             $response['shipping_address'] = $this->basketAddressMapper->map($order->getShippingAddress());
         } else {
-            $response['discount_total'] = 0;
-            $response['discount_total_with_symbol'] = $this->formatPriceWithSymbol($response['discount_total']);
             $response['shipping_address'] = new stdClass;
             $response['available_shipping_methods'] = [];
             $response['shipping_method'] = '';
@@ -218,12 +279,6 @@ class Vortex_Checkout_Mapper_Order
             $response['billing_address'] = $this->basketAddressMapper->map($order->getBillingAddress());
         } else {
             $response['billing_address'] = new stdClass;
-        }
-
-        if ($order->hasGiftCards()) {
-            $response['gift_cards'] = $this->mapGiftCards($order);
-        } else {
-            $response['gift_cards'] = [];
         }
 
         $response['is_click_and_collect'] = $order->getIsClickAndCollect() ? true : false;

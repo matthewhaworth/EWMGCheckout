@@ -32,6 +32,7 @@ class Vortex_Checkout_Service_Basket_Address
         $mappedAddress = $this->mapApiAddressToMagentoAddress($addressData);
         if ($addressType === self::ADDRESS_TYPE_BILLING) {
             $saveResponse = $this->magentoCheckoutService->saveBilling($mappedAddress, $customerAddressId);
+            $this->magentoCheckoutService->getQuote()->getShippingAddress()->setSameAsBilling(false)->save();
         } else {
 
             $useShippingForBilling = array_key_exists('use_shipping_for_billing', $addressData)
@@ -41,6 +42,15 @@ class Vortex_Checkout_Service_Basket_Address
             if ($useShippingForBilling) {
                 $saveResponseShipping = $this->magentoCheckoutService->saveShipping($mappedAddress, $customerAddressId);
                 $saveResponseBilling = $this->magentoCheckoutService->saveBilling($mappedAddress, $customerAddressId);
+
+                /**
+                 * The following additional save only seems to be necessary for logged in users.
+                 * It's due to the quote object in the 'saveBilling' method call being in a pristine state and hence
+                 * not triggering _afterSave() on save(), which saves the addresses.
+                 */
+                $this->magentoCheckoutService->getQuote()->getBillingAddress()->save();
+                $this->magentoCheckoutService->getQuote()->getShippingAddress()->setSameAsBilling(true)->save();
+
                 $saveResponse = array_merge($saveResponseShipping, $saveResponseBilling);
             } else {
                 $saveResponse = $this->magentoCheckoutService->saveShipping($mappedAddress, $customerAddressId);
@@ -120,30 +130,86 @@ class Vortex_Checkout_Service_Basket_Address
     }
 
     /**
+     * This method sets the quote address as the default customer address. In the event that the customer does not have
+     * a default address set, it reverts to the address used in the customer's previous order.
+     *
+     * This feels like it should be looped, but I feel moving this into a loop would make it even harder to read.
+     *
      * @param Mage_Sales_Model_Quote $quote
-     * @param Mage_Customer_Model_Address $customerBillingAddress
-     * @param Mage_Customer_Model_Address $customerShippingAddress
+     * @param Mage_Customer_Model_Customer $customer
      */
     public function setCustomerAddressIfAddressIsNotSet(
         Mage_Sales_Model_Quote $quote,
-        $customerBillingAddress,
-        $customerShippingAddress
+        Mage_Customer_Model_Customer $customer
     ) {
+        // Billing address
+        $chosenDefaultBillingAddress = false;
         $isBillingAddressValid = $quote->getBillingAddress()->validate();
-        if ($isBillingAddressValid !== true && $customerBillingAddress && $customerBillingAddress->getId()) {
+        if ($isBillingAddressValid !== true) {
+            if ($customer->getDefaultBillingAddress() && $customer->getDefaultBillingAddress()->getId()) {
+                $chosenDefaultBillingAddress = $customer->getDefaultBillingAddress();
+            } else {
+                $orderCollection = Mage::getResourceModel('sales/order_collection')
+                    ->addFieldToFilter('customer_id', $customer->getId())
+                    ->setPageSize(1)
+                    ->setCurPage(1)
+                    ->setOrder('created_at', 'desc');
+
+                $lastOrder = $orderCollection->getFirstItem();
+                /** @var $lastOrder Mage_Sales_Model_Order */
+                if ($lastOrder) {
+                    $lastCustomerAddressId = $lastOrder->getBillingAddress() ?
+                        $lastOrder->getBillingAddress()->getCustomerAddressId() :
+                        false;
+
+                    if ($lastCustomerAddressId) {
+                        $chosenDefaultBillingAddress = Mage::getModel('customer/address')
+                            ->load($lastCustomerAddressId);
+                    }
+                }
+            }
+        }
+
+        if ($chosenDefaultBillingAddress !== false) {
             $this->magentoCheckoutService->saveBilling(
-                $customerBillingAddress->getData(),
-                $customerBillingAddress->getId()
+                $chosenDefaultBillingAddress->getData(),
+                $chosenDefaultBillingAddress->getId()
             );
         }
 
+        // Shipping address
+        $chosenDefaultShippingAddress = false;
         $isShippingAddressValid = $quote->getShippingAddress()->validate();
-        if ($isShippingAddressValid !== true && $customerShippingAddress && $customerShippingAddress->getId()) {
-            $this->magentoCheckoutService->saveShipping(
-                $customerShippingAddress->getData(),
-                $customerShippingAddress->getId()
-            );
+        if ($isShippingAddressValid !== true) {
+            if ($customer->getDefaultShippingAddress() && $customer->getDefaultShippingAddress()->getId()) {
+                $chosenDefaultShippingAddress = $customer->getDefaultShippingAddress();
+            } else {
+                $orderCollection = Mage::getResourceModel('sales/order_collection')
+                    ->addFieldToFilter('customer_id', $customer->getId())
+                    ->setPageSize(1)
+                    ->setCurPage(1)
+                    ->setOrder('created_at', 'desc');
+
+                $lastOrder = $orderCollection->getFirstItem();
+                /** @var $lastOrder Mage_Sales_Model_Order */
+                if ($lastOrder) {
+                    $lastCustomerAddressId = $lastOrder->getShippingAddress() ?
+                        $lastOrder->getShippingAddress()->getCustomerAddressId() :
+                        false;
+
+                    if ($lastCustomerAddressId) {
+                        $chosenDefaultShippingAddress = Mage::getModel('customer/address')
+                            ->load($lastCustomerAddressId);
+                    }
+                }
+            }
         }
 
+        if ($chosenDefaultShippingAddress !== false) {
+            $this->magentoCheckoutService->saveShipping(
+                $chosenDefaultShippingAddress->getData(),
+                $chosenDefaultShippingAddress->getId()
+            );
+        }
     }
 }

@@ -23,5 +23,17 @@ class Vortex_Checkout_V1Controller extends Mage_Core_Controller_Front_Action
         );
 
         $handler->handle();
+
+        // All errors will be dealt with by the checkout itself.
+        // These are a redundant artifact of Magento's god classes.
+        $this->clearSessionMessages();
+    }
+
+    /**
+     * Clear messages added to the session
+     */
+    private function clearSessionMessages()
+    {
+        Mage::getSingleton('core/session')->getMessages(true);
     }
 }

@@ -120,6 +120,7 @@ class Vortex_Checkout_Service_Customer
 
     /**
      * @param Mage_Sales_Model_Quote $quote
+     * @param Mage_Sales_Model_Order $order
      * @param $password
      * @return Mage_Customer_Model_Customer
      */
@@ -137,7 +138,7 @@ class Vortex_Checkout_Service_Customer
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
         $customerBilling->setIsDefaultBilling(true);
-        if ($shipping && !$shipping->getSameAsBilling()) {
+        if ($shipping && !$shipping->getSameAsBilling() && !$quote->getIsClickAndCollect()) {
             $customerShipping = $shipping->exportCustomerAddress();
             $customer->addAddress($customerShipping);
             $shipping->setCustomerAddress($customerShipping);
