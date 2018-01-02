@@ -34,6 +34,12 @@ class LoginContainer extends Component {
         }
     }
 
+    customerLoginUnsuccessful() {
+        const newCustomer = {...this.props.customer, password: ''};
+        this.props.customerActions.updateCustomer(newCustomer);
+        this.setState({ loading: false, errors: { password: ['Your password was not correct. ']} });
+    }
+
     onContinueAsLoggedIn(event) {
         event.preventDefault();
         if (this.state.loading) return;
@@ -46,9 +52,11 @@ class LoginContainer extends Component {
             this.props.customerActions.authenticate(customer.email, customer.password).then((customer) => {
                 if (customer.hasOwnProperty('id')) {
                     this.props.onContinue();
+                } else {
+                    this.customerLoginUnsuccessful();
                 }
             }).catch(() => {
-                this.setState({ loading: false });
+                this.customerLoginUnsuccessful();
             });
         } else {
             this.props.customerActions.checkCustomerExists(this.props.customer.email).then(() => {

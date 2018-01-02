@@ -39,7 +39,11 @@ class GiftCardForm extends Component {
             .then(() => {
                 this.setState({
                     saving: false,
-                    expanded: false
+                    expanded: false,
+                    giftCard: {
+                        number: '',
+                        pin: ''
+                    }
                 })
             })
             .catch(() => {
