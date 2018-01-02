@@ -5,6 +5,7 @@
             <version>1.0.1</version>
             <depends>
                 <Mage_Checkout/>
+                <Yireo_GoogleTagManager/>
             </depends>
         </Vortex_Checkout>
     </modules>

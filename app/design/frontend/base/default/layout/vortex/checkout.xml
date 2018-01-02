@@ -62,15 +62,20 @@
         <reference name="content">
             <action method="unsetChildren"/>
             <block name="vortex_checkout_app" template="vortex/checkout/index.phtml" type="vortex_checkout/checkout" />
-            <block name="core/template" template="vortex/checkout/abtesting.phtml" type="core/template" />
         </reference>
     </vortex_checkout_index_index>
 
     <checkout_cart_index>
-        <reference name="before_body_end">
-            <block name="core/template" template="vortex/checkout/abtesting.phtml" type="core/template" />
-        </reference>
+        <block type="vortex_checkout/tagmanager" name="vortex_checkout_googletagmanager" after="googletagmanager"/>
     </checkout_cart_index>
+
+    <checkout_onepage_index>
+        <block type="vortex_checkout/tagmanager" name="vortex_checkout_googletagmanager" after="googletagmanager"/>
+    </checkout_onepage_index>
+
+    <vortex_checkout_index_index>
+        <block type="vortex_checkout/tagmanager" name="vortex_checkout_googletagmanager" after="googletagmanager"/>
+    </vortex_checkout_index_index>
 
     <vortex_checkout_index_design>
         <remove name="breadcrumbs" />
