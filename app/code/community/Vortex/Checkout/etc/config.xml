@@ -32,6 +32,11 @@
             <vortex_checkout>
                 <class>Vortex_Checkout_Model</class>
             </vortex_checkout>
+            <worldpay>
+                <rewrite>
+                    <authorisation_recurringservice>Vortex_Checkout_Model_SessionDigital_Worldpay_Authorisation_RecurringService</authorisation_recurringservice>
+                </rewrite>
+            </worldpay>
         </models>
         <events>
             <customer_address_save_after>
