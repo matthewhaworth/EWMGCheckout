@@ -42,13 +42,21 @@
         <reference name="root">
             <action method="setTemplate"><template>vortex/checkout/layout.phtml</template></action>
             <block type="page/html_head" name="checkout.head" as="head">
+                <action method="setTitle"><title>Checkout</title></action>
                 <action method="addCss"><stylesheet>vortex/css/checkout.css</stylesheet></action>
                 <action method="addJs"><script>vortex/checkout/prototype173/prototype.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
+                <action method="addJs"><script>lib/jquery/jquery-1.12.0.js</script></action>
+                <action method="addJs"><script>lib/jquery/noconflict.js</script></action>
                 <action method="addJs"><script helper="amazonpayments/getHeadTooltipJs"/></action>
                 <action method="addJs"><script helper="amazonpayments/getHeadJs"/></action>
                 <action method="addItem"><type>skin_js</type><name>vortex/js/apa_checkout-extend.js</name></action>
                 <action method="addLinkRel"><type>stylesheet</type><href>//fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic</href></action>
+
+                <block type="digital_data_layer_main/ddl" name="digital_data_layer" as="digital_data_layer"
+                       ifconfig="triggered_messaging/triggered_messaging_digital_data_layer_enabled"
+                       template="vortex/checkout/triggeredmessaging/digital_data_layer.phtml"/>
+
             </block>
         </reference>
 
