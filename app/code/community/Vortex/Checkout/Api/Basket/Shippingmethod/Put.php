@@ -16,7 +16,7 @@ class Vortex_Checkout_Api_Basket_Shippingmethod_Put implements Vortex_Api_Endpoi
 
         try {
             // Collect shipping rates (this would typically be done in a previous request in Magento's vanilla checkout)
-            $this->getBasket()->getShippingAddress()->setCollectShippingRates(true)->collectShippingRates();
+            $this->getBasket()->getShippingAddress()->setCollectShippingRates(true)->collectTotals();
 
             $saveShippingMethodResponse = $this->getOnepageSingleton()->saveShippingMethod($body['shipping_method']);
 
