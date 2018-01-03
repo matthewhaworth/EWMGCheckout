@@ -1,2 +1,3 @@
 node_modules/
 .idea
+skin/frontend/base/default/vortex/css/*.css

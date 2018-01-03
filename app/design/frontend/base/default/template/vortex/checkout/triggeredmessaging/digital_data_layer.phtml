@@ -1,0 +1,170 @@
+<?php try { ?>
+    <?php
+    /* @var $this TriggeredMessaging_DigitalDataLayer_Block_Ddl */
+    $triggered_messaging_website_id = Mage::getStoreConfig('triggered_messaging/triggered_messaging_website_id');
+    $triggered_messaging_script_enabled = Mage::getStoreConfig('triggered_messaging/triggered_messaging_script_enabled');
+    $triggered_messaging_digital_data_layer_enabled = Mage::getStoreConfig('triggered_messaging/triggered_messaging_digital_data_layer_enabled');
+    $rebuilt_cart = False;
+
+    if (!is_null(Mage::app()->getRequest()->getQuery('cart_rebuild'))) {
+        $session = Mage::getSingleton('customer/session');
+        $queryString = Mage::app()->getRequest()->getQuery();
+        $cart_rebuild = json_decode(urldecode($queryString['cart_rebuild']), true);
+        $cr_refresh = False;
+        $previous_cart_items = Mage::getSingleton('checkout/cart')->getQuote()->getItemsCount();
+        Mage::getSingleton('checkout/cart')->truncate();
+        $cart = Mage::getSingleton('checkout/cart');
+        $cart->init();
+        foreach ($cart_rebuild as $item) {
+            if(!empty($item['page_refresh']) && $item['page_refresh']=='true'){
+                $cr_refresh = True;
+            } else {
+                try {
+                    if (array_key_exists('cop', $item)) {
+                        $options = array();
+                        foreach (array_keys($item['cop']) as $opt) {
+                            $options[intval($opt)] = $item['cop'][$opt];
+                        }
+                        $cart->addProduct($item['prid'], array(
+                                                           'product' => $item['prid'],
+                                                           'qty' => $item['qty'],
+                                                           'options' => $options
+                                                       )
+                        );
+                    } else if (array_key_exists('conf', $item)) {
+                        $conf = array();
+                        foreach (array_keys($item['conf']) as $con) {
+                            $conf[intval($con)] = $item['conf'][$con];
+                        }
+                        $cart->addProduct($item['prid'], array(
+                                                           'product' => $item['prid'],
+                                                           'qty' => $item['qty'],
+                                                           'super_attribute' => $conf
+                                                       )
+                        );
+                    } else {
+                        $cart->addProduct($item['prid'], $item['qty']);
+                    }
+                } catch (Exception $e) {
+                }
+            }
+        }
+        $quote = $cart->getQuote();
+        $shippingAddress = $quote->getShippingAddress();
+        $shippingAddress->setShippingMethod('flatrate_flatrate')->save();
+        $quote->setTotalsCollectedFlag(false);
+        $quote->getShippingAddress()->unsetData('cached_items_all');
+        $quote->getShippingAddress()->unsetData('cached_items_nominal');
+        $quote->getShippingAddress()->unsetData('cached_items_nonnominal');
+        $quote->collectTotals();
+        $cart->save();
+        $session->setCartWasUpdated(true);
+        $rebuilt_cart = $quote;
+        if($cr_refresh && $previous_cart_items==0) {
+            unset($queryString['cart_rebuild']);
+            $redirectUrl = '';
+            if (count($queryString) > 0) {
+                $redirectUrl = '?' . http_build_query($queryString);
+            }
+            header('Refresh: 0; url=./' . $redirectUrl);
+        }
+    }
+
+    $observer = 'digital_data_layer_main/page_observer';
+    $mage = Mage::getSingleton($observer);
+    ?>
+    <?php if ($triggered_messaging_digital_data_layer_enabled == 1) : ?>
+        <?php
+        // extract variable only when digital data layer is enabled
+        $version = $mage->getVersion();
+        $page = $mage->getPage();
+        $user = $mage->getUser();
+        $splat = $mage->getSplat();
+        $product = $mage->getProduct();
+        //New functionality to get rebuilt cart in DDL so want to try/catch this just in case
+        try {
+            if($rebuilt_cart){
+                $mage->_setCart($rebuilt_cart);
+            }
+        } catch (Exception $e) {
+        }
+        $cart = $mage->getCart();
+        $listing = $mage->getListing();
+        $transaction = $mage->getTransaction();
+        $events = $mage->getEvents();
+        $pluginVersion = (string)Mage::getConfig()->getNode()->modules->TriggeredMessaging_DigitalDataLayer->version;
+        $timeStamp = time() * 1000;
+
+        ?>
+        <?php
+        try {
+            // Extract things only available within template (and not model)
+            if (!$page['pageInfo']) {
+                $page['pageInfo'] = array();
+            }
+            if (!$page['pageInfo']['pageName'] || $page['pageInfo']['pageName'] === '') {
+                $page['pageInfo']['pageName'] = $this->getLayout()->getBlock('checkout.head')->getTitle();
+            } else {
+                unset($page['pageInfo']['pageName']);
+            }
+        } catch (Exception $e) {
+        }
+        ?>
+        <!-- W3C Digital Data Layer Start -->
+        <script type="text/javascript">
+            try {
+                window.digitalData = window.digitalData || {};
+                window.digitalData.version = <?php echo json_encode($version); ?>;
+                window.digitalData.page = <?php echo json_encode($page); ?>;
+                window.digitalData.user = <?php echo json_encode($user); ?>;
+                <?php if ($splat) : ?>
+                window.digitalData.debug = <?php echo json_encode($splat); ?>;
+                <?php endif; ?>
+                <?php if ($product) : ?>
+                window.digitalData.product = <?php echo json_encode($product) ?>;
+                <?php endif; ?>
+                <?php if ($cart) : ?>
+                window.digitalData.cart = <?php echo json_encode($cart) ?>;
+                <?php endif; ?>
+                <?php if ($listing): ?>
+                window.digitalData.listing = <?php echo json_encode($listing) ?>;
+                <?php endif; ?>
+                <?php if ($transaction): ?>
+                window.digitalData.transaction = <?php echo json_encode($transaction) ?>;
+                <?php endif; ?>
+                <?php if ($events): ?>
+                window.digitalData.events = <?php echo json_encode($events); ?>;
+                <?php endif; ?>
+                <?php if ($pluginVersion): ?>
+                window.digitalData.pluginVersion = <?php echo json_encode($pluginVersion); ?>;
+                <?php endif; ?>
+                <?php if ($timeStamp): ?>
+                window.digitalData.generatedDate = <?php echo json_encode($timeStamp); ?>;
+                <?php endif; ?>
+            } catch (e) {
+            }
+        </script>
+        <!-- W3C Digital Data Layer End -->
+    <?php endif; ?>
+
+    <?php if ($triggered_messaging_script_enabled) : ?>
+        <!-- Fresh Relevance Script Start -->
+        <?php if ($triggered_messaging_website_id) : ?>
+            <script defer="defer" async="async"
+                    src='//d81mfvml8p5ml.cloudfront.net/<?php echo $triggered_messaging_website_id; ?>.js'></script>
+            <?php if ($mage->_isConfirmation()) : ?>
+                <?php $pcqs = $mage->getPurchaseCompleteQs(); ?>
+                <div style="width:1px;height: 1px;;">
+                <img width="1" src="//d1f0tbk1v3e25u.cloudfront.net/pc/<?php echo $triggered_messaging_website_id; ?>/?<?php echo $pcqs; ?>"/>
+                </div>
+            <?php endif; ?>
+        <?php else: ?>
+            <script type="text/javascript">
+                console.log("You have enabled the Fresh Relevance script from the Magento Admin Configuration Panel, but have not supplied a website ID. Please go to http://www.freshrelevance.com/contact for support on this.");
+            </script>
+        <?php endif; ?>
+        <!-- Fresh Relevance Script End -->
+    <?php endif; ?>
+
+<?php } catch (Exception $e) {
+} ?>
