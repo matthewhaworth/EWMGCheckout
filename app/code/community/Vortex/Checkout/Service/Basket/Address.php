@@ -75,15 +75,18 @@ class Vortex_Checkout_Service_Basket_Address
     public function setBillingAddressAsShippingAddress()
     {
         $quote = $this->magentoCheckoutService->getQuote();
-        $billingAddress = $quote->getBillingAddress();
 
-        $shippingAddressData = $quote->getShippingAddress()->getData();
-        unset($shippingAddressData['address_id']);
+        $billingAddressData = array_intersect_key(
+            $quote->getShippingAddress()->getData(),
+            array_flip(['prefix', 'firstname', 'middle', 'lastname', 'suffix', 'company', 'street', 'city', 'postcode',
+                'country_id', 'region', 'region_id', 'email', 'telephone'])
+        );
+
         $shippingAddressData['address_type'] = Mage_Customer_Model_Address_Abstract::TYPE_BILLING;
         $shippingAddressData['quote_id'] = $quote->getId();
 
-        $billingAddress->addData($shippingAddressData);
-        $billingAddress->save();
+        $quote->getBillingAddress()->setData($billingAddressData)
+            ->save();
     }
 
     /**
