@@ -6,6 +6,7 @@
             <depends>
                 <Mage_Checkout/>
                 <Yireo_GoogleTagManager/>
+                <SessionDigital_Worldpay/>
             </depends>
         </Vortex_Checkout>
     </modules>
@@ -35,7 +36,7 @@
             </vortex_checkout>
             <worldpay>
                 <rewrite>
-                    <authorisation_recurringservice>Vortex_Checkout_Model_SessionDigital_Worldpay_Authorisation_RecurringService</authorisation_recurringservice>
+                    <authorisation_recurringService>Vortex_Checkout_Model_SessionDigital_Worldpay_Authorisation_RecurringService</authorisation_recurringService>
                 </rewrite>
             </worldpay>
         </models>
