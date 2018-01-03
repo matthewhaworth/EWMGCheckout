@@ -27,11 +27,10 @@ class Vortex_Checkout_Api_Clickandcollect_Stores_Put implements Vortex_Api_Endpo
                 'microsmultichannel_store_locator_store_selected',
                 array('store' => $store)
             );
-        }
 
-        $quote = $this->getBasket();
-        if ($quote->getGrandTotal() == 0) {
-            $this->getBasketAddressService()->setBillingAddressAsShippingAddress();
+            if ($this->getBasket()->getGrandTotal() == 0) {
+                $this->getBasketAddressService()->setBillingAddressAsShippingAddress();
+            }
         }
 
         return $this->getBasketMapper()->map($this->getBasket());

@@ -35,13 +35,13 @@ class Vortex_Checkout_Api_Customer_Get implements Vortex_Api_EndpointInterface
             $customer = $this->getCustomerSession()->getCustomer();
         }
 
-        if ($customer && $customer->getId() > 0) {
-            /**
-             * Set email against basket. Technically, a violation of the responsibility of this API call.
-             * However it's a necessary evil.
-             */
-            $this->getBasket()->setCustomerEmail($request->getParam('email'))->save();
+        /**
+         * Set email against basket. Technically, a violation of the responsibility of this API call.
+         * However it's a necessary evil.
+         */
+        $this->getBasket()->setCustomerEmail($request->getParam('email'))->save();
 
+        if ($customer && $customer->getId() > 0) {
             // Set customer's default addresses on quote if they have no already been set
             $this->getAddressService()->setCustomerAddressIfAddressIsNotSet($this->getBasket(), $customer);
 
