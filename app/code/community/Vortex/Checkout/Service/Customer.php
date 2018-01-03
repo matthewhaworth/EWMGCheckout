@@ -133,6 +133,7 @@ class Vortex_Checkout_Service_Customer
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customer = $quote->getCustomer();
+        $customer->setEmail($quote->getCustomerEmail());
         /* @var $customer Mage_Customer_Model_Customer */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);

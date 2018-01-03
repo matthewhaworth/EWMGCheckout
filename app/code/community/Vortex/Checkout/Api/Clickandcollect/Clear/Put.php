@@ -18,7 +18,14 @@ class Vortex_Checkout_Api_Clickandcollect_Clear_Put implements Vortex_Api_Endpoi
          * This is far from ideal, but other code in the codebase modifies the database without updated the object in
          * memory.
          */
-        $newBasket = Mage::getModel('sales/quote')->load($this->getBasket()->getId())->collectTotals();
+        $newBasket = Mage::getModel('sales/quote')
+            ->load($this->getBasket()->getId());
+
+        // This is necessary to establish a new shipping address once the C+C address is cleared
+        $newBasket->getShippingAddress();
+
+        $newBasket->setTotalsCollectedFlag(false)
+            ->collectTotals();
 
         return $this->getBasketMapper()->map($newBasket);
     }
