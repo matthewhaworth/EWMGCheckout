@@ -82,8 +82,9 @@ class Vortex_Checkout_Service_Basket_Address
                 'country_id', 'region', 'region_id', 'email', 'telephone'])
         );
 
-        $shippingAddressData['address_type'] = Mage_Customer_Model_Address_Abstract::TYPE_BILLING;
-        $shippingAddressData['quote_id'] = $quote->getId();
+        $billingAddressData['address_type'] = Mage_Customer_Model_Address_Abstract::TYPE_BILLING;
+        $billingAddressData['quote_id']     = $quote->getId();
+        $billingAddressData['email']        = $quote->getCustomerEmail();
 
         $quote->getBillingAddress()->setData($billingAddressData)
             ->save();
