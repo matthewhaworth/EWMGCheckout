@@ -34,6 +34,8 @@ class Vortex_Checkout_Api_Order_Post implements Vortex_Api_EndpointInterface
 
         if ($orderId) {
             $order = Mage::getModel('sales/order')->load($orderId);
+            /** @var $order Mage_Sales_Model_Order */
+            $order->addStatusHistoryComment('This order was placed using EWMG checkout.')->save();
 
             Mage::dispatchEvent('checkout_onepage_controller_success_action', array('order_ids' => array($orderId)));
             return [
