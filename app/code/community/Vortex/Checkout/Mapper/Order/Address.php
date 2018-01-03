@@ -24,6 +24,7 @@ class Vortex_Checkout_Mapper_Order_Address
             'last_name' => $quoteAddress->getLastname(),
             'email' => $quoteAddress->getEmail(),
             'phone' => $quoteAddress->getTelephone(),
+            'company' => $quoteAddress->getCompany(),
             'line1' => $quoteAddress->getStreet1(),
             'line2' => $quoteAddress->getStreet2(),
             'postcode' => $quoteAddress->getPostcode(),
