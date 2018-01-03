@@ -122,6 +122,36 @@ class Vortex_Checkout_Mapper_Order
             ), 'strlen');
     }
 
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @return object
+     */
+    private function getDataLayerUpdates(Mage_Sales_Model_Order $order)
+    {
+        $layout = Mage::getSingleton('core/layout');
+        /** @var $layout Mage_Core_Model_Layout */
+
+        $layout->getUpdate()->addHandle('default');
+        $layout->getUpdate()->load();
+        $layout->generateXml();
+        $layout->generateBlocks();
+
+        $block = $layout->getBlock('googletagmanager_order');
+        /** @var $block Yireo_GoogleTagManager_Block_Order */
+        if (!$block) {
+            return new stdClass();
+        }
+
+        $block->setOrder($order);
+        // This must be triggered as the attributes are added in the template
+        $block->toHtml();
+        return $block->getAttributes();
+    }
+
+    /**
+     * @param Mage_Sales_Model_Order $order
+     * @return array
+     */
     private function mapAvailableShippingMethods(Mage_Sales_Model_Order $order)
     {
         $shippingRates = [];
@@ -290,6 +320,8 @@ class Vortex_Checkout_Mapper_Order
         $response['items'] = $this->basketItemsMapper->map($order);
 
         $response['customer_email'] = $order->getCustomerEmail();
+
+        $response['data_layer'] = $this->getDataLayerUpdates($order);
 
         return $response;
     }

@@ -227,7 +227,7 @@ class SuccessContainer extends Component {
                     </div>
                 </div>
                 <BodyClass checkoutStep={6} />
-                <DataLayer checkoutStep={6} />
+                <DataLayer checkoutStep={6} order={this.props.order} />
             </div>
         );
     }

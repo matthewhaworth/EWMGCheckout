@@ -7,18 +7,31 @@ export default class DataLayer extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_BASKET)] = 'checkout/cart/index';
-        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_EMAIL)] = 'checkout/onepage/index/email';
-        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_DELIVERY)] = 'checkout/onepage/index/delivery';
-        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_PAYMENT)] = 'checkout/onepage/index/payment';
-        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_SUCCESS)] = 'checkout/onepage/success';
+        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_BASKET)] = 'checkoutCartIndex';
+        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_EMAIL)] = 'checkoutOnepageIndexEmail';
+        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_DELIVERY)] = 'checkoutOnepageIndexDelivery';
+        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_PAYMENT)] = 'checkoutOnepageIndexPayment';
+        this.pageTypeMap[checkoutSteps.steps.indexOf(checkoutSteps.STATE_SUCCESS)] = 'checkoutOnepageSuccess';
 
         this.updateDataLayer(props.checkoutStep);
     }
 
+    getOrderDataLayer() {
+        if (this.props.hasOwnProperty('order') && this.props.order.hasOwnProperty('data_layer')) {
+            return this.props.order.data_layer;
+        }
+
+        return {};
+    }
+
     updateDataLayer(checkoutStep) {
         if (typeof window.dataLayer !== 'undefined') {
-            window.dataLayer.push({ pageType: this.pageTypeMap[checkoutStep] })
+            const orderDataLayer = this.getOrderDataLayer();
+
+            window.dataLayer.push({
+                event: this.pageTypeMap[checkoutStep],
+                ...orderDataLayer
+            });
         }
     }
 
