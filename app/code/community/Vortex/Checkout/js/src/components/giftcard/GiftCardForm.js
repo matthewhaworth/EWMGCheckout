@@ -38,19 +38,23 @@ class GiftCardForm extends Component {
         this.props.basketActions.applyGiftCard(this.state.giftCard.number, this.state.giftCard.pin)
             .then(() => {
                 this.setState({
-                    saving: false,
                     expanded: false,
+                    saving: false,
                     giftCard: {
                         number: '',
                         pin: ''
                     }
-                })
+                });
             })
             .catch(() => {
                 this.setState({
+                    expanded: true,
                     saving: false,
-                    expanded: true
-                })
+                    giftCard: {
+                        number: '',
+                        pin: ''
+                    }
+                });
             });
     }
 
