@@ -62,6 +62,63 @@ Instead, it is possible to instantiate the checkout in ‘development mode’ an
 
 3. All local config is stored in `app/code/community/Vortex/Checkout/js/src/config.js`, you need to change those variables appropriately for you local environment.
 
+## Magento System Configuration
+
+### EWMG Checkout Configuration
+Found under `System -> Configuration -> SALES -> EWMG Checkout`
+
+
+#### AB Testing
+This section is used to configure the enchanced version of the existing datalayer from the `Yireo_GoogleTagManager` extension. By including the following datalayer variables `googleOptimizeExperimentId` and `googleOptimizeExperimentVariation` this will then allow you to use Google Optimize in a server side mode.
+
+| Experiment ID|This is to be populated from the Google Analytics ID from the experiment for example `YH6hkqTsWGWVJTiNshy9uQ`|
+| Percentage to send to new checkout|This is used to decide the percentage split that the new checkout is served, please use 0-100.|
+
+
+#### Postcode Anywhere
+Field | Value
+--- | ---
+Lookup Key | This will likely be the same for all EWMG brands sites which for PSL and JNI is `KD95-EJ11-EP36-WY85`
+Geocode Key | This will likely be the same for all EWMG brands sites which for PSL and JNI is `TN46-MR59-ZM56-ZG63`
+Geocode Preferred Country | This is used for Click and Collect search only, so should be GB and supports ISO-ALPHA-2 country codes
+Geocode Endpoint | *Do not change, this will be removed in future versions*
+
+### WorldPay Configuration
+Found under `System -> Configuration -> SALES -> WorldPay`
+
+We have purposely omitted fields that are the same for all brands regardless of checkout.
+
+#### Email Configuration
+Field | Value
+--- | ---
+Disable Worldpay New Order Email | Yes
+
+#### General Configuration
+Field | Value
+--- | ---
+Enable Logging | No (for production)
+Invoice and capture automatically| Yes
+Payment method selection | Radio
+
+#### Environment Configuration
+Field | Value
+--- | ---
+Test URL| https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp
+Live URL | https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp
+
+
+#### Credit Cards
+Field | Value
+--- | ---
+Require CVC | Yes
+Client side encryption enabled | Yes
+Client side encryption public key | Obtain from EWMG likely Josh Lowes or Michelle Beatty
+
+
+### Additional Configuration
+
+Unset all countries in `System -> Configuration -> GENERAL -> General -> State Options -> State is required for`. This is required because of an issue mapping Postcode Anywhere states to Magento states. This should be resolved in a future release once an implementation strategy is realised.
+
 
 ## Additional Notes
 
