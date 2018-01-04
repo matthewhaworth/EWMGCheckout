@@ -42,6 +42,7 @@ const AddressFormManual = ({errors, address, forceValidate, obtainRef, onSubmitA
                       errors={errors.region_id}
                       options={config.countryRegionList[address.country]}
                       placeholder="Select state"
+                      forceValidate={forceValidate}
                       value={address.region_id || ''}
                       additionalClassNames="full"/>}
 
@@ -60,6 +61,7 @@ const AddressFormManual = ({errors, address, forceValidate, obtainRef, onSubmitA
                   name="country"
                   onChange={(e) => onManualAddressChange(e)}
                   errors={errors.country}
+                  forceValidate={forceValidate}
                   options={config.countryList}
                   placeholder="Select country"
                   value={address.country}

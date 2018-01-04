@@ -1,7 +1,7 @@
 export const config = window.ewmgCheckoutConfig || {
     postcodeAnywhere: {
-        key: 'ZM84-JH59-HD92-TG97',
-        geocodeKey: 'MH39-HB51-RW69-KE13',
+        key: 'KD95-EJ11-EP36-WY85',
+        geocodeKey: 'TN46-MR59-ZM56-ZG63',
         geocodeCountry: 'GB',
         geocodeEndpoint: 'https://services.postcodeanywhere.co.uk/Geocoding/International/Geocode/v1.10/json3ex.ws',
         findEndpoint: 'https://services.postcodeanywhere.co.uk/CapturePlus/Interactive/Find/v2.10/json3ex.ws',

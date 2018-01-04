@@ -8,16 +8,29 @@ class SingleInput extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = { wasBlurred: false };
+        const isValid = typeof props.errors === 'undefined' || props.errors.length === 0;
+        this.state = { wasBlurred: false, wasValid: false, isValid, hasChanged: false };
     }
 
     onChange(event) {
+        this.setState({hasChanged: true});
         this.props.onChange(event);
     }
 
     onBlur(event) {
+        if (this.props.hasOwnProperty('disableBlur')) {
+            return;
+        }
+
         this.props.onChange(event);
-        this.setState({wasBlurred: true})
+        this.setState({wasBlurred: true, hasChanged: true})
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const isValid = typeof nextProps.errors === 'undefined' || nextProps.errors.length === 0;
+        const wasValid = this.state.wasValid || isValid;
+
+        this.setState({isValid, wasValid});
     }
 
     renderInput() {
@@ -44,9 +57,11 @@ class SingleInput extends React.Component {
     }
 
     render() {
+        const isValid = this.state.isValid;
         const {title, errors, isDisabled, forceValidate, isCard, isCvc, showPassword, note} = this.props;
-        const isValid = typeof errors === 'undefined' || errors.length === 0;
-        const shouldValidate = this.state.wasBlurred || forceValidate;
+        const disableBlur = typeof disableBlur !== 'undefined' && this.props.disableBlur;
+        const shouldValidate = (!disableBlur && this.state.wasBlurred) || forceValidate || this.state.wasValid && this.state.hasChanged;
+
         const errorsList = (!isValid) ? <li key={errors[0]}>{errors[0]}</li> : '';
         const isLoading = this.props.hasOwnProperty('loading') && this.props.loading;
 

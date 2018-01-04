@@ -13,6 +13,7 @@ const EmailForm = ({customer, errors, loading, customerExists, onChange, onConti
                              name={'email'}
                              autocomplete="email"
                              onChange={(e) => onChange(e)}
+                             disableBlur
                              value={customer.email || ''}
                              errors={errors.email}
                              additionalClassNames="full form__control--nomargin" />
