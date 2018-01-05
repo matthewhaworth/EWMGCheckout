@@ -74,6 +74,59 @@ class Vortex_Checkout_Mapper_Basket_Items
     }
 
     /**
+     * @param Vortex_Checkout_Model_CatalogInventory_Stock_Item $stockItem
+     * @param $requestedQty
+     * @return array|bool
+     */
+    protected function getQtyStatus(Mage_CatalogInventory_Model_Stock_Item $stockItem, $requestedQty)
+    {
+        $result = $stockItem->checkQuoteItemQty($requestedQty, $requestedQty);
+
+        if ($result->getHasError()) {
+            $return = array();
+            $error = null;
+
+            switch ($result->getErrorCode()) {
+                case 'qty_increments':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS;
+                    $return['qty_increments'] = $stockItem->getQtyIncrements();
+                    $error = Mage::helper('vortex_checkout')->__('This product is available in increments of %s only.', $stockItem->getQtyIncrements());
+                    break;
+                case 'qty_min':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+                    $return['qty_min_allowed'] = $stockItem->getMinSaleQty();
+                    $error = Mage::helper('vortex_checkout')->__('The minimum quantity allowed is %s.', $stockItem->getMinSaleQty());
+                    break;
+                case 'qty_max':
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
+                    $return['qty_max_allowed'] = $stockItem->getMaxSaleQty();
+                    $error = Mage::helper('vortex_checkout')->__('The maximum quantity allowed is %s.', $stockItem->getMaxSaleQty());
+                    break;
+                default:
+                    if (!$stockItem->getIsInStock()) {
+                        $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
+                        $error = Mage::helper('vortex_checkout')->__('Out of stock');
+                        break;
+                    } else if ($result->getQuoteMessageIndex() == 'qty') {
+                        $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
+                        $return['qty_max_allowed'] = $stockItem->getStockQty();
+                        $error = Mage::helper('vortex_checkout')->__('%s available only.', $stockItem->getStockQty());
+                        break;
+                    }
+                    $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
+                    $return['qty_max_allowed'] = $stockItem->getStockQty();
+            }
+
+            $return['error_code'] = $result->getErrorCode();
+            $return['status'] = $status;
+            $return['error'] = $error ? $error : $result->getMessage();
+
+            return $return;
+        }
+        return true;
+    }
+
+    /**
      * @param Mage_Sales_Model_Quote $quote
      * @return array
      */
@@ -95,17 +148,35 @@ class Vortex_Checkout_Mapper_Basket_Items
             $itemData['qty'] = (int) $quoteItem->getQty();
             $itemData['image'] = $this->getProductImage($quoteItem);
             $itemData['sku'] = $quoteItem->getSku();
-            $itemData['saleable'] = $quoteItem->getProduct()->isSaleable();
 
+            /**
+             * @var Mage_CatalogInventory_Model_Stock_Item $stockItem
+             * @var Mage_CatalogInventory_Model_Stock_Item $parentStockItem
+             */
             if ($quoteItem->getProduct()->getTypeId() === Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+                $parentStockItem = $quoteItem->getProduct()->getStockItem();
                 $stockItem = $quoteItem->getOptionByCode('simple_product')->getProduct()->getStockItem();
+
+                $stockItem->setParentItem($parentStockItem);
+                $stockItem->setIsChildItem(true);
+
+                if (!$stockItem->getIsInStock() || ($parentStockItem && !$parentStockItem->getIsInStock())) {
+                    $qtyStatus = [
+                        'error_code' => 'out_of_stock',
+                        'status' => Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK,
+                        'error' => Mage::helper('vortex_checkout')->__('Out of stock')
+                    ];
+                } else{
+                    $qtyStatus = $this->getQtyStatus($stockItem, $quoteItem->getQty());
+                }
+
                 $itemData = $this->addConfiguredOptions($quoteItem, $itemData);
             } else{
                 $stockItem = $quoteItem->getProduct()->getStockItem();
+                $qtyStatus = $this->getQtyStatus($stockItem, $quoteItem->getQty());
             }
 
-            $itemData['out_of_stock'] = !$stockItem->getIsInStock();
-            $itemData['in_stock_left'] = (int) $stockItem->getQty();
+            $itemData['qty_status'] = $qtyStatus;
 
             $customOptions = $this->configurationHelper->getCustomOptions($quoteItem);
             if ($customOptions && count($customOptions) > 0) {
