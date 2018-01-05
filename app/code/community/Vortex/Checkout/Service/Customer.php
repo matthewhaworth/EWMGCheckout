@@ -136,11 +136,13 @@ class Vortex_Checkout_Service_Customer
         $customer->setEmail($quote->getCustomerEmail());
         /* @var $customer Mage_Customer_Model_Customer */
         $customerBilling = $billing->exportCustomerAddress();
+        $customerBilling->setCustomer($customer);
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
         $customerBilling->setIsDefaultBilling(true);
         if ($shipping && !$shipping->getSameAsBilling() && !$quote->getIsClickAndCollect()) {
             $customerShipping = $shipping->exportCustomerAddress();
+            $customerShipping->setCustomer($customer);
             $customer->addAddress($customerShipping);
             $shipping->setCustomerAddress($customerShipping);
             $customerShipping->setIsDefaultShipping(true);
@@ -153,9 +155,20 @@ class Vortex_Checkout_Service_Customer
         $quote->setCustomer($customer)
             ->setCustomerId(true);
 
-        $customer->save();
+        try {
 
-        $order->setCustomerId($customer->getId())->save();
+            $quote->getResource()->beginTransaction();
+            $customer->save();
+
+            $order->setCustomerId($customer->getId())->save();
+            $quote->getResource()->commit();
+
+        } catch (Exception $e) {
+
+            $quote->getResource()->rollBack();
+            throw $e;
+
+        }
 
         return $customer;
     }
