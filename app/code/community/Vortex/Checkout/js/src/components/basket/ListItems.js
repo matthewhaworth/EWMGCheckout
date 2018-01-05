@@ -35,7 +35,7 @@ export default class ListItems extends Component {
                             <img src={item.image} alt={item.name} />
                         </div>
                         <div className="checkout-basket__item-info">
-                            {item.qty_status.error &&
+                            {item.qty_status && item.qty_status.error &&
                                 <span className="checkout-basket__item-stock checkout-basket__item-stock--outofstock">
                                     {item.qty_status.error}
                                 </span>
