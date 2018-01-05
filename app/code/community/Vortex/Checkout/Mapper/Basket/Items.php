@@ -100,7 +100,7 @@ class Vortex_Checkout_Mapper_Basket_Items
                 case 'qty_max':
                     $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
                     $return['qty_max_allowed'] = $stockItem->getMaxSaleQty();
-                    $error = Mage::helper('vortex_checkout')->__('The maximum quantity allowed is %s.', $stockItem->getMaxSaleQty());
+                    $error = Mage::helper('vortex_checkout')->__('The requested quantity is not available.');
                     break;
                 default:
                     if (!$stockItem->getIsInStock()) {
@@ -110,7 +110,7 @@ class Vortex_Checkout_Mapper_Basket_Items
                     } else if ($result->getQuoteMessageIndex() == 'qty') {
                         $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
                         $return['qty_max_allowed'] = $stockItem->getStockQty();
-                        $error = Mage::helper('vortex_checkout')->__('%s available only.', $stockItem->getStockQty());
+                        $error = Mage::helper('vortex_checkout')->__('The requested quantity is not available.');
                         break;
                     }
                     $status = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
