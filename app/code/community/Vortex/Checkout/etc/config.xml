@@ -39,6 +39,11 @@
                     <authorisation_recurringService>Vortex_Checkout_Model_SessionDigital_Worldpay_Authorisation_RecurringService</authorisation_recurringService>
                 </rewrite>
             </worldpay>
+            <cataloginventory>
+                <rewrite>
+                    <stock_item>Vortex_Checkout_Model_CatalogInventory_Stock_Item</stock_item>
+                </rewrite>
+            </cataloginventory>
         </models>
         <events>
             <customer_address_save_after>
