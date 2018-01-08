@@ -28,7 +28,11 @@ class OrderSubmission extends Component {
     }
 
     onOrderSubmit(history) {
-        this.setState({processingSubmit: true});
+        if (!this.props.basket.shipping_address.hasOwnProperty('address_id') || this.props.basket.shipping_address.address_id == '') {
+            this.props.addGlobalError('Please scroll up and enter your delivery address.');
+            return;
+        }
+
         this.props.onOrderSubmit(history, this.state.newsletter, this.state.thirdParty).catch(() => {
             this.setState({processingSubmit: false});
         });

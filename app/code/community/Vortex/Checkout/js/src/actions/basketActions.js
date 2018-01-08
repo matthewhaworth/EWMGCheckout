@@ -66,11 +66,15 @@ export const setShippingMethod = (shippingMethod) => {
         });
 };
 
+export const clearDeliveryMethods = () => {
+    return { type: actionTypes.REMOVE_DELIVERY_METHODS };
+};
+
 const updateAddress = (address, addressType) => {
     return { type: actionTypes.UPDATE_ADDRESS_SUCCESS, address, addressType };
 };
 
-export const saveAddress = (customer, address, addressType, force = false) => {
+export const saveAddress = (customer, address, addressType, force = false, removeDeliveryMethods = false) => {
     return (dispatch, getState) => {
         const useShippingForBilling = getState().basket.use_shipping_for_billing;
         if (force) {
@@ -82,6 +86,9 @@ export const saveAddress = (customer, address, addressType, force = false) => {
                 });
         } else {
             dispatch(updateAddress(address, addressType));
+            if (removeDeliveryMethods) {
+                dispatch(clearDeliveryMethods());
+            }
             return Promise.resolve();
         }
     }
@@ -114,8 +121,7 @@ export const placeOrder = (newsletter = false, thirdParty = false, encryptedCard
         return BagApi.placeOrder(newsletter, thirdParty, encryptedCardData, cardType, cardTokenId, saveCardDetails).then((resp) => {
             dispatch(setOrderSuccess(resp.order));
             return resp;
-        })
-        .catch((err) => {
+        }).catch((err) => {
             dispatch(addPaymentError(err));
             throw err;
         });

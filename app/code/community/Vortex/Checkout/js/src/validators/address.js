@@ -13,7 +13,8 @@ export const emptyAddress = {
     county: '',
     region_id: '',
     postcode: '',
-    country: ''
+    country: '',
+    address_id: ''
 };
 
 export const validators = {

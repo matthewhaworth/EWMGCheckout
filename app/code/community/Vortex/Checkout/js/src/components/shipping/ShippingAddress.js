@@ -16,9 +16,9 @@ class ShippingAddress extends Component {
         return this.handleAddressChange(address, true);
     }
 
-    handleAddressChange(address, submitToServer = false) {
+    handleAddressChange(address, submitToServer = false, removeDeliveryMethods = false) {
         const {customer, saveAddress} = this.props;
-        return saveAddress(customer, address, ADDRESS_TYPE_SHIPPING, submitToServer);
+        return saveAddress(customer, address, ADDRESS_TYPE_SHIPPING, submitToServer, removeDeliveryMethods);
     }
 
     handleSavedAddressChoice(address) {
@@ -85,9 +85,9 @@ class ShippingAddress extends Component {
                 {showAddressList && addressList}
 
                 {showNewAddressEntry && <Address addressLabel="Delivery address" address={this.props.shippingAddress}
-                         allowAddressSave={this.props.customer.hasOwnProperty('id')}
-                         handleAddressChange={(e) => this.handleAddressChange(e)}
-                         handleAddressSubmit={(e) => this.onShippingAddressContinue(e)} />}
+                                                 allowAddressSave={this.props.customer.hasOwnProperty('id')}
+                                                 handleAddressChange={(a, s, r) => this.handleAddressChange(a, s, r)}
+                                                 handleAddressSubmit={(e) => this.onShippingAddressContinue(e)} />}
             </div>
         );
     }

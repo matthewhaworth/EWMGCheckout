@@ -28,7 +28,7 @@ class Payment extends Component {
 
     constructor(props, context) {
         super(props, context);
-        
+
         this.state = {
             creditCard: {},
             selectedCardId: null,
@@ -144,10 +144,10 @@ class Payment extends Component {
                     <div className="form__title form__title--primary"><span className="form__title-count">3</span>Secure payment</div>
 
                     {customer.savedCards && customer.savedCards.length > 0 &&
-                        <CreditCardList creditCards={customer.savedCards}
-                                        selectedCardId={this.state.selectedCardId}
-                                        onSelectCard={(e) => this.onSelectCard(e)}
-                                        toggleCreditCardFormVisible={(e) => this.toggleCreditCardFormVisible(e)}/>}
+                    <CreditCardList creditCards={customer.savedCards}
+                                    selectedCardId={this.state.selectedCardId}
+                                    onSelectCard={(e) => this.onSelectCard(e)}
+                                    toggleCreditCardFormVisible={(e) => this.toggleCreditCardFormVisible(e)}/>}
 
                     {this.state.creditCardFormVisible && <CreditCardForm
                         creditCard={this.state.creditCard}
@@ -157,12 +157,13 @@ class Payment extends Component {
                         toggleSaveCard={(e) => this.toggleSaveCard(e)}
                         onCreditCardChange={(e) => this.onCreditCardChange(e)} />}
 
-                    <BillingAddress customer={customer} 
+                    <BillingAddress customer={customer}
                                     basket={basket}
                                     saveAddress={saveAddress}
                                     saveCustomerAddress={saveCustomerAddress} />
 
                     <OrderSubmission basket={basket}
+                                     addGlobalError={this.props.addGlobalError}
                                      canPlaceOrder={canPlaceOrder}
                                      addDiscountCode={code => this.props.addDiscountCode(code)}
                                      removeDiscountCode={() => this.props.removeDiscountCode()}
