@@ -131,32 +131,36 @@ class Vortex_Checkout_Service_Customer
     ) {
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
-
         $customer = $quote->getCustomer();
         $customer->setEmail($quote->getCustomerEmail());
         /* @var $customer Mage_Customer_Model_Customer */
         $customerBilling = $billing->exportCustomerAddress();
+        $customerBilling->setCustomer($customer);
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
         $customerBilling->setIsDefaultBilling(true);
         if ($shipping && !$shipping->getSameAsBilling() && !$quote->getIsClickAndCollect()) {
             $customerShipping = $shipping->exportCustomerAddress();
+            $customerShipping->setCustomer($customer);
             $customer->addAddress($customerShipping);
             $shipping->setCustomerAddress($customerShipping);
             $customerShipping->setIsDefaultShipping(true);
         } else {
             $customerBilling->setIsDefaultShipping(true);
         }
-
         Mage::helper('core')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($password);
         $quote->setCustomer($customer)
             ->setCustomerId(true);
-
-        $customer->save();
-
-        $order->setCustomerId($customer->getId())->save();
-
+        try {
+            $quote->getResource()->beginTransaction();
+            $customer->save();
+            $order->setCustomerId($customer->getId())->save();
+            $quote->getResource()->commit();
+        } catch (Exception $e) {
+            $quote->getResource()->rollBack();
+            throw $e;
+        }
         return $customer;
     }
 
