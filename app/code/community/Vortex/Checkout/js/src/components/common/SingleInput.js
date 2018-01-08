@@ -59,7 +59,7 @@ class SingleInput extends React.Component {
     render() {
         const isValid = this.state.isValid;
         const {title, errors, isDisabled, forceValidate, isCard, isCvc, showPassword, note} = this.props;
-        const disableBlur = typeof disableBlur !== 'undefined' && this.props.disableBlur;
+        const disableBlur = typeof this.props.disableBlur !== 'undefined' && this.props.disableBlur;
         const shouldValidate = (!disableBlur && this.state.wasBlurred) || forceValidate || this.state.wasValid && this.state.hasChanged;
 
         const errorsList = (!isValid) ? <li key={errors[0]}>{errors[0]}</li> : '';

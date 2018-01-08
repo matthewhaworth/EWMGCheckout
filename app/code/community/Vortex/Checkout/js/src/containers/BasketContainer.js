@@ -26,8 +26,7 @@ class BasketContainer extends Component {
         };
     }
 
-    componentWillMount()
-    {
+    componentWillMount() {
 
         CmsApi.loadCmsContent('delivery').then((resp) => {
             this.setState({deliveryContent: resp.html});

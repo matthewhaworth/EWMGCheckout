@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as basketActions from "../actions/basketActions";
+import * as errorActions from "../actions/errorActions";
 import * as customerActions from "../actions/customerActions";
 
 import Payment from '../components/payment/Payment';
@@ -16,6 +17,7 @@ class PaymentContainer extends Component {
         return <Payment active={this.props.active}
                         customer={this.props.customer}
                         basket={this.props.basket}
+                        addGlobalError={this.props.errorActions.addGlobalError}
                         saveAddress={this.props.basketActions.saveAddress}
                         saveCustomerAddress={this.props.customerActions.saveCustomerAddress}
                         addDiscountCode={this.props.basketActions.addDiscountCode}
@@ -37,7 +39,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         customerActions: bindActionCreators(customerActions, dispatch),
-        basketActions: bindActionCreators(basketActions, dispatch)
+        basketActions: bindActionCreators(basketActions, dispatch),
+        errorActions: bindActionCreators(errorActions, dispatch)
+
     }
 };
 

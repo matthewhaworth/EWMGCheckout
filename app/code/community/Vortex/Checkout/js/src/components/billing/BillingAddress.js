@@ -67,7 +67,7 @@ class BillingAddress extends Component {
                     last_name: address.last_name,
                     email: address.email,
                     phone: address.phone,
-                });
+                }, false, true);
             }
         }
 
@@ -78,10 +78,10 @@ class BillingAddress extends Component {
         return this.handleAddressChange(address, true);
     }
 
-    handleAddressChange(address, submitToServer = false) {
+    handleAddressChange(address, submitToServer = false, removeDeliveryMethods = false) {
         const {customer, saveAddress} = this.props;
 
-        return saveAddress(customer, address, ADDRESS_TYPE_BILLING, submitToServer).catch(err => {
+        return saveAddress(customer, address, ADDRESS_TYPE_BILLING, submitToServer, removeDeliveryMethods).catch(err => {
             this.setState({loading: false});
         });
     }
@@ -164,7 +164,7 @@ class BillingAddress extends Component {
                         <Address addressLabel="Billing address"
                                  address={basket.billing_address}
                                  allowAddressSave={customer.hasOwnProperty('id')}
-                                 handleAddressChange={(e) => this.handleAddressChange(e)}
+                                 handleAddressChange={(a, s, r) => this.handleAddressChange(a, s, r)}
                                  handleAddressSubmit={(e) => this.onPaymentAddressContinue(e)} />}
                     </div>)}
             </div>

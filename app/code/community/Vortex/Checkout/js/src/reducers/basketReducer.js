@@ -1,12 +1,12 @@
 import * as actionTypes from "../actions/actionTypes";
 import initialState from "./initialState";
-import {UPDATE_ADDRESS_SUCCESS} from "../actions/actionTypes";
+import {LOAD_BASKET_SUCCESS, UPDATE_ADDRESS_SUCCESS, REMOVE_DELIVERY_METHODS} from "../actions/actionTypes";
 import {ADDRESS_TYPE_BILLING, ADDRESS_TYPE_SHIPPING} from "../api/BagApi";
 
 
 export default function basketReducer(state = initialState.basket, action) {
     switch(action.type) {
-        case actionTypes.LOAD_BASKET_SUCCESS:
+        case LOAD_BASKET_SUCCESS:
             return {...action.basket, use_shipping_for_billing: state.use_shipping_for_billing };
         case UPDATE_ADDRESS_SUCCESS:
             if (action.addressType === ADDRESS_TYPE_SHIPPING) {
@@ -29,6 +29,13 @@ export default function basketReducer(state = initialState.basket, action) {
                 };
             }
 
+            break;
+
+        case REMOVE_DELIVERY_METHODS:
+            return {
+                ...state,
+                available_shipping_methods: []
+            };
             break;
 
         default:

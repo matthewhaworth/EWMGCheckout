@@ -31,7 +31,7 @@ export default class Address extends Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
-      //  this.setState({ errors: addressValidator.validate(nextProps.address) });
+        //  this.setState({ errors: addressValidator.validate(nextProps.address) });
     }
 
     /**
@@ -123,7 +123,7 @@ export default class Address extends Component {
                 last_name: address.last_name,
                 email: address.email,
                 phone: address.phone,
-            });
+            }, false, true);
         }
 
         this.setState({
@@ -133,23 +133,31 @@ export default class Address extends Component {
     }
 
     unsetAddressChosen() {
+        const address = this.props.address;
+        this.props.handleAddressChange({
+            ...addressValidator.emptyAddress,
+            first_name: address.first_name,
+            last_name: address.last_name,
+            email: address.email,
+            phone: address.phone,
+        }, false, true);
         this.setState({addressChosen:false});
     }
 
     render() {
         return <AddressFormFull addressLabel={this.props.addressLabel}
-                            forceValidate={this.state.forceValidate}
-                            obtainRef={(elm) => this.obtainRef(elm)}
-                            errors={this.state.errors}
-                            allowAddressSave={this.props.allowAddressSave}
-                            address={this.props.address}
-                            addressChosen={this.state.addressChosen}
-                            unsetAddressChosen={() => this.unsetAddressChosen()}
-                            manualEntry={this.state.manualEntry}
-                            onToggleManualEntry={(event) => this.toggleManualEntry(event)}
-                            onToggleSaveInAddressBook={(event) => this.toggleSaveInAddressBook(event)}
-                            onSubmitAddress={this.handleAddressSubmit}
-                            onManualAddressChange={(event) => this.onAddressFieldUpdate(event)}
-                            loading={this.state.loading} />;
+                                forceValidate={this.state.forceValidate}
+                                obtainRef={(elm) => this.obtainRef(elm)}
+                                errors={this.state.errors}
+                                allowAddressSave={this.props.allowAddressSave}
+                                address={this.props.address}
+                                addressChosen={this.state.addressChosen}
+                                unsetAddressChosen={() => this.unsetAddressChosen()}
+                                manualEntry={this.state.manualEntry}
+                                onToggleManualEntry={(event) => this.toggleManualEntry(event)}
+                                onToggleSaveInAddressBook={(event) => this.toggleSaveInAddressBook(event)}
+                                onSubmitAddress={this.handleAddressSubmit}
+                                onManualAddressChange={(event) => this.onAddressFieldUpdate(event)}
+                                loading={this.state.loading} />;
     }
 }
