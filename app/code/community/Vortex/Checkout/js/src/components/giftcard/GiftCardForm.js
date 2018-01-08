@@ -46,36 +46,36 @@ class GiftCardForm extends Component {
             forceValidate: true,
         });
 
-        if(errors.number.length === 0 && errors.pin.length === 0){
-
-            this.setState({saving: true});
-            this.props.basketActions.applyGiftCard(this.state.giftCard.number, this.state.giftCard.pin)
-                .then(() => {
-                    this.setState({
-                        expanded: false,
-                        saving: false,
-                        giftCard: {
-                            number: '',
-                            pin: ''
-                        },
-                        forceValidate: false,
-                        errors: []
-                    });
-                })
-                .catch(() => {
-                    this.setState({
-                        expanded: true,
-                        saving: false,
-                        giftCard: {
-                            number: '',
-                            pin: ''
-                        },
-                        forceValidate: false,
-                        errors: []
-                    });
-                });
-
+        if(errors.number.length !== 0 || errors.pin.length !== 0){
+            return;
         }
+
+        this.setState({saving: true});
+        this.props.basketActions.applyGiftCard(this.state.giftCard.number, this.state.giftCard.pin)
+            .then(() => {
+                this.setState({
+                    expanded: false,
+                    saving: false,
+                    giftCard: {
+                        number: '',
+                        pin: ''
+                    },
+                    forceValidate: false,
+                    errors: []
+                });
+            })
+            .catch(() => {
+                this.setState({
+                    expanded: true,
+                    saving: false,
+                    giftCard: {
+                        number: '',
+                        pin: ''
+                    },
+                    forceValidate: false,
+                    errors: []
+                });
+            });
 
     }
 
