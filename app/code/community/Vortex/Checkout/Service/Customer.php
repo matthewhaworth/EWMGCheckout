@@ -131,7 +131,6 @@ class Vortex_Checkout_Service_Customer
     ) {
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
-
         $customer = $quote->getCustomer();
         $customer->setEmail($quote->getCustomerEmail());
         /* @var $customer Mage_Customer_Model_Customer */
@@ -149,25 +148,19 @@ class Vortex_Checkout_Service_Customer
         } else {
             $customerBilling->setIsDefaultShipping(true);
         }
-
         Mage::helper('core')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($password);
         $quote->setCustomer($customer)
             ->setCustomerId(true);
 
         try {
-
             $quote->getResource()->beginTransaction();
             $customer->save();
-
             $order->setCustomerId($customer->getId())->save();
             $quote->getResource()->commit();
-
         } catch (Exception $e) {
-
             $quote->getResource()->rollBack();
             throw $e;
-
         }
 
         return $customer;

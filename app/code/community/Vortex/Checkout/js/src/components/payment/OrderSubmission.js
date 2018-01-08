@@ -33,6 +33,7 @@ class OrderSubmission extends Component {
             return;
         }
 
+        this.setState({processingSubmit: true});
         this.props.onOrderSubmit(history, this.state.newsletter, this.state.thirdParty).catch(() => {
             this.setState({processingSubmit: false});
         });
