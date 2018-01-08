@@ -42,7 +42,9 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
                                      onChange={(e) => onDiscountChange(e)}
                                      value={discountCode.code || ''}
                                      additionalClassNames="form__control--small col-3-4"
-                                     noValidate={true} />
+                                     errors={discountCode.errors}
+                                     forceValidate={discountCode.forceValidate}
+                                     noValidate={!discountCode.forceValidate} />
 
                         <div className="form__control form__control--actions col-1-4">
                             <button className={'button button--secondary button--small' + (discountCode.saving ? ' button--loading' : '')}
