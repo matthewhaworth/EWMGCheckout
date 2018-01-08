@@ -103,13 +103,13 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
                     <button className="button--payment button--payment-visa"></button>
                     <button className="button--payment button--payment-amex"></button>
                 </div>
-                <div className="checkout-basket__total-express">
+                {basket.total != 0 &&  <div className="checkout-basket__total-express">
                     <div className="checkout-basket__total-express-title">Express checkout <small>(delivery only)</small></div>
                     <div className="checkout-basket__total-express-buttons">
                         <PaypalButton/>
                         <AmazonButton/>
                     </div>
-                </div>
+                </div>}
             </div>}
         </div>
     );
