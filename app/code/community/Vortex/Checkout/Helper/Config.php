@@ -59,6 +59,6 @@ class Vortex_Checkout_Helper_Config
 
     public function getClickCollectActive()
     {
-        return Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_ACTIVE) || Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE);
+        return (bool)(Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_ACTIVE) || Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE));
     }
 }
