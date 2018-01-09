@@ -45,7 +45,8 @@
         formKeyRequired: <?php echo Mage::getStoreConfigFlag('admin/security/validate_formkey_checkout') ? 'true' : 'false' ?>,
         formKey: '<?php echo Mage::getSingleton('core/session')->getFormKey() ?>'
         <?php if($_helper->hasAllowedCountries()):?>, countryList: <?php echo $_helper->getCountriesJson();?><?php endif;?>,
-        countryRegionList: <?php echo '{}'; // this is commented out to force county, not region_id because of PCA mapping $_helper->getRegionJson() ?>
+        countryRegionList: <?php echo '{}'; // this is commented out to force county, not region_id because of PCA mapping $_helper->getRegionJson() ?>,
+        clickcollectActive: <?php echo $_configHelper->getClickCollectActive() ? 'true' : 'false';?>
     };
 </script>
 

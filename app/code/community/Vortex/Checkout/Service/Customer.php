@@ -105,7 +105,7 @@ class Vortex_Checkout_Service_Customer
             'company' => $apiAddress['company'],
             'street' => [
                 $apiAddress['line1'],
-                ($apiAddress['line3']) ? $apiAddress['line2'] . ', ' . $apiAddress['line3'] : $apiAddress['line2']
+                (array_key_exists('line3', $apiAddress) && $apiAddress['line3'] !== '') ? $apiAddress['line2'] . ', ' . $apiAddress['line3'] : $apiAddress['line2']
             ],
             'email' => $apiAddress['email'],
             'city' => $apiAddress['city'],

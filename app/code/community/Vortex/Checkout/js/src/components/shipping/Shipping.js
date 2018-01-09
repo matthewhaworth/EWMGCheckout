@@ -6,6 +6,7 @@ import AmazonButton from "../payment/amazon/AmazonButton";
 import PaypalButton from "../payment/paypal/PaypalButton";
 import * as addressValidator from "../../validators/address";
 import OrderSubmission from "../payment/OrderSubmission";
+import {config} from "../../config";
 
 const DELIVERY_TYPE_DELIVERY = 'DELIVERY_TYPE_DELIVERY';
 const DELIVERY_TYPE_CLICKCOLLECT = 'DELIVERY_TYPE_CLICKCOLLECT';
@@ -15,7 +16,7 @@ class Shipping extends Component {
     constructor(props, context) {
         super(props, context);
 
-        const initialDeliveryType = props.basket.is_click_and_collect ? DELIVERY_TYPE_CLICKCOLLECT : DELIVERY_TYPE_DELIVERY;
+        const initialDeliveryType = (props.basket.is_click_and_collect && config.clickcollectActive) ? DELIVERY_TYPE_CLICKCOLLECT : DELIVERY_TYPE_DELIVERY;
         this.state = { deliveryType: initialDeliveryType };
     }
 
@@ -68,7 +69,9 @@ class Shipping extends Component {
                 basket.shipping_address !== null &&
                 addressValidator.validate(basket.shipping_address)._all) ||
 
-            (this.state.deliveryType === DELIVERY_TYPE_CLICKCOLLECT && basket.is_click_and_collect &&
+            (this.state.deliveryType === DELIVERY_TYPE_CLICKCOLLECT &&
+                basket.is_click_and_collect &&
+                config.clickcollectActive &&
                 basket.click_and_collect !== null);
 
         return (
@@ -84,15 +87,17 @@ class Shipping extends Component {
                                 <span className="form__label-text">Delivery</span>
                             </label>
                         </div>
-                        <div className="form__radio form__radio--inline">
-                            <label className="form__label">
-                                <input type="radio" name="delivery_type"
-                                       onChange={(e) => this.toggleDelivery(e)}
-                                       checked={this.state.deliveryType === DELIVERY_TYPE_CLICKCOLLECT}
-                                       value={DELIVERY_TYPE_CLICKCOLLECT} />
-                                <span className="form__label-text">Click &amp; Collect</span>
-                            </label>
-                        </div>
+                        {config.clickcollectActive &&
+                            <div className="form__radio form__radio--inline">
+                                <label className="form__label">
+                                    <input type="radio" name="delivery_type"
+                                           onChange={(e) => this.toggleDelivery(e)}
+                                           checked={this.state.deliveryType === DELIVERY_TYPE_CLICKCOLLECT}
+                                           value={DELIVERY_TYPE_CLICKCOLLECT}/>
+                                    <span className="form__label-text">Click &amp; Collect</span>
+                                </label>
+                            </div>
+                        }
                     </div>
 
                     {child}

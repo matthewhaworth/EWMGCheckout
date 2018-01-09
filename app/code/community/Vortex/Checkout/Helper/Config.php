@@ -13,6 +13,10 @@ class Vortex_Checkout_Helper_Config
     const XML_CONFIG_EXPERIMENT_ID = 'ewmg_checkout/ab_testing/experiment_id';
     const XML_CONFIG_PERCENTAGE_TO_NEW_CHECKOUT = 'ewmg_checkout/ab_testing/percentage_to_new_checkout';
 
+    const XML_CONFIG_CLICKCOLLECT_ACTIVE = 'carriers/clickcollectshipping/active';
+    const XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE = 'carriers/clickcollectshipping_paid/active';
+
+
     public function getPcaLookupKey()
     {
         return Mage::getStoreConfig(self::XML_CONFIG_PCA_LOOKUP_KEY);
@@ -51,5 +55,10 @@ class Vortex_Checkout_Helper_Config
     public function getExperimentId()
     {
         return Mage::getStoreConfig(self::XML_CONFIG_EXPERIMENT_ID);
+    }
+
+    public function getClickCollectActive()
+    {
+        return (bool)(Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_ACTIVE) || Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE));
     }
 }
