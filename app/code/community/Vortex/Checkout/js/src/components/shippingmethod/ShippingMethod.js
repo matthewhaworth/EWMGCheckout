@@ -58,7 +58,8 @@ class ShippingMethod extends Component {
                                  isLoading={isLoading}
                                  deliveryContent={this.state.deliveryContent}
                                  deliveryActive={this.state.deliveryActive}
-                                 toggleDelivery={(e) => this.toggleDelivery(e)}/>
+                                 toggleDelivery={(e) => this.toggleDelivery(e)}
+                                 basketSubtotal={basket.subtotal_incl_discount}/>
             </div>
         );
     }

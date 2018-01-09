@@ -436,6 +436,20 @@
         }
     }
 
+    // Remaining message
+
+    &__remaining{
+        .box-sizing();
+
+        &-text{
+            padding: @secondary-padding-mobile @default-padding-mobile;
+            background:@basket-remaining-background;
+            text-align: center;
+            border: @basket-remaining-border;
+        }
+    }
+
+
     // Steps
 
     body.@{step-2} &{
@@ -581,6 +595,14 @@
                 display:none;
             }
 
+            &__remaining:not(&__remaining--primary){
+                margin-top:@secondary-margin-mobile;
+            }
+
+            &__remaining--primary{
+                margin-bottom:@default-margin-mobile;
+            }
+
             body.@{step-4} &{
 
                 &__totals{
@@ -724,6 +746,15 @@
 
             &__total-express {
                 margin-top: @secondary-margin-tablet;
+            }
+
+            &__remaining:not(&__remaining--primary){
+                margin-top:@default-margin-tablet;
+            }
+
+            &__remaining--primary{
+                margin-top:-(@secondary-margin-desktop / 2);
+                margin-bottom:@default-margin-desktop;
             }
 
             // States

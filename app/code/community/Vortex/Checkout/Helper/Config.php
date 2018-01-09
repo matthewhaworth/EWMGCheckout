@@ -13,6 +13,9 @@ class Vortex_Checkout_Helper_Config
     const XML_CONFIG_EXPERIMENT_ID = 'ewmg_checkout/ab_testing/experiment_id';
     const XML_CONFIG_PERCENTAGE_TO_NEW_CHECKOUT = 'ewmg_checkout/ab_testing/percentage_to_new_checkout';
 
+    const XML_CONFIG_REMAINING_ENABLED = 'ewmg_checkout/remaining_message/enabled';
+    const XML_CONFIG_REMAINING_TOTAL = 'ewmg_checkout/remaining_message/total';
+
     const XML_CONFIG_CLICKCOLLECT_ACTIVE = 'carriers/clickcollectshipping/active';
     const XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE = 'carriers/clickcollectshipping_paid/active';
 
@@ -55,6 +58,16 @@ class Vortex_Checkout_Helper_Config
     public function getExperimentId()
     {
         return Mage::getStoreConfig(self::XML_CONFIG_EXPERIMENT_ID);
+    }
+
+    public function getRemainingEnabled()
+    {
+        return Mage::getStoreConfig(self::XML_CONFIG_REMAINING_ENABLED);
+    }
+
+    public function getRemainingTotal()
+    {
+        return Mage::getStoreConfig(self::XML_CONFIG_REMAINING_TOTAL);
     }
 
     public function getClickCollectActive()

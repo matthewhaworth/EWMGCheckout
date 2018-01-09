@@ -1,7 +1,8 @@
 import React from 'react';
 import RawHtml from "../common/RawHtml";
+import RemainingMessage from "../common/RemainingMessage";
 
-const ListMethods = ({shippingMethods, selectedShippingMethod, setShippingMethod, isLoading, deliveryContent, deliveryActive, toggleDelivery}) => {
+const ListMethods = ({shippingMethods, selectedShippingMethod, setShippingMethod, isLoading, deliveryContent, deliveryActive, toggleDelivery, basketSubtotal}) => {
 
     const shippingMethodList = shippingMethods.map((method) => {
         return (
@@ -20,6 +21,10 @@ const ListMethods = ({shippingMethods, selectedShippingMethod, setShippingMethod
 
     return (
         <form className="form form--primary">
+
+            <RemainingMessage subtotal={basketSubtotal}
+                              additionalClassNames={"checkout-basket__remaining--primary"}/>
+
             <div className="form__control form__control--nomargin full">
                 {shippingMethodList}
                 {isLoading && <div className="checkout-loader active"><div className="checkout-loader__spinner"><span/></div></div>}

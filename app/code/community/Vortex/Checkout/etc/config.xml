@@ -132,6 +132,10 @@
             <ab_testing>
                 <percentage_to_new_checkout>0</percentage_to_new_checkout>
             </ab_testing>
+            <remaining_message>
+                <enabled>1</enabled>
+                <total>50</total>
+            </remaining_message>
         </ewmg_checkout>
     </default>
 </config>
