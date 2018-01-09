@@ -115,6 +115,16 @@ Client side encryption enabled | Yes
 Client side encryption public key | Obtain from EWMG likely Josh Lowes or Michelle Beatty
 
 
+#### Continuous Authorisation Payments
+Field | Value
+--- | ---
+Enabled | Yes
+Merchant Code | Sames as Ecommerce Merchant Code
+XML Username | Sames as Ecommerce XML Username
+XML Password | Sames as Ecommerce XML Password
+Require CVC | No
+
+
 ### Additional Configuration
 
 Unset all countries in `System -> Configuration -> GENERAL -> General -> State Options -> State is required for`. This is required because of an issue mapping Postcode Anywhere states to Magento states. This should be resolved in a future release once an implementation strategy is realised.
