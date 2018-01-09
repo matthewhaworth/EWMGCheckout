@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import isEmpty from 'validator/lib/isEmpty';
 import ListTotals from "./ListTotals";
 
 class Totals extends Component {
@@ -8,7 +9,9 @@ class Totals extends Component {
             discount: {
                 code: this.props.basket.discount_code,
                 saving: false,
-                removing: false
+                removing: false,
+                errors: [],
+                forceValidate: false
             },
         };
     }
@@ -18,13 +21,26 @@ class Totals extends Component {
         this.setState({
             discount: {
                 ...this.state.discount,
-                code: event.target.value
+                code: event.target.value,
+                errors:[],
+                forceValidate: false
             }
         });
     }
 
     onDiscountApply(event) {
         event.preventDefault();
+
+        if(!this.state.discount.code || isEmpty(this.state.discount.code)){
+            this.setState({
+                discount: {
+                    errors: ['Discount code couldn\'t be empty'],
+                    forceValidate: true
+                }
+            });
+            return false;
+        }
+
         this.setState({
             discount: {
                 ...this.state.discount,
@@ -37,7 +53,7 @@ class Totals extends Component {
                 this.setState({
                     discount: {
                         ...this.state.discount,
-                        saving: false,
+                        saving: false
                     }
                 });
             })
@@ -55,7 +71,9 @@ class Totals extends Component {
         this.setState({
             discount:{
                 ...this.state.discount,
-                removing: true
+                removing: true,
+                forceValidate: false,
+                errors:[]
             }
         });
 
