@@ -4,11 +4,11 @@ export const validators = {
     number: [
         { message: 'Number is required ', predicate: (value) => typeof value === 'string' && !isEmpty(value) },
         { message: 'Number must be at least 10 characters', predicate: (value) => typeof value === 'string' && value.length >= 10 }
-    ],
-    pin: [
-        { message: 'Pin is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) },
-        { message: 'Pin must be at least 2 characters', predicate: (value) => typeof value === 'string' && value.length >= 2 }
     ]
+    // pin: [
+    //     { message: 'Pin is required', predicate: (value) => typeof value === 'string' && !isEmpty(value) },
+    //     { message: 'Pin must be at least 2 characters', predicate: (value) => typeof value === 'string' && value.length >= 2 }
+    // ]
 };
 
 export function validate(giftcard) {
