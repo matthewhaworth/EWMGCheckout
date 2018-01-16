@@ -46,7 +46,7 @@ class GiftCardForm extends Component {
             forceValidate: true,
         });
 
-        if(errors.number.length !== 0 || errors.pin.length !== 0){
+        if(errors.number.length !== 0){
             return;
         }
 
@@ -104,9 +104,7 @@ class GiftCardForm extends Component {
                                                  name={'pin'}
                                                  onChange={(e) => this.onChange(e)}
                                                  value={giftCard.pin || ''}
-                                                 errors={errors.pin}
-                                                 forceValidate={forceValidate}
-                                                 noValidate={!forceValidate}
+                                                 noValidate={true}
                                                  additionalClassNames="form__control--small col-3-4"/>
 
                                     <div className="form__control form__control--actions col-1-4">
