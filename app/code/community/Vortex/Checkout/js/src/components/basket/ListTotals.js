@@ -4,9 +4,10 @@ import AmazonButton from "../payment/amazon/AmazonButton";
 import PaypalButton from "../payment/paypal/PaypalButton";
 import GiftCardForm from "../giftcard/GiftCardForm";
 import GiftCardList from "../giftcard/GiftCardList";
+import RemainingMessage from "../common/RemainingMessage";
 
 const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery, hideRemoveDiscount, disableRemoveCards}) => {
-    const {shipping_with_symbol, subtotal_incl_tax_currency, total_with_symbol, discounts} = basket;
+    const {shipping_with_symbol, subtotal_incl_tax_currency, subtotal_incl_discount, total_with_symbol, discounts} = basket;
 
 
     const discountCodeLabel = (discount) => <span>Discount ({discount.discount_code})</span>;
@@ -66,6 +67,10 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
                 <div className="checkout-basket__total-label">Total</div>
                 <div className="checkout-basket__total-price">{total_with_symbol}</div>
             </div>
+
+            {displayType && displayType !== "secondary" &&
+                <RemainingMessage subtotal={subtotal_incl_discount}/>
+            }
 
             {onContinue && <div className="checkout-basket__total-action">
                 <button type='button'
