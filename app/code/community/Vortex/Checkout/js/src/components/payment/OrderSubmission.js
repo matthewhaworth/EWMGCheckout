@@ -10,7 +10,7 @@ class OrderSubmission extends Component {
         super(props, context);
 
         this.state = {
-            newsletter: true,
+            newsletter: false,
             thirdParty: true,
             processingSubmit: false,
             termsContent: '',
