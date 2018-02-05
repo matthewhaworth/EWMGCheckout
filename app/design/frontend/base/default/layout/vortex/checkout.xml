@@ -13,6 +13,12 @@
         <block type="checkout/cart_crosssell" name="crosssell" output="toHtml" template="vortex/checkout/crosssell.phtml"/>
     </vortex_checkout_cms_crosssell>
 
+    <vortex_checkout_cms_success_datalayer>
+        <block type="digital_data_layer_main/ddl" output="toHtml" name="digital_data_layer_success" as="digital_data_layer_success"
+               ifconfig="triggered_messaging/triggered_messaging_digital_data_layer_enabled"
+               template="vortex/checkout/triggeredmessaging/digital_data_layer/success.phtml"/>
+    </vortex_checkout_cms_success_datalayer>
+
     <vortex_checkout_cms_terms>
         <block type="cms/block" name="terms" output="toHtml">
             <action method="setBlockId">
