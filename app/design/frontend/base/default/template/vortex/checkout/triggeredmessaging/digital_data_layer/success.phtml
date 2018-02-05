@@ -1,0 +1,30 @@
+<?php try { ?>
+    <?php
+    /* @var $this TriggeredMessaging_DigitalDataLayer_Block_Ddl */
+    $triggered_messaging_website_id = Mage::getStoreConfig('triggered_messaging/triggered_messaging_website_id');
+    $triggered_messaging_script_enabled = Mage::getStoreConfig('triggered_messaging/triggered_messaging_script_enabled');
+    $triggered_messaging_digital_data_layer_enabled = Mage::getStoreConfig('triggered_messaging/triggered_messaging_digital_data_layer_enabled');
+
+    $observer = 'digital_data_layer_main/page_observer';
+    $mage = Mage::getSingleton($observer); ?>
+
+
+    <?php if ($triggered_messaging_digital_data_layer_enabled): ?>
+
+        <?php if ($triggered_messaging_script_enabled) : ?>
+            <!-- Fresh Relevance Script Start -->
+            <?php if ($triggered_messaging_website_id) : ?>
+
+                <?php $pcqs = $mage->getPurchaseCompleteQs(); ?>
+                <div style="width:1px;height: 1px;;">
+                    <img width="1" src="//d1f0tbk1v3e25u.cloudfront.net/pc/<?php echo $triggered_messaging_website_id; ?>/?<?php echo $pcqs; ?>"/>
+                </div>
+
+            <?php endif; ?>
+            <!-- Fresh Relevance Script End -->
+        <?php endif; ?>
+
+    <?php endif; ?>
+
+<?php } catch (Exception $e) {
+} ?>
