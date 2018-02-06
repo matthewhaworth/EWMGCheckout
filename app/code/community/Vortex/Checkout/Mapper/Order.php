@@ -323,6 +323,12 @@ class Vortex_Checkout_Mapper_Order
 
         $response['data_layer'] = $this->getDataLayerUpdates($order);
 
+        if(Mage::helper('core')->isModuleEnabled('SixBySix_NewsletterEmailAddress')) {
+            $response['store_newsletter_email'] = Mage::helper('sixbysix_newsletteremail')->getSenderEmail($order->getStore());
+        } else {
+            $response['store_newsletter_email'] = Mage::getStoreConfig('trans_email/ident_support/email');
+        }
+
         return $response;
     }
 }

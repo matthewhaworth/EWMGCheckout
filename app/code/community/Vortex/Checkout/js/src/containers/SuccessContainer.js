@@ -137,6 +137,10 @@ class SuccessContainer extends Component {
                                                 {!customer.hasOwnProperty('id') && <p>Your order has been successfully placed.<br/>Order number: {order.increment_id}</p>}
 
                                                 <p>An email has been sent to: {order.customer_email}</p>
+                                                <div className="checkout-success__email-notice">
+                                                    <span className="checkout-success__notice-icon icon-info"></span>
+                                                    <p className="checkout-success__notice-message">{"If you do not receive emails when expected please check your Junk Folder or contact us. Adding our email address " + order.store_newsletter_email  + " to your safe senders list or address book will ensure you receive your confirmation emails."}</p>
+                                                </div>
                                                 {customer.hasOwnProperty('id') && <p><a href={url("customer/account/index")} className="button button--secondary button--arrow-right"><span>View my Account</span></a></p>}
                                                 <p><a href={url('')} className="button button--secondary button--arrow-right"><span>Continue Shopping</span></a></p>
                                             </div>
