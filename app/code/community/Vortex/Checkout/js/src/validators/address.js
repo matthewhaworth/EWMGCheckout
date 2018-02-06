@@ -1,5 +1,5 @@
 import isEmpty from 'validator/lib/isEmpty';
-import isPostalCode from 'validator/lib/isPostalCode';
+import isPostalCode from './isPostalCode';
 import { isValidNumber } from 'libphonenumber-js'
 
 
