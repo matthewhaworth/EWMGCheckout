@@ -1,8 +1,8 @@
 import React from 'react';
-import RawHtml from "../common/RawHtml";
+import DeliveryModal from '../../components/common/DeliveryModal';
 import RemainingMessage from "../common/RemainingMessage";
 
-const ListMethods = ({shippingMethods, selectedShippingMethod, setShippingMethod, isLoading, deliveryContent, deliveryActive, toggleDelivery, basketSubtotal}) => {
+const ListMethods = ({shippingMethods, selectedShippingMethod, setShippingMethod, isLoading, basketSubtotal}) => {
 
     const shippingMethodList = shippingMethods.map((method) => {
         return (
@@ -21,33 +21,13 @@ const ListMethods = ({shippingMethods, selectedShippingMethod, setShippingMethod
 
     return (
         <form className="form form--primary">
-
             <RemainingMessage subtotal={basketSubtotal}
                               additionalClassNames={"checkout-basket__remaining--primary"}/>
-
             <div className="form__control form__control--nomargin full">
                 {shippingMethodList}
                 {isLoading && <div className="checkout-loader active"><div className="checkout-loader__spinner"><span/></div></div>}
             </div>
-            <a className="checkout-modal__trigger checkout-modal__trigger--info" href="#" onClick={(e) => toggleDelivery(e)}>More delivery information</a>
-
-            { deliveryContent !== '' && <div className={'checkout-modal ' + (deliveryActive ? 'active' : '')}>
-                <div onClick={(e) => toggleDelivery(e)} className="checkout-loader checkout-loader--large checkout-loader--dark checkout-loader--overlay">
-                    <div className="checkout-loader__spinner"><span /></div>
-                </div>
-                <div className="checkout-modal__container">
-                    <a className="checkout-modal__close button--icon-close"
-                       onClick={(e) => toggleDelivery(e)} />
-
-                    <div className="checkout-delivery">
-                        <div className="checkout-delivery__container">
-                            <RawHtml className="cms" output={deliveryContent}/>
-                        </div>
-                    </div>
-
-                </div>
-            </div>}
-
+            <DeliveryModal/>
         </form>
     );
 };
