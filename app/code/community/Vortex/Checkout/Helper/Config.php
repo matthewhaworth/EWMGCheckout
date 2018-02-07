@@ -15,6 +15,7 @@ class Vortex_Checkout_Helper_Config
 
     const XML_CONFIG_REMAINING_ENABLED = 'ewmg_checkout/remaining_message/enabled';
     const XML_CONFIG_REMAINING_TOTAL = 'ewmg_checkout/remaining_message/total';
+    const XML_CONFIG_REMAINING_SHOW_AT = 'ewmg_checkout/remaining_message/show_at';
 
     const XML_CONFIG_CLICKCOLLECT_ACTIVE = 'carriers/clickcollectshipping/active';
     const XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE = 'carriers/clickcollectshipping_paid/active';
@@ -69,6 +70,12 @@ class Vortex_Checkout_Helper_Config
     {
         return Mage::getStoreConfig(self::XML_CONFIG_REMAINING_TOTAL);
     }
+
+    public function getRemainingShowAt()
+    {
+        return Mage::getStoreConfig(self::XML_CONFIG_REMAINING_SHOW_AT);
+    }
+
 
     public function getClickCollectActive()
     {

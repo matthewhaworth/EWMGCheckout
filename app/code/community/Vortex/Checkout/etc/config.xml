@@ -135,6 +135,7 @@
             <remaining_message>
                 <enabled>1</enabled>
                 <total>50</total>
+                <show_at>40</show_at>
             </remaining_message>
         </ewmg_checkout>
     </default>

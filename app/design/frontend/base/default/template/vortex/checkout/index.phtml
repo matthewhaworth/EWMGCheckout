@@ -47,7 +47,7 @@
         <?php if($_helper->hasAllowedCountries()):?>, countryList: <?php echo $_helper->getCountriesJson();?><?php endif;?>,
         countryRegionList: <?php echo '{}'; // this is commented out to force county, not region_id because of PCA mapping $_helper->getRegionJson() ?>,
         clickcollectActive: <?php echo $_configHelper->getClickCollectActive() ? 'true' : 'false';?>
-        <?php if($_configHelper->getRemainingEnabled()):?>, remainingTotal: '<?php echo $_configHelper->getRemainingTotal();?>'<?php endif;?>
+        <?php if($_configHelper->getRemainingEnabled()):?>, remainingTotal: '<?php echo $_configHelper->getRemainingTotal();?>', remainingShowAt: '<?php echo $_configHelper->getRemainingShowAt();?>' <?php endif;?>
     };
 </script>
 

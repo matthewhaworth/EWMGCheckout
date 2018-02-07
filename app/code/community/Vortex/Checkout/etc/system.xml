@@ -114,6 +114,15 @@
                             <show_in_store>1</show_in_store>
                             <comment>Spend x = free delivery</comment>
                         </total>
+                        <show_at>
+                            <label>Show message at</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Show message when total is equals or more</comment>
+                        </show_at>
                     </fields>
                 </remaining_message>
             </groups>
