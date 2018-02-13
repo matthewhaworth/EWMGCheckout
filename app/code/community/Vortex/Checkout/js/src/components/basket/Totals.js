@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import isEmpty from 'validator/lib/isEmpty';
+import {config} from "../../config";
 import ListTotals from "./ListTotals";
 
 class Totals extends Component {
@@ -110,7 +111,9 @@ class Totals extends Component {
                            onDiscountApply={(e) => this.onDiscountApply(e)}
                            onContinue={() => this.props.onContinue()}
                            hideRemoveDiscount={this.props.hideRemoveDiscount}
-                           hideDelivery={this.props.hideDelivery}/>;
+                           hideDelivery={this.props.hideDelivery}
+                           isAmazonPayEnabled={config.isAmazonPayEnabled}
+                           isPaypalEnabled={config.isPaypalEnabled}/>;
     }
 }
 
