@@ -6,7 +6,7 @@ import GiftCardForm from "../giftcard/GiftCardForm";
 import GiftCardList from "../giftcard/GiftCardList";
 import RemainingMessage from "../common/RemainingMessage";
 
-const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery, hideRemoveDiscount, disableRemoveCards}) => {
+const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDiscountRemove, onDiscountChange, onDiscountApply, onContinue, includeGiftCard, hideDelivery, hideRemoveDiscount, disableRemoveCards, isAmazonPayEnabled, isPaypalEnabled}) => {
     const {shipping_with_symbol, subtotal_incl_tax_currency, subtotal_incl_discount, total_with_symbol, discounts} = basket;
 
 
@@ -79,7 +79,7 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
                     <span>Continue to checkout</span>
                 </button>
                 <div className="checkout-basket__total-action-payments">
-                    <button className="button--payment button--payment-paypal">
+                    {isPaypalEnabled && <button className="button--payment button--payment-paypal">
                         <span>
                             <em className="path1"/>
                             <em className="path2"/>
@@ -92,13 +92,13 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
                             <em className="path9"/>
                             <em className="path10"/>
                         </span>
-                    </button>
-                    <button className="button--payment button--payment-amazon">
+                    </button>}
+                    {isAmazonPayEnabled && <button className="button--payment button--payment-amazon">
                         <span>
                             <em className="path1"/>
                             <em className="path2"/>
                         </span>
-                    </button>
+                    </button>}
                     <button className="button--payment button--payment-mastercard">
                         <span>
                             <em className="path1"/>
@@ -110,7 +110,7 @@ const ListTotals = ({basket, displayType, isDiscountApplied, discountCode, onDis
                     <button className="button--payment button--payment-visa"></button>
                     <button className="button--payment button--payment-amex"></button>
                 </div>
-                {basket.total != 0 &&  <div className="checkout-basket__total-express">
+                {basket.total != 0 && (isAmazonPayEnabled || isPaypalEnabled) && <div className="checkout-basket__total-express">
                     <div className="checkout-basket__total-express-title">Express checkout <small>(delivery only)</small></div>
                     <div className="checkout-basket__total-express-buttons">
                         <PaypalButton/>

@@ -48,6 +48,10 @@ class AmazonButton extends PureComponent {
     }
 
     render() {
+        if ( ! config.isAmazonPayEnabled) {
+            return false;
+        }
+
         return (
             <button type="button" ref={(button) => {this.button = button}} onClick={(e) => this.onClick(e)} className={ 'button button--payment button--payment-amazon ' + config.amazon.buttonWidgetHtmlIdPrefix + ' with-tooltip'} id={this.widgetHtmlId} >
                 <span>

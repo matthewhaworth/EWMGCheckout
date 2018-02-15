@@ -19,6 +19,10 @@ class Vortex_Checkout_Helper_Config
     const XML_CONFIG_CLICKCOLLECT_ACTIVE = 'carriers/clickcollectshipping/active';
     const XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE = 'carriers/clickcollectshipping_paid/active';
 
+    const XML_CONFIG_AMAZONPAY_ACTIVE = 'amazonpayments/general/active';
+
+    const XML_CONFIG_PAYPAL_ACTIVE = 'payment/paypal_express/active';
+    const XML_CONFIG_PAYPAL_UK_ACTIVE = 'payment/paypaluk_express/active';
 
     public function getPcaLookupKey()
     {
@@ -73,5 +77,15 @@ class Vortex_Checkout_Helper_Config
     public function getClickCollectActive()
     {
         return (bool)(Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_ACTIVE) || Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE));
+    }
+
+    public function getAmazonPayActive()
+    {
+        return (bool)(Mage::getStoreConfig(self::XML_CONFIG_AMAZONPAY_ACTIVE));
+    }
+
+    public function getPaypalActive()
+    {
+        return (bool)(Mage::getStoreConfig(self::XML_CONFIG_PAYPAL_ACTIVE) || Mage::getStoreConfig(self::XML_CONFIG_PAYPAL_UK_ACTIVE));
     }
 }
