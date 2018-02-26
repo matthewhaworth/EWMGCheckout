@@ -12,6 +12,8 @@ import * as orderActions from "../actions/orderActions";
 import {bindActionCreators} from "redux";
 import DataLayer from "../components/common/DataLayer";
 import RegisterForm from "../components/customer/RegisterForm";
+import CmsApi from "../api/CmsApi";
+import RawHtml from "../components/common/RawHtml";
 
 class SuccessContainer extends Component {
     constructor(props, context) {
@@ -36,6 +38,12 @@ class SuccessContainer extends Component {
     componentWillMount() {
         window.scrollTo(0, 0);
 
+        CmsApi.loadCmsContent('success_datalayer').then((resp) => {
+            this.setState({successDatalayerContent: resp.html});
+        }).catch(() => {
+            this.setState({successDatalayerContent: ''});
+        });
+
         if (this.props.order && this.props.order.order_id) {
             return;
         }
@@ -50,6 +58,7 @@ class SuccessContainer extends Component {
         }).catch(err => {
             window.location = this.redirectHome();
         });
+
     }
 
     componentDidUpdate() {
@@ -128,6 +137,10 @@ class SuccessContainer extends Component {
                                                 {!customer.hasOwnProperty('id') && <p>Your order has been successfully placed.<br/>Order number: {order.increment_id}</p>}
 
                                                 <p>An email has been sent to: {order.customer_email}</p>
+                                                <div className="checkout-success__email-notice">
+                                                    <span className="checkout-success__notice-icon icon-info"></span>
+                                                    <p className="checkout-success__notice-message">{"If you do not receive emails when expected please check your Junk Folder or contact us. Adding our email address " + order.store_newsletter_email  + " to your safe senders list or address book will ensure you receive your confirmation emails."}</p>
+                                                </div>
                                                 {customer.hasOwnProperty('id') && <p><a href={url("customer/account/index")} className="button button--secondary button--arrow-right"><span>View my Account</span></a></p>}
                                                 <p><a href={url('')} className="button button--secondary button--arrow-right"><span>Continue Shopping</span></a></p>
                                             </div>
@@ -225,6 +238,7 @@ class SuccessContainer extends Component {
                             </div>
                         </div>
                     </div>
+                    {this.state.successDatalayerContent !== '' && <RawHtml className="checkout-success__datalayer" output={this.state.successDatalayerContent}/>}
                 </div>
                 <BodyClass checkoutStep={6} />
                 <DataLayer checkoutStep={6} order={this.props.order} />
