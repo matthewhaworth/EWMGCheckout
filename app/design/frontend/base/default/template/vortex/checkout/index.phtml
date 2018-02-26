@@ -49,7 +49,7 @@
         clickcollectActive: <?php echo $_configHelper->getClickCollectActive() ? 'true' : 'false';?>,
         isAmazonPayEnabled: <?php echo $_configHelper->getAmazonPayActive() ? 'true' : 'false';?>,
         isPaypalEnabled: <?php echo $_configHelper->getPaypalActive() ? 'true' : 'false';?>
-        <?php if($_configHelper->getRemainingEnabled()):?>, remainingTotal: '<?php echo $_configHelper->getRemainingTotal();?>'<?php endif;?>
+        <?php if($_configHelper->getRemainingEnabled()):?>, remainingTotal: '<?php echo $_configHelper->getRemainingTotal();?>', remainingShowAt: '<?php echo $_configHelper->getRemainingShowAt();?>' <?php endif;?>
     };
 </script>
 
