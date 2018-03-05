@@ -3,7 +3,7 @@ import SingleInput from "../common/SingleInput";
 
 const EmailForm = ({customer, errors, loading, customerExists, onChange, onContinueAsLoggedIn, onContinueAsGuest}) => {
     return (
-        <form className="form form--primary">
+        <form className="form form--primary" method="post">
             <fieldset>
 
                 <p>Please enter your email address and we will get you through the checkout as fast as we can</p>
