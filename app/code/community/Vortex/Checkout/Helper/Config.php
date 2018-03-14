@@ -15,10 +15,15 @@ class Vortex_Checkout_Helper_Config
 
     const XML_CONFIG_REMAINING_ENABLED = 'ewmg_checkout/remaining_message/enabled';
     const XML_CONFIG_REMAINING_TOTAL = 'ewmg_checkout/remaining_message/total';
+    const XML_CONFIG_REMAINING_SHOW_AT = 'ewmg_checkout/remaining_message/show_at';
 
     const XML_CONFIG_CLICKCOLLECT_ACTIVE = 'carriers/clickcollectshipping/active';
     const XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE = 'carriers/clickcollectshipping_paid/active';
 
+    const XML_CONFIG_AMAZONPAY_ACTIVE = 'amazonpayments/general/active';
+
+    const XML_CONFIG_PAYPAL_ACTIVE = 'payment/paypal_express/active';
+    const XML_CONFIG_PAYPAL_UK_ACTIVE = 'payment/paypaluk_express/active';
 
     public function getPcaLookupKey()
     {
@@ -70,8 +75,24 @@ class Vortex_Checkout_Helper_Config
         return Mage::getStoreConfig(self::XML_CONFIG_REMAINING_TOTAL);
     }
 
+    public function getRemainingShowAt()
+    {
+        return Mage::getStoreConfig(self::XML_CONFIG_REMAINING_SHOW_AT);
+    }
+
+
     public function getClickCollectActive()
     {
         return (bool)(Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_ACTIVE) || Mage::getStoreConfig(self::XML_CONFIG_CLICKCOLLECT_PAID_ACTIVE));
+    }
+
+    public function getAmazonPayActive()
+    {
+        return (bool)(Mage::getStoreConfig(self::XML_CONFIG_AMAZONPAY_ACTIVE));
+    }
+
+    public function getPaypalActive()
+    {
+        return (bool)(Mage::getStoreConfig(self::XML_CONFIG_PAYPAL_ACTIVE) || Mage::getStoreConfig(self::XML_CONFIG_PAYPAL_UK_ACTIVE));
     }
 }

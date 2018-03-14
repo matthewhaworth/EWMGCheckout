@@ -7,8 +7,9 @@ class RemainingMessage extends Component{
     render(){
         const {subtotal, additionalClassNames} = this.props;
         const remaining = config.remainingTotal;
+        const showAt = config.remainingShowAt;
 
-        if(!remaining)
+        if(!remaining || (Number.parseFloat(subtotal) < Number.parseFloat(showAt)))
             return null;
 
         let qualified = Number.parseFloat(subtotal) >= Number.parseFloat(remaining);
