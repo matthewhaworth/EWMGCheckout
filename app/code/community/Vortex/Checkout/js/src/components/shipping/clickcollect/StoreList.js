@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import DeliveryModal from "../../common/DeliveryModal";
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 
 class StoreList extends Component {
@@ -71,9 +72,14 @@ class StoreList extends Component {
             </div>
         });
 
-        return (this.props.stores.length > 0 && <div className="checkout-addresslist">
-            <div className="checkout-addresslist__container">{storesList}</div>
-        </div>);
+        return (this.props.stores.length > 0 &&
+            <div>
+                <div className="checkout-addresslist">
+                    <div className="checkout-addresslist__container">{storesList}</div>
+                </div>
+                <DeliveryModal/>
+            </div>
+        );
     }
 };
 

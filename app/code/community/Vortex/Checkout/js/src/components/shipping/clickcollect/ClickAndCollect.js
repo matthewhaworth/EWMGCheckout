@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ClickCollectForm from "./ClickCollectForm";
 import PostcodeApi from "../../../api/PostcodeApi";
 import StoreList from "./StoreList";
+import DeliveryModal from "../../common/DeliveryModal";
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 
 class ClickAndCollect extends Component {
@@ -60,41 +61,46 @@ class ClickAndCollect extends Component {
             </div>
         );
 
-        return <div className="checkout-addresslist checkout-addresslist--result">
-            <div className="checkout-addresslist__container">
-                <div className="checkout-addresslist__label">
-                    <span className="strong">{store.name}</span><br/>
-                    {store.address}
-                </div>
-
-                <div className="cc-map active">
-                    <div className="cc-map__content">
-                        <div className="cc-map__gmap">
-                            <StoreMapComponent isMarkerShown
-                                               geolocation={store.geolocation}
-                                               googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-                                               loadingElement={<div style={{height: '150px'}} />}
-                                               containerElement={<div style={{height: '150px'}}/>}
-                                               mapElement={<div style={{height: '150px'}} />}/>
+        return(
+            <div>
+                <div className="checkout-addresslist checkout-addresslist--result">
+                    <div className="checkout-addresslist__container">
+                        <div className="checkout-addresslist__label">
+                            <span className="strong">{store.name}</span><br/>
+                            {store.address}
                         </div>
 
-                        {(store.opening_hours && store.opening_hours.length > 0) && <div className="cc-map__timetable">
-                            {openingHoursList}
-                        </div>}
+                        <div className="cc-map active">
+                            <div className="cc-map__content">
+                                <div className="cc-map__gmap">
+                                    <StoreMapComponent isMarkerShown
+                                                       geolocation={store.geolocation}
+                                                       googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
+                                                       loadingElement={<div style={{height: '150px'}} />}
+                                                       containerElement={<div style={{height: '150px'}}/>}
+                                                       mapElement={<div style={{height: '150px'}} />}/>
+                                </div>
+
+                                {(store.opening_hours && store.opening_hours.length > 0) && <div className="cc-map__timetable">
+                                    {openingHoursList}
+                                </div>}
+
+                            </div>
+                        </div>
 
                     </div>
+
+                    <div className="form__control form__control--actions">
+                        <button type='button'
+                                onClick={() => this.enableLookup()}
+                                className={'button button--primary ' + (this.state.changingStore ? 'button--loading' : 'button--arrow-right')}>
+                            <span>Change store</span>
+                        </button>
+                    </div>
                 </div>
-
+                <DeliveryModal/>
             </div>
-
-            <div className="form__control form__control--actions">
-                <button type='button'
-                        onClick={() => this.enableLookup()}
-                        className={'button button--primary ' + (this.state.changingStore ? 'button--loading' : 'button--arrow-right')}>
-                    <span>Change store</span>
-                </button>
-            </div>
-        </div>
+        );
     }
 
     renderLookup() {

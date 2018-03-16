@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ListMethods from "./ListMethods";
-import CmsApi from "../../api/CmsApi";
 
 class ShippingMethod extends Component {
 
@@ -12,21 +11,6 @@ class ShippingMethod extends Component {
             deliveryActive: false
         };
     }
-
-    componentWillMount(){
-        CmsApi.loadCmsContent('delivery').then((resp) => {
-            this.setState({deliveryContent: resp.html});
-        }).catch(() => {
-            this.setState({deliveryContent: 'Delivery content on network error'});
-        });
-
-    }
-
-    toggleDelivery(e){
-        e.preventDefault();
-        this.setState({deliveryActive: !this.state.deliveryActive})
-    }
-
 
     onSetShippingMethod(method){
         this.setState({ loading: true }, () => {
@@ -56,9 +40,6 @@ class ShippingMethod extends Component {
                                  selectedShippingMethod={basket.shipping_method}
                                  setShippingMethod={(method) => this.onSetShippingMethod(method)}
                                  isLoading={isLoading}
-                                 deliveryContent={this.state.deliveryContent}
-                                 deliveryActive={this.state.deliveryActive}
-                                 toggleDelivery={(e) => this.toggleDelivery(e)}
                                  basketSubtotal={basket.subtotal_incl_discount}/>
             </div>
         );
